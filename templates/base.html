@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#FAF6EE] text-[#1D261E] antialiased selection:bg-[#D34E1B] selection:text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{% block title %}Greenland Foodstuff — Pure Foodstuff, Whole Grains & Pantry Essentials{% endblock %}</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{% static 'images/greenland-transparent-logo.png' %}?v=clear">
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN with Indian Premium Tea packaging brand palette -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              DEFAULT: '#124A2E',
+              dark: '#0B351F',
+              light: '#1A613D',
+            },
+            leaf: '#4F8B3A',
+            fresh: {
+              DEFAULT: '#4F8B3A',
+              hover: '#3D722A',
+              light: '#70B629',
+            },
+            terracotta: {
+              DEFAULT: '#D34E1B',
+              dark: '#B43912',
+              light: '#E25822',
+            },
+            amberGold: {
+              DEFAULT: '#FAB82A',
+              light: '#FDD835',
+              dark: '#E68A1D',
+            },
+            gold: {
+              DEFAULT: '#FAB82A',
+              light: '#FDD835',
+              dark: '#E68A1D',
+            },
+            teaRed: {
+              DEFAULT: '#BA1B1D',
+              dark: '#8E0E10',
+              light: '#D32F2F',
+            },
+            cream: {
+              DEFAULT: '#FAF6EE',
+              50: '#FDFBF7',
+              100: '#FAF6EE',
+              200: '#F5EEDC',
+            },
+            darkText: '#1D261E',
+            brand: {
+              50: '#F2F9ED',
+              100: '#E1F3D6',
+              200: '#C5E8B0',
+              300: '#9FD97F',
+              400: '#4F8B3A',
+              500: '#3D722A',
+              600: '#2A5A1B',
+              700: '#1E4714',
+              800: '#124A2E',
+              900: '#0B351F',
+              950: '#062012',
+            },
+            logoGreen: {
+              DEFAULT: '#124A2E',
+              light: '#4F8B3A',
+              dark: '#0B351F',
+            },
+            logoGold: '#FAB82A',
+            b2bRed: '#BA1B1D',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Alpine.js Store Script & Alpine Core -->
+  <script src="{% static 'js/store.js' %}?v=empty_cart_v3"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Outfit', sans-serif; }
+    .dot-pattern-bg {
+      background-image: radial-gradient(rgba(18, 74, 46, 0.12) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    /* Fixed Header Offset */
+    html {
+      scroll-padding-top: 6.5rem;
+    }
+
+    /* Custom Luxury Brand Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAF6EE;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #124A2E;
+      border-radius: 9999px;
+      border: 2px solid #FAF6EE;
+      transition: background 0.2s ease;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #D34E1B;
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #124A2E #FAF6EE;
+    }
+
+    /* Lenis Smooth Scrolling Optimizations */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+    .lenis.lenis-smooth iframe {
+      pointer-events: none;
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="flex flex-col min-h-screen bg-[#FAF6EE] text-[#1D261E] overflow-x-hidden" x-data>
+
+  <!-- Main Navigation (Deep Forest Green Header) -->
+  {% include 'components/navbar.html' %}
+
+  <!-- Page Content: Responsive top padding matching header height on mobile, tablet, and desktop -->
+  <main class="flex-grow overflow-x-hidden {% if request.resolver_match.url_name != 'home' %}pt-20 sm:pt-24 lg:pt-28{% endif %}">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  {% include 'components/footer.html' %}
+
+  <!-- Floating Back to Top Button with Smooth Inertia Scroll -->
+  <div
+    x-data="{ showBackToTop: false }"
+    @scroll.window="showBackToTop = (window.pageYOffset > 320)"
+    class="fixed bottom-6 right-6 z-40 transition-all duration-300 pointer-events-none"
+    :class="showBackToTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'"
+  >
+    <button
+      type="button"
+      @click="
+        if (window.lenis) {
+          window.lenis.scrollTo(0, { duration: 1.2 });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      "
+      class="group flex items-center gap-2 p-3 sm:px-4 sm:py-3 rounded-full bg-[#124A2E] hover:bg-[#D34E1B] text-white shadow-[0_8px_25px_rgba(18,74,46,0.35)] border border-[#FAB82A]/40 transition-all duration-300 hover:scale-105 active:scale-95"
+      title="Scroll to Top"
+    >
+      <i data-lucide="arrow-up" class="w-4 h-4 sm:w-4.5 sm:h-4.5 group-hover:-translate-y-1 transition-transform"></i>
+      <span class="hidden sm:inline text-xs font-bold tracking-wide">Top</span>
+    </button>
+  </div>
+
+  <!-- Global Toast Notification (Positioned above floating back-to-top) -->
+  <div id="global-toast" class="fixed bottom-20 right-6 sm:bottom-24 sm:right-8 z-50 hidden items-center gap-3 bg-[#124A2E] text-white px-5 py-3 rounded-2xl shadow-2xl border border-[#FAB82A]/50 text-xs font-semibold animate-bounce">
+    Notification
+  </div>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+    // Re-trigger icon creation on alpine mutations
+    document.addEventListener('alpine:initialized', () => {
+      lucide.createIcons();
+    });
+  </script>
+
+  <!-- Lenis Momentum Smooth Scroll Engine -->
+  <script src="{% static 'js/lenis.min.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (window.Lenis && !prefersReducedMotion) {
+        try {
+          const lenis = new Lenis({
+            duration: 1.0,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+            smoothTouch: false,
+            touchMultiplier: 1.0,
+            infinite: false,
+          });
+
+          function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+          }
+          requestAnimationFrame(raf);
+          window.lenis = lenis;
+
+          // Smooth scroll on internal anchor navigation
+          document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+              const targetId = this.getAttribute('href');
+              if (targetId && targetId !== '#') {
+                const target = document.querySelector(targetId);
+                if (target) {
+                  e.preventDefault();
+                  lenis.scrollTo(target, { offset: -90, duration: 1.2 });
+                }
+              }
+            });
+          });
+        } catch (err) {
+          console.warn('Lenis smooth scroll fallback to native:', err);
+        }
+      }
+    });
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}All Foodstuff &amp; Grocery Catalog — Greenland{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8" x-data="{ mobileFilterOpen: false }">
+  
+  <!-- Breadcrumb & Header -->
+  <div class="mb-6 sm:mb-8">
+    <div class="flex items-center gap-2 text-xs text-stone-500 mb-2">
+      <a href="{% url 'store:home' %}" class="hover:text-[#124A2E]">Home</a>
+      <span>/</span>
+      <span class="text-[#292D27] font-semibold">Foodstuff &amp; Grocery Catalog</span>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-black text-[#124A2E] tracking-tight font-display">
+          All Foodstuff &amp; Grocery Catalog
+        </h1>
+        <p class="text-xs sm:text-sm text-stone-500 mt-1">
+          Showing <strong class="text-[#292D27]">{{ total_count }}</strong> items meeting your specifications
+        </p>
+      </div>
+
+      <!-- Mobile Filter Trigger Button -->
+      <button
+        type="button"
+        @click="mobileFilterOpen = true"
+        class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#124A2E] text-white text-xs font-bold md:hidden self-start shadow-md hover:bg-[#D34E1B] transition-colors"
+      >
+        <i data-lucide="sliders-horizontal" class="w-4 h-4 text-[#FAB82A]"></i>
+        <span>Filters &amp; Refinements</span>
+        {% if selected_category != 'all' or search_query or availability != 'all' %}
+        <span class="w-2 h-2 rounded-full bg-[#FAB82A]"></span>
+        {% endif %}
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+    
+    <!-- Desktop/Tablet Sidebar Filters -->
+    <aside class="lg:col-span-3 space-y-6 bg-white p-6 rounded-2xl border border-stone-200/90 shadow-sm hidden md:block">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-100">
+        <h3 class="font-display font-bold text-[#124A2E] text-sm flex items-center gap-2">
+          <i data-lucide="filter" class="w-4 h-4 text-[#D34E1B]"></i>
+          <span>Filter Foodstuff</span>
+        </h3>
+        <a href="{% url 'store:products' %}" class="text-xs text-[#124A2E] font-bold hover:text-[#D34E1B] hover:underline">
+          Reset All
+        </a>
+      </div>
+
+      <!-- Search Input Bar -->
+      <form action="{% url 'store:products' %}" method="GET" class="relative">
+        <input type="hidden" name="category" value="{{ selected_category }}">
+        <input type="hidden" name="sort" value="{{ sort_by }}">
+        <input type="hidden" name="availability" value="{{ availability }}">
+        <input
+          type="text"
+          name="search"
+          value="{{ search_query }}"
+          placeholder="Search grains, spices..."
+          class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#FAF6EE] border border-stone-200 text-xs text-[#1D261E] focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B] placeholder:text-stone-400 font-medium"
+        />
+        <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3 top-3"></i>
+      </form>
+
+      <!-- Categories Filter List -->
+      <div class="space-y-2">
+        <h4 class="text-xs font-bold text-[#1D261E] uppercase tracking-wider">Categories</h4>
+        <div class="space-y-1 text-xs">
+          <a
+            href="{% url 'store:products' %}{% if search_query %}?search={{ search_query }}{% endif %}"
+            class="block px-3 py-2 rounded-lg font-bold transition-colors {% if selected_category == 'all' %}bg-[#124A2E] text-white shadow-xs{% else %}text-[#1D261E]/80 hover:bg-[#FAF6EE] hover:text-[#D34E1B]{% endif %}"
+          >
+            All Categories
+          </a>
+          {% for cat in CATEGORIES %}
+          <a
+            href="{% url 'store:products' %}?category={{ cat.slug }}{% if search_query %}&search={{ search_query }}{% endif %}"
+            class="block px-3 py-2 rounded-lg font-medium transition-colors {% if selected_category == cat.slug %}bg-[#124A2E] text-white font-bold shadow-xs{% else %}text-[#1D261E]/80 hover:bg-[#FAF6EE] hover:text-[#D34E1B]{% endif %}"
+          >
+            {{ cat.name }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Price & Availability Form -->
+      <form action="{% url 'store:products' %}" method="GET" class="space-y-4 pt-4 border-t border-stone-100">
+        <input type="hidden" name="category" value="{{ selected_category }}">
+        {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
+
+        <!-- Price Slider -->
+        <div>
+          <div class="flex justify-between text-xs font-bold text-[#1D261E] mb-2">
+            <span>Max Price:</span>
+            <span class="text-[#BA1B1D] font-black">₹{{ max_price }}</span>
+          </div>
+          <input
+            type="range"
+            name="max_price"
+            min="50"
+            max="1000"
+            step="50"
+            value="{{ max_price }}"
+            oninput="this.form.submit()"
+            class="w-full accent-[#D34E1B] cursor-pointer"
+          />
+        </div>
+
+        <!-- Availability Toggle -->
+        <div>
+          <h4 class="text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-2">Availability</h4>
+          <div class="space-y-1.5 text-xs text-[#1D261E]/80">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="availability" value="all" onchange="this.form.submit()" {% if availability == 'all' %}checked{% endif %} class="accent-[#D34E1B]" />
+              <span>All Products</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="availability" value="in_stock" onchange="this.form.submit()" {% if availability == 'in_stock' %}checked{% endif %} class="accent-[#D34E1B]" />
+              <span class="font-semibold text-[#124A2E]">In Stock Only</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Sort Selection -->
+        <div>
+          <h4 class="text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-2">Sort By</h4>
+          <select
+            name="sort"
+            onchange="this.form.submit()"
+            class="w-full px-3 py-2 rounded-xl bg-white border border-stone-300 text-xs font-medium text-[#1D261E] focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B]"
+          >
+            <option value="featured" {% if sort_by == 'featured' %}selected{% endif %}>Featured Items</option>
+            <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+            <option value="name_asc" {% if sort_by == 'name_asc' %}selected{% endif %}>Alphabetical (A-Z)</option>
+          </select>
+        </div>
+      </form>
+    </aside>
+
+    <!-- Product Grid -->
+    <div class="lg:col-span-9 space-y-6">
+      {% if products %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+        {% for product in products %}
+          {% include 'components/product_card.html' with product=product %}
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="bg-white rounded-2xl p-8 sm:p-12 text-center border border-stone-200 space-y-4">
+        <i data-lucide="package" class="w-12 h-12 text-stone-400 mx-auto"></i>
+        <h3 class="text-lg font-bold text-[#124A2E]">No foodstuff items matched your filter</h3>
+        <p class="text-xs text-stone-500">Try adjusting your search query, price slider, or selecting another category.</p>
+        <a href="{% url 'store:products' %}" class="inline-block px-4 py-2 bg-[#124A2E] hover:bg-[#D34E1B] text-white rounded-xl text-xs font-bold transition-colors">
+          Clear Filters
+        </a>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MOBILE SLIDE-OVER FILTER DRAWER                                            -->
+  <!-- ========================================================================= -->
+  <div
+    x-show="mobileFilterOpen"
+    class="fixed inset-0 z-50 md:hidden flex justify-end"
+    style="display: none;"
+    role="dialog"
+    aria-modal="true"
+  >
+    <!-- Dim Backdrop -->
+    <div
+      x-show="mobileFilterOpen"
+      x-transition:enter="transition-opacity ease-out duration-300"
+      x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100"
+      x-transition:leave="transition-opacity ease-in duration-200"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      @click="mobileFilterOpen = false"
+      class="fixed inset-0 bg-black/60 backdrop-blur-xs"
+    ></div>
+
+    <!-- Drawer Panel -->
+    <div
+      x-show="mobileFilterOpen"
+      x-transition:enter="transition ease-out duration-300 transform"
+      x-transition:enter-start="translate-x-full"
+      x-transition:enter-end="translate-x-0"
+      x-transition:leave="transition ease-in duration-200 transform"
+      x-transition:leave-start="translate-x-0"
+      x-transition:leave-end="translate-x-full"
+      class="relative w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col z-10 overflow-hidden"
+    >
+      <!-- Drawer Header -->
+      <div class="p-4 sm:p-5 bg-[#124A2E] text-white flex items-center justify-between">
+        <div class="flex items-center gap-2 font-display font-bold text-sm">
+          <i data-lucide="sliders-horizontal" class="w-4 h-4 text-[#FAB82A]"></i>
+          <span>Filter Foodstuff</span>
+        </div>
+        <button
+          type="button"
+          @click="mobileFilterOpen = false"
+          class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Drawer Content Scrollable Area -->
+      <div class="flex-1 overflow-y-auto p-5 space-y-6">
+        
+        <!-- Mobile Search -->
+        <form action="{% url 'store:products' %}" method="GET" class="relative">
+          <input type="hidden" name="category" value="{{ selected_category }}">
+          <input type="hidden" name="sort" value="{{ sort_by }}">
+          <input type="hidden" name="availability" value="{{ availability }}">
+          <input
+            type="text"
+            name="search"
+            value="{{ search_query }}"
+            placeholder="Search items..."
+            class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#FAF6EE] border border-stone-200 text-xs text-[#1D261E] focus:outline-none focus:ring-2 focus:ring-[#D34E1B]"
+          />
+          <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3 top-3"></i>
+        </form>
+
+        <!-- Categories List -->
+        <div class="space-y-2">
+          <h4 class="text-xs font-bold text-[#1D261E] uppercase tracking-wider">Categories</h4>
+          <div class="space-y-1 text-xs">
+            <a
+              href="{% url 'store:products' %}{% if search_query %}?search={{ search_query }}{% endif %}"
+              class="block px-3 py-2 rounded-lg font-bold transition-colors {% if selected_category == 'all' %}bg-[#124A2E] text-white{% else %}text-[#1D261E]/80 hover:bg-[#FAF6EE]{% endif %}"
+            >
+              All Categories
+            </a>
+            {% for cat in CATEGORIES %}
+            <a
+              href="{% url 'store:products' %}?category={{ cat.slug }}{% if search_query %}&search={{ search_query }}{% endif %}"
+              class="block px-3 py-2 rounded-lg font-medium transition-colors {% if selected_category == cat.slug %}bg-[#124A2E] text-white font-bold{% else %}text-[#1D261E]/80 hover:bg-[#FAF6EE]{% endif %}"
+            >
+              {{ cat.name }}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Price Range & Availability -->
+        <form action="{% url 'store:products' %}" method="GET" class="space-y-5 pt-4 border-t border-stone-100">
+          <input type="hidden" name="category" value="{{ selected_category }}">
+          {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
+
+          <div>
+            <div class="flex justify-between text-xs font-bold text-[#1D261E] mb-2">
+              <span>Max Price:</span>
+              <span class="text-[#BA1B1D] font-black">₹{{ max_price }}</span>
+            </div>
+            <input
+              type="range"
+              name="max_price"
+              min="50"
+              max="1000"
+              step="50"
+              value="{{ max_price }}"
+              class="w-full accent-[#D34E1B] cursor-pointer"
+            />
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-2">Availability</h4>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="availability" value="all" {% if availability == 'all' %}checked{% endif %} class="accent-[#D34E1B]" />
+                <span>All Products</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="availability" value="in_stock" {% if availability == 'in_stock' %}checked{% endif %} class="accent-[#D34E1B]" />
+                <span class="font-semibold text-[#124A2E]">In Stock Only</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-2">Sort By</h4>
+            <select
+              name="sort"
+              class="w-full px-3 py-2.5 rounded-xl bg-white border border-stone-300 text-xs font-medium text-[#1D261E] focus:outline-none focus:ring-2 focus:ring-[#D34E1B]"
+            >
+              <option value="featured" {% if sort_by == 'featured' %}selected{% endif %}>Featured Items</option>
+              <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+              <option value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+              <option value="name_asc" {% if sort_by == 'name_asc' %}selected{% endif %}>Alphabetical (A-Z)</option>
+            </select>
+          </div>
+
+          <div class="pt-2 flex gap-2">
+            <button
+              type="submit"
+              class="flex-1 py-3 bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs rounded-xl shadow transition-colors"
+            >
+              Apply Filters
+            </button>
+            <a
+              href="{% url 'store:products' %}"
+              class="px-3 py-3 border border-stone-300 text-stone-600 font-bold text-xs rounded-xl text-center hover:bg-stone-50"
+            >
+              Reset
+            </a>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

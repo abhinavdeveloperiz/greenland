@@ -1,0 +1,601 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Profile &amp; Delivery Addresses — Greenland{% endblock %}
+
+{% block content %}
+<div
+  class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8"
+  x-data="{
+    editMode: false,
+    showAddressForm: false,
+    editingAddressId: null,
+    addressForm: {
+      label: '',
+      address: '',
+      city: 'Bengaluru',
+      pincode: '',
+      isDefault: false
+    },
+    addresses: JSON.parse(localStorage.getItem('greenland_saved_addresses') || JSON.stringify([
+      {
+        id: 'addr-1',
+        label: 'Home Residence',
+        address: 'Flat 402, Greenfield Residency, 4th Cross Road, Indiranagar, Bengaluru, Karnataka - 560038',
+        city: 'Bengaluru',
+        pincode: '560038',
+        isDefault: true
+      },
+      {
+        id: 'addr-2',
+        label: 'Commercial Wholesale Outlet',
+        address: 'Warehouse 12, APMC Market Yard, Yeshwanthpur, Bengaluru, Karnataka - 560022',
+        city: 'Bengaluru',
+        pincode: '560022',
+        isDefault: false
+      }
+    ])),
+
+    init() {
+      this.$nextTick(() => { if (window.lucide) lucide.createIcons(); });
+      this.$watch('addresses', () => { this.$nextTick(() => { if (window.lucide) lucide.createIcons(); }); });
+      this.$watch('showAddressForm', () => { this.$nextTick(() => { if (window.lucide) lucide.createIcons(); }); });
+    },
+
+    saveAddresses() {
+      localStorage.setItem('greenland_saved_addresses', JSON.stringify(this.addresses));
+    },
+
+    openAddAddress() {
+      this.editingAddressId = null;
+      this.addressForm = {
+        label: '',
+        address: '',
+        city: 'Bengaluru',
+        pincode: '',
+        isDefault: this.addresses.length === 0
+      };
+      this.showAddressForm = true;
+    },
+
+    openEditAddress(addr) {
+      this.editingAddressId = addr.id;
+      this.addressForm = {
+        label: addr.label,
+        address: addr.address,
+        city: addr.city || 'Bengaluru',
+        pincode: addr.pincode || '',
+        isDefault: addr.isDefault
+      };
+      this.showAddressForm = true;
+    },
+
+    saveAddress() {
+      if (!this.addressForm.label.trim() || !this.addressForm.address.trim()) {
+        alert('Please fill in both the address label and street address.');
+        return;
+      }
+
+      if (this.editingAddressId) {
+        const idx = this.addresses.findIndex(a => a.id === this.editingAddressId);
+        if (idx !== -1) {
+          this.addresses[idx].label = this.addressForm.label.trim();
+          this.addresses[idx].address = this.addressForm.address.trim();
+          this.addresses[idx].city = this.addressForm.city.trim();
+          this.addresses[idx].pincode = this.addressForm.pincode.trim();
+          if (this.addressForm.isDefault) {
+            this.addresses.forEach(a => a.isDefault = false);
+            this.addresses[idx].isDefault = true;
+          }
+        }
+        $store.cart.showToast('Delivery address updated successfully!');
+      } else {
+        const newAddr = {
+          id: 'addr-' + Date.now(),
+          label: this.addressForm.label.trim(),
+          address: this.addressForm.address.trim(),
+          city: this.addressForm.city.trim(),
+          pincode: this.addressForm.pincode.trim(),
+          isDefault: this.addressForm.isDefault || this.addresses.length === 0
+        };
+        if (newAddr.isDefault) {
+          this.addresses.forEach(a => a.isDefault = false);
+        }
+        this.addresses.push(newAddr);
+        $store.cart.showToast('New address saved to your profile!');
+      }
+
+      this.saveAddresses();
+      this.showAddressForm = false;
+      this.editingAddressId = null;
+    },
+
+    deleteAddress(id) {
+      const target = this.addresses.find(a => a.id === id);
+      if (!target) return;
+      if (!confirm(`Are you sure you want to delete '${target.label}'?`)) return;
+
+      const wasDefault = target.isDefault;
+      this.addresses = this.addresses.filter(a => a.id !== id);
+      if (wasDefault && this.addresses.length > 0) {
+        this.addresses[0].isDefault = true;
+      }
+      this.saveAddresses();
+      $store.cart.showToast('Address deleted successfully.');
+    },
+
+    setDefaultAddress(id) {
+      this.addresses.forEach(a => {
+        a.isDefault = (a.id === id);
+      });
+      this.saveAddresses();
+      $store.cart.showToast('Primary delivery address updated.');
+    }
+  }"
+>
+  
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-2 text-xs font-semibold text-stone-500">
+    <a href="{% url 'store:home' %}" class="hover:text-[#124A2E] transition-colors">Home</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-stone-400"></i>
+    <span class="text-[#D34E1B] font-bold">My Account Profile</span>
+  </nav>
+
+  <!-- Profile Banner / Header -->
+  <div class="relative bg-gradient-to-r from-[#124A2E] via-[#1A613D] to-[#124A2E] text-white rounded-3xl p-6 sm:p-10 shadow-xl overflow-hidden border border-[#FAB82A]/30">
+    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FAB82A] via-[#D34E1B] to-[#FAB82A]"></div>
+    
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5 sm:gap-6 relative z-10">
+      <div class="flex items-center gap-3.5 sm:gap-5">
+        <!-- Avatar -->
+        <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#FAB82A] to-[#D34E1B] text-[#124A2E] flex items-center justify-center font-black text-xl sm:text-3xl shadow-lg border-2 border-white/40 flex-shrink-0">
+          <span x-text="$store.auth.user.name ? $store.auth.user.name.charAt(0).toUpperCase() : 'A'">A</span>
+        </div>
+        <div class="space-y-0.5 sm:space-y-1 min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-xl sm:text-3xl font-black font-display text-white tracking-tight truncate" x-text="$store.auth.user.name || 'Aryan Sharma'">
+              Aryan Sharma
+            </h1>
+            <span class="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-wider bg-[#4F8B3A]/30 text-[#FAB82A] border border-[#FAB82A]/30 flex-shrink-0">
+              Active Member
+            </span>
+          </div>
+          <p class="text-xs text-white/80 truncate" x-text="$store.auth.user.email || 'aryan.sharma@example.com'">
+            aryan.sharma@example.com
+          </p>
+          <p class="text-[11px] text-white/60">
+            Greenland Direct Wholesale &amp; Retail Customer Account
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-3 flex-wrap">
+        <a
+          href="{% url 'store:order_history' %}"
+          class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/20 flex items-center gap-1.5"
+        >
+          <i data-lucide="package" class="w-4 h-4 text-[#FAB82A]"></i>
+          <span>Track Orders</span>
+        </a>
+        <button
+          @click="$store.auth.logout()"
+          class="px-4 py-2.5 rounded-xl bg-[#BA1B1D]/80 hover:bg-[#BA1B1D] text-white text-xs font-bold transition-all border border-white/20 flex items-center gap-1.5"
+        >
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Highlights Row -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm text-center">
+      <span class="text-[11px] uppercase font-bold text-stone-400 block">Total Orders</span>
+      <span class="text-2xl font-black text-[#124A2E] font-display mt-0.5 block">14</span>
+      <span class="text-[10px] text-[#4F8B3A] font-semibold">1 Active Delivery</span>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm text-center">
+      <span class="text-[11px] uppercase font-bold text-stone-400 block">Saved Addresses</span>
+      <span class="text-2xl font-black text-[#124A2E] font-display mt-0.5 block" x-text="addresses.length">2</span>
+      <span class="text-[10px] text-stone-500">Bengaluru City</span>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm text-center">
+      <span class="text-[11px] uppercase font-bold text-stone-400 block">Wishlist Items</span>
+      <span class="text-2xl font-black text-[#D34E1B] font-display mt-0.5 block" x-text="$store.wishlist.count">3</span>
+      <span class="text-[10px] text-stone-500">Saved Essentials</span>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm text-center">
+      <span class="text-[11px] uppercase font-bold text-stone-400 block">Cart Items</span>
+      <span class="text-2xl font-black text-[#FAB82A] font-display mt-0.5 block" x-text="$store.cart.totalCount">2</span>
+      <a href="{% url 'store:cart' %}" class="text-[10px] text-[#124A2E] font-bold hover:underline">View Cart →</a>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+    
+    <!-- Left Column: Personal Credentials & Password Security (5 cols) -->
+    <div class="md:col-span-5 space-y-6">
+      
+      <!-- Personal Credentials Card -->
+      <div class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-5 shadow-sm">
+        <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+          <h3 class="font-display font-bold text-base text-[#124A2E] flex items-center gap-2">
+            <i data-lucide="user" class="w-4 h-4 text-[#D34E1B]"></i>
+            Personal Credentials
+          </h3>
+          <button
+            @click="editMode = !editMode"
+            class="text-xs text-[#D34E1B] font-bold hover:underline"
+            x-text="editMode ? 'Done' : 'Edit'"
+          ></button>
+        </div>
+
+        <div class="space-y-4 text-xs">
+          <div>
+            <label class="text-stone-400 font-semibold block mb-1">Full Customer Name</label>
+            <template x-if="!editMode">
+              <strong class="text-stone-900 font-bold text-sm block" x-text="$store.auth.user.name || 'Aryan Sharma'">Aryan Sharma</strong>
+            </template>
+            <template x-if="editMode">
+              <input
+                type="text"
+                class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none"
+                x-model="$store.auth.user.name"
+                @change="$store.auth.login($store.auth.user.email, $store.auth.user.name)"
+              />
+            </template>
+          </div>
+
+          <div>
+            <label class="text-stone-400 font-semibold block mb-1">Registered Email Address</label>
+            <template x-if="!editMode">
+              <strong class="text-stone-900 font-bold text-sm block" x-text="$store.auth.user.email || 'aryan.sharma@example.com'">aryan.sharma@example.com</strong>
+            </template>
+            <template x-if="editMode">
+              <input
+                type="email"
+                class="w-full px-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none"
+                x-model="$store.auth.user.email"
+                @change="$store.auth.login($store.auth.user.email, $store.auth.user.name)"
+              />
+            </template>
+          </div>
+
+          <div>
+            <label class="text-stone-400 font-semibold block mb-1">Phone Number</label>
+            <strong class="text-stone-900 font-bold text-sm block" x-text="$store.auth.user.phone || '+91 98765 43210'">+91 98765 43210</strong>
+          </div>
+
+          <div>
+            <label class="text-stone-400 font-semibold block mb-1">Account Tier</label>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FAF6EE] border border-stone-200 text-xs font-bold text-[#124A2E]">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#4F8B3A]"></i> Verified Retail &amp; B2B Customer
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Update Password Card -->
+      <div
+        class="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-5 shadow-sm"
+        x-data="{ 
+          showPassForm: false, 
+          oldPass: '', 
+          newPass: '', 
+          confirmPass: '', 
+          showOld: false, 
+          showNew: false, 
+          errorMsg: '', 
+          successMsg: '' 
+        }"
+      >
+        <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+          <h3 class="font-display font-bold text-base text-[#124A2E] flex items-center gap-2">
+            <i data-lucide="lock" class="w-4 h-4 text-[#D34E1B]"></i>
+            Security &amp; Password
+          </h3>
+          <button
+            @click="showPassForm = !showPassForm; errorMsg = ''; successMsg = ''"
+            class="text-xs text-[#D34E1B] font-bold hover:underline"
+            x-text="showPassForm ? 'Cancel' : 'Update Password'"
+          >
+            Update Password
+          </button>
+        </div>
+
+        <template x-if="!showPassForm">
+          <div class="space-y-3 text-xs">
+            <div class="flex items-center justify-between py-1">
+              <div>
+                <span class="text-stone-400 font-semibold block">Account Password</span>
+                <span class="text-stone-700 font-bold tracking-widest text-sm">••••••••••••</span>
+              </div>
+              <button
+                @click="showPassForm = true"
+                class="px-3 py-1.5 rounded-lg bg-[#FAF6EE] hover:bg-[#F5EEDC] text-[#124A2E] font-bold text-xs border border-stone-200 transition-colors"
+              >
+                Change
+              </button>
+            </div>
+            <p class="text-[11px] text-stone-500 flex items-center gap-1.5">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#4F8B3A]"></i>
+              Password security is up to date
+            </p>
+          </div>
+        </template>
+
+        <!-- Expanded Password Form -->
+        <div x-show="showPassForm" class="space-y-4 text-xs pt-1" style="display: none;">
+          <!-- Success Alert -->
+          <div x-show="successMsg" class="p-3 rounded-xl bg-[#4F8B3A]/15 text-[#124A2E] text-xs font-bold border border-[#4F8B3A]/30 flex items-center gap-2" style="display: none;">
+            <i data-lucide="check-circle" class="w-4 h-4 text-[#4F8B3A]"></i>
+            <span x-text="successMsg"></span>
+          </div>
+
+          <!-- Error Alert -->
+          <div x-show="errorMsg" class="p-3 rounded-xl bg-[#BA1B1D]/10 text-[#BA1B1D] text-xs font-bold border border-[#BA1B1D]/20 flex items-center gap-2" style="display: none;">
+            <i data-lucide="alert-circle" class="w-4 h-4 text-[#BA1B1D]"></i>
+            <span x-text="errorMsg"></span>
+          </div>
+
+          <form
+            @submit.prevent="
+              errorMsg = '';
+              successMsg = '';
+              if (!oldPass) {
+                errorMsg = 'Please enter your current password.';
+                return;
+              }
+              if (newPass.length < 6) {
+                errorMsg = 'New password must be at least 6 characters.';
+                return;
+              }
+              if (newPass !== confirmPass) {
+                errorMsg = 'New passwords do not match. Please re-enter.';
+                return;
+              }
+              successMsg = 'Password updated successfully! Your account credentials have been refreshed.';
+              oldPass = '';
+              newPass = '';
+              confirmPass = '';
+              setTimeout(() => { showPassForm = false; successMsg = ''; }, 3000);
+            "
+            class="space-y-3.5"
+          >
+            <!-- Current Password -->
+            <div>
+              <label class="text-stone-500 font-bold block mb-1">Current Password *</label>
+              <div class="relative">
+                <input
+                  :type="showOld ? 'text' : 'password'"
+                  x-model="oldPass"
+                  required
+                  placeholder="Enter current password"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none pr-10"
+                />
+                <button
+                  type="button"
+                  @click="showOld = !showOld"
+                  class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-600"
+                >
+                  <i data-lucide="eye" class="w-4 h-4" x-show="!showOld"></i>
+                  <i data-lucide="eye-off" class="w-4 h-4" x-show="showOld" style="display: none;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- New Password -->
+            <div>
+              <label class="text-stone-500 font-bold block mb-1">New Password *</label>
+              <div class="relative">
+                <input
+                  :type="showNew ? 'text' : 'password'"
+                  x-model="newPass"
+                  required
+                  placeholder="At least 6 characters"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none pr-10"
+                />
+                <button
+                  type="button"
+                  @click="showNew = !showNew"
+                  class="absolute right-3 top-2.5 text-stone-400 hover:text-stone-600"
+                >
+                  <i data-lucide="eye" class="w-4 h-4" x-show="!showNew"></i>
+                  <i data-lucide="eye-off" class="w-4 h-4" x-show="showNew" style="display: none;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Confirm New Password -->
+            <div>
+              <label class="text-stone-500 font-bold block mb-1">Confirm New Password *</label>
+              <input
+                type="password"
+                x-model="confirmPass"
+                required
+                placeholder="Re-enter new password"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none"
+              />
+            </div>
+
+            <div class="flex items-center gap-3 pt-2">
+              <button
+                type="submit"
+                class="flex-1 py-2.5 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95"
+              >
+                Save Password
+              </button>
+              <button
+                type="button"
+                @click="showPassForm = false; errorMsg = ''; successMsg = ''"
+                class="px-4 py-2.5 rounded-xl border border-stone-300 hover:bg-stone-100 text-stone-600 text-xs font-bold transition-all"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Address Management Card (7 cols) -->
+    <div class="md:col-span-7 bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 space-y-5 shadow-sm">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-3">
+        <h3 class="font-display font-bold text-base text-[#124A2E] flex items-center gap-2">
+          <i data-lucide="map-pin" class="w-4 h-4 text-[#D34E1B]"></i>
+          Saved Delivery Locations (<span x-text="addresses.length"></span>)
+        </h3>
+        <button
+          @click="showAddressForm ? (showAddressForm = false) : openAddAddress()"
+          class="text-xs text-[#D34E1B] font-bold hover:underline flex items-center gap-1"
+        >
+          <i data-lucide="plus" class="w-3.5 h-3.5" x-show="!showAddressForm"></i>
+          <span x-text="showAddressForm ? 'Cancel' : '+ Add Address'"></span>
+        </button>
+      </div>
+
+      <!-- Address List (Dynamic) -->
+      <div class="space-y-3.5">
+        <template x-for="addr in addresses" :key="addr.id">
+          <div
+            class="p-4 rounded-2xl text-xs space-y-1.5 transition-all relative"
+            :class="addr.isDefault ? 'border-2 border-[#124A2E]/40 bg-[#FAF6EE] shadow-xs' : 'border border-stone-200 bg-white hover:bg-stone-50'"
+          >
+            <div class="flex items-center justify-between">
+              <strong class="text-stone-900 font-bold text-sm flex items-center gap-2">
+                <span x-text="addr.label"></span>
+                <span
+                  x-show="addr.isDefault"
+                  class="text-[10px] bg-[#4F8B3A] text-white px-2 py-0.5 rounded-full font-bold"
+                >Primary</span>
+              </strong>
+              <button
+                x-show="!addr.isDefault"
+                @click="setDefaultAddress(addr.id)"
+                class="text-[11px] text-[#124A2E] hover:underline font-bold"
+              >
+                Set as Default
+              </button>
+            </div>
+            
+            <p class="text-stone-600 leading-relaxed" x-text="addr.address"></p>
+            
+            <div class="pt-1 flex gap-3 text-[11px] font-semibold items-center">
+              <button
+                @click="openEditAddress(addr)"
+                class="text-[#D34E1B] hover:underline font-bold flex items-center gap-1 cursor-pointer"
+              >
+                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                <span>Edit Address</span>
+              </button>
+              <span class="text-stone-300">•</span>
+              <button
+                @click="deleteAddress(addr.id)"
+                class="text-stone-500 hover:text-[#BA1B1D] font-bold flex items-center gap-1 transition-colors cursor-pointer"
+              >
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+        </template>
+
+        <template x-if="addresses.length === 0">
+          <div class="text-center py-8 text-stone-400 text-xs space-y-2">
+            <p>No saved delivery addresses found.</p>
+            <button @click="openAddAddress()" class="text-[#D34E1B] font-bold hover:underline">+ Add Your First Address</button>
+          </div>
+        </template>
+      </div>
+
+      <!-- Add / Edit Address Form -->
+      <div x-show="showAddressForm" class="pt-4 border-t border-stone-100 space-y-3" style="display: none;">
+        <div class="flex items-center justify-between">
+          <h5 class="text-xs font-bold text-[#124A2E] uppercase tracking-wider" x-text="editingAddressId ? 'Edit Delivery Address' : 'Add New Address Location'"></h5>
+          <span class="text-[10px] text-stone-400 font-semibold">* Required fields</span>
+        </div>
+
+        <form @submit.prevent="saveAddress()" class="space-y-3">
+          <div class="space-y-2.5">
+            <div>
+              <label class="text-[11px] font-bold text-stone-600 block mb-1">Address Label *</label>
+              <input
+                type="text"
+                x-model="addressForm.label"
+                required
+                placeholder="e.g. Home Residence, Wholesale Shop, Restaurant Warehouse"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none"
+              />
+            </div>
+
+            <div>
+              <label class="text-[11px] font-bold text-stone-600 block mb-1">Complete Street Address *</label>
+              <textarea
+                x-model="addressForm.address"
+                required
+                rows="2"
+                placeholder="Door/Flat No., Building Name, Street, Locality"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none"
+              ></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[11px] font-bold text-stone-600 block mb-1">City</label>
+                <input
+                  type="text"
+                  x-model="addressForm.city"
+                  placeholder="Bengaluru"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none"
+                />
+              </div>
+              <div>
+                <label class="text-[11px] font-bold text-stone-600 block mb-1">PIN Code</label>
+                <input
+                  type="text"
+                  x-model="addressForm.pincode"
+                  placeholder="560038"
+                  class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] outline-none"
+                />
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 pt-1">
+              <input
+                type="checkbox"
+                id="addr-default-check"
+                x-model="addressForm.isDefault"
+                class="rounded text-[#124A2E] focus:ring-[#D34E1B]"
+              />
+              <label for="addr-default-check" class="text-xs text-stone-700 font-semibold cursor-pointer">
+                Set as Primary / Default delivery address
+              </label>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 pt-2">
+            <button
+              type="submit"
+              class="flex-1 py-2.5 bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md active:scale-95"
+              x-text="editingAddressId ? 'Update Address' : 'Save & Use Address'"
+            ></button>
+            <button
+              type="button"
+              @click="showAddressForm = false; editingAddressId = null;"
+              class="px-4 py-2.5 border border-stone-300 hover:bg-stone-100 text-stone-600 text-xs font-bold rounded-xl transition-all"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% load static %}
+<footer class="bg-[#124A2E] text-white/80 relative mt-auto">
+  <!-- Subtle Radiant Golden Amber Accent Line -->
+  <div class="h-[2px] w-full bg-gradient-to-r from-transparent via-[#FAB82A] to-transparent opacity-75 shadow-[0_1px_10px_rgba(250,184,42,0.4)]"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
+      
+      <!-- Brand Info -->
+      <div class="sm:col-span-2 space-y-4">
+        <!-- Transparent Brand Logo in Footer -->
+        <a href="{% url 'store:home' %}" class="inline-block group focus:outline-none" title="GreenLand Foodstuff">
+          <img
+            src="{% static 'images/greenland-transparent-logo.png' %}?v=clear"
+            alt="GreenLand Food Stuff"
+            class="h-16 sm:h-20 md:h-24 w-auto object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] group-hover:scale-105 transition-all duration-200"
+          />
+        </a>
+        <p class="text-xs text-white/70 leading-relaxed max-w-sm">
+          Greenland is dedicated to bringing authentic, wholesome foodstuff directly to your kitchen. We specialize in aged aromatic basmati rice, slow-ground chakki whole wheat atta, unpolished protein-dense pulses, authentic spices, and daily cooking essentials.
+        </p>
+        <div class="pt-2 text-xs text-white/80 space-y-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="map-pin" class="w-4 h-4 text-[#FAB82A] flex-shrink-0"></i>
+            <span>Sector 4, Greenland Food Hub, Indiranagar, Bengaluru - 560038</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="phone" class="w-4 h-4 text-[#FAB82A] flex-shrink-0"></i>
+            <a href="tel:+919876543210" class="hover:text-[#FAB82A] transition-colors">+91 98765 43210 (Toll Free / WhatsApp)</a>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="mail" class="w-4 h-4 text-[#FAB82A] flex-shrink-0"></i>
+            <a href="mailto:orders@greenlandfoodstuff.com" class="hover:text-[#FAB82A] transition-colors">orders@greenlandfoodstuff.com</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories Column 1 -->
+      <div>
+        <h3 class="text-white font-bold text-xs uppercase tracking-wider mb-3 sm:mb-4 border-l-2 border-[#FAB82A] pl-2">
+          Staples &amp; Grains
+        </h3>
+        <ul class="space-y-2.5 text-xs text-white/75">
+          <li><a href="{% url 'store:category' 'rice' %}" class="hover:text-[#FAB82A] transition-colors">Rice</a></li>
+          <li><a href="{% url 'store:category' 'cereals-and-legumes' %}" class="hover:text-[#FAB82A] transition-colors">Cereals &amp; Legumes</a></li>
+          <li><a href="{% url 'store:category' 'spices-and-seeds' %}" class="hover:text-[#FAB82A] transition-colors">Spices &amp; Seeds</a></li>
+          <li><a href="{% url 'store:category' 'nuts-and-dry-fruits' %}" class="hover:text-[#FAB82A] transition-colors">Nuts &amp; Dry Fruits</a></li>
+        </ul>
+      </div>
+
+      <!-- Categories Column 2 -->
+      <div>
+        <h3 class="text-white font-bold text-xs uppercase tracking-wider mb-3 sm:mb-4 border-l-2 border-[#FAB82A] pl-2">
+          Dairy, Tea &amp; Pantry
+        </h3>
+        <ul class="space-y-2.5 text-xs text-white/75">
+          <li><a href="{% url 'store:category' 'milk' %}" class="hover:text-[#FAB82A] transition-colors">Milk</a></li>
+          <li><a href="{% url 'store:category' 'tea' %}" class="hover:text-[#FAB82A] transition-colors">Tea</a></li>
+          <li><a href="{% url 'store:category' 'canned-products' %}" class="hover:text-[#FAB82A] transition-colors">Canned Products</a></li>
+          <li><a href="{% url 'store:products' %}" class="hover:text-[#D34E1B] transition-colors font-bold text-[#FAB82A]">Browse All Catalog →</a></li>
+        </ul>
+      </div>
+
+      <!-- Customer Support & Links -->
+      <div>
+        <h3 class="text-white font-bold text-xs uppercase tracking-wider mb-3 sm:mb-4 border-l-2 border-[#FAB82A] pl-2">
+          Customer Account
+        </h3>
+        <ul class="space-y-2.5 text-xs text-white/75">
+          <li><a href="{% url 'store:order_history' %}" class="hover:text-[#FAB82A] transition-colors">Order Tracking Pipeline</a></li>
+          <li><a href="{% url 'store:order_history' %}" class="hover:text-[#FAB82A] transition-colors">Order History</a></li>
+          <li><a href="{% url 'store:profile' %}" class="hover:text-[#FAB82A] transition-colors">Delivery Address Book</a></li>
+          <li><a href="{% url 'store:wishlist' %}" class="hover:text-[#FAB82A] transition-colors">Saved Wishlist</a></li>
+          <li><a href="{% url 'store:contact' %}" class="hover:text-[#FAB82A] transition-colors font-semibold text-[#FAB82A]">Contact &amp; Wholesale Desk</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-[#FAB82A]/20 py-5 sm:py-6 bg-[#0B351F]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left text-xs text-white/60">
+      <p>© 2026 Greenland Foodstuff Pvt. Ltd. All rights reserved.</p>
+      <div class="flex items-center gap-1.5 text-xs text-white/75 flex-wrap justify-center">
+        <span>Designed and Developed by</span>
+        <a href="https://www.inspirezesttechnologies.com/" target="_blank" rel="noopener noreferrer"
+           class="font-bold text-[#3B82F6] hover:text-[#FAB82A] transition-colors duration-300 relative group inline-block tracking-tight">
+          <span>InspireZest Technologies</span>
+          <span class="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-[#3B82F6] to-[#FAB82A] transition-all duration-300 group-hover:w-full rounded-full"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

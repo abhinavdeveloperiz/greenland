@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign In — Greenland Foodstuff{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-16">
+  <div class="bg-white rounded-3xl p-8 border border-stone-200 shadow-xl space-y-6">
+    <div class="text-center space-y-3">
+      <img src="{% static 'images/greenland-transparent-logo.png' %}?v=clear" alt="GreenLand Food Stuff" class="h-20 mx-auto object-contain drop-shadow-md" />
+      <h1 class="text-2xl font-black text-[#124A2E] font-display">Welcome Back</h1>
+      <p class="text-xs text-stone-500">Sign in to track orders and access wholesale pricing</p>
+    </div>
+
+    <!-- Contextual Checkout Alert -->
+    <div id="checkout-alert" class="hidden p-3.5 rounded-2xl bg-[#D34E1B]/10 border border-[#D34E1B]/30 text-[#124A2E] text-xs font-semibold flex items-center gap-2.5">
+      <i data-lucide="shopping-bag" class="w-4 h-4 text-[#D34E1B] flex-shrink-0"></i>
+      <span>Please sign in to confirm your delivery address and place your foodstuff order.</span>
+    </div>
+
+    <form
+      onsubmit="
+        event.preventDefault();
+        const email = document.getElementById('login-email').value;
+        Alpine.store('auth').login(email, 'Aryan Sharma');
+        const nextUrl = new URLSearchParams(window.location.search).get('next') || '{% url 'store:profile' %}';
+        window.location.href = nextUrl;
+      "
+      class="space-y-4"
+    >
+      <div>
+        <label class="block text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-1.5">Email Address</label>
+        <input
+          id="login-email"
+          type="email"
+          required
+          value="aryan.sharma@example.com"
+          class="w-full px-4 py-3 rounded-xl bg-[#FAF6EE]/50 border border-stone-300 text-xs text-[#1D261E] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B]"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-1.5">Password</label>
+        <input
+          type="password"
+          required
+          value="password123"
+          class="w-full px-4 py-3 rounded-xl bg-[#FAF6EE]/50 border border-stone-300 text-xs text-[#1D261E] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B]"
+        />
+      </div>
+
+      <!-- Primary submit button: #124A2E, hover #D34E1B -->
+      <button
+        type="submit"
+        class="w-full py-3.5 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all active:scale-95"
+      >
+        Sign In to Account
+      </button>
+    </form>
+
+    <div class="text-center text-xs text-stone-500 pt-2 border-t border-stone-100">
+      Don't have an account?
+      <a id="register-link" href="{% url 'store:register' %}" class="text-[#124A2E] font-bold hover:text-[#D34E1B] hover:underline ml-1">Create Account</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const nextUrl = params.get('next');
+    if (nextUrl) {
+      const alertEl = document.getElementById('checkout-alert');
+      if (alertEl) alertEl.classList.remove('hidden');
+      const regLink = document.getElementById('register-link');
+      if (regLink) regLink.href = "{% url 'store:register' %}?next=" + encodeURIComponent(nextUrl);
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }} — Greenland Foodstuff{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+  
+  <!-- Category Hero Header in Deep Forest Green with Sunlit Amber accents -->
+  <div class="relative bg-[#124A2E] text-white py-14 overflow-hidden border-b border-[#FAB82A]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="space-y-2 max-w-xl">
+        <div class="flex items-center gap-2 text-xs text-[#FAB82A] font-bold uppercase tracking-wider">
+          <a href="{% url 'store:home' %}" class="hover:underline">Home</a>
+          <span>/</span>
+          <a href="{% url 'store:products' %}" class="hover:underline">Categories</a>
+          <span>/</span>
+          <span class="text-white">{{ category.name }}</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-black text-white font-display">
+          {{ category.name }}
+        </h1>
+        <p class="text-xs sm:text-sm text-white/80 leading-relaxed">
+          {{ category.description }}
+        </p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-[#FAB82A]/40 text-xs text-white/90 space-y-1 self-start shadow-md">
+        <p class="font-bold text-[#FAB82A]">✨ Direct Farm Sourcing</p>
+        <p class="text-[11px] text-white/80">Clean Sortex purity &amp; lab-tested nutrition</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Section -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-stone-200 mb-6">
+      <p class="text-xs font-bold text-[#1D261E]/80">
+        Showing <strong class="text-[#124A2E]">{{ total_count }}</strong> items in this category
+      </p>
+      <a href="{% url 'store:products' %}" class="text-xs font-bold text-[#124A2E] hover:text-[#D34E1B] hover:underline">
+        Browse All Catalog →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      {% for product in products %}
+        {% include 'components/product_card.html' with product=product %}
+      {% empty %}
+      <div class="col-span-4 py-12 text-center text-xs text-stone-500">
+        No products available in this category yet.
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% load static %}
+<div class="bg-white rounded-2xl border border-stone-200/90 hover:border-[#FAB82A]/80 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col h-full overflow-hidden group">
+  <!-- Image Container -->
+  <div class="relative w-full aspect-square bg-[#FAF6EE] overflow-hidden">
+    <a href="{% url 'store:product_detail' product.id %}">
+      <img
+        src="{{ product.images.0 }}"
+        alt="{{ product.name }}"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        loading="lazy"
+      />
+    </a>
+
+    <!-- Wishlist Button -->
+    <button
+      @click="$store.wishlist.toggle({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' })"
+      class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200/80 flex items-center justify-center text-stone-400 hover:text-[#BA1B1D] hover:bg-white transition-all shadow-sm z-10"
+      title="Save to wishlist"
+    >
+      <i data-lucide="heart" class="w-4 h-4" :class="$store.wishlist.has('{{ product.id }}') ? 'text-[#BA1B1D] fill-[#BA1B1D]' : ''"></i>
+    </button>
+
+    <!-- Discount Offer Badge (Ceramic Cup Red #BA1B1D) -->
+    {% if product.originalPrice and product.originalPrice > product.price %}
+    <div class="absolute top-3 left-3 bg-[#BA1B1D] text-white text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md shadow-sm">
+      SAVE ₹{{ product.originalPrice|add:"-"|add:product.price }}
+    </div>
+    {% endif %}
+
+    {% if product.availability == 'out_of_stock' %}
+    <div class="absolute inset-0 bg-[#1D261E]/50 backdrop-blur-[1px] flex items-center justify-center">
+      <span class="bg-white text-[#1D261E] text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-lg shadow">
+        Out of Stock
+      </span>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Details Content -->
+  <div class="p-4 flex flex-col flex-1 justify-between gap-3">
+    <div class="space-y-1">
+      <div class="flex items-center justify-between text-[11px] text-stone-500 font-medium">
+        <span class="text-[#124A2E] font-bold tracking-wider uppercase text-[10px]">{{ product.categoryName }}</span>
+        <span class="bg-[#FAF6EE] px-2 py-0.5 rounded text-[#1D261E] font-semibold border border-stone-200/60">{{ product.weight }}</span>
+      </div>
+
+      <a href="{% url 'store:product_detail' product.id %}" class="block">
+        <h4 class="font-display font-bold text-[#124A2E] text-sm leading-snug group-hover:text-[#D34E1B] transition-colors line-clamp-2">
+          {{ product.name }}
+        </h4>
+      </a>
+      
+      <p class="text-xs text-[#1D261E]/70 line-clamp-1 leading-relaxed">
+        {{ product.description }}
+      </p>
+    </div>
+
+    <!-- Pricing & Add to Cart -->
+    <div class="pt-2 border-t border-stone-100 flex items-center justify-between gap-2 mt-auto">
+      <div>
+        <div class="flex items-baseline gap-1.5">
+          <span class="font-display font-black text-[#BA1B1D] text-base">₹{{ product.price }}</span>
+          {% if product.originalPrice %}
+          <span class="text-xs text-stone-400 line-through">₹{{ product.originalPrice }}</span>
+          {% endif %}
+        </div>
+        <span class="text-[10px] text-[#4F8B3A] font-bold block">100% Authentic Staple</span>
+      </div>
+
+      {% if product.availability == 'out_of_stock' %}
+      <button
+        disabled
+        class="px-3 py-2 rounded-xl bg-stone-100 text-stone-400 text-xs font-bold cursor-not-allowed flex-shrink-0"
+      >
+        Sold Out
+      </button>
+      {% else %}
+      <button
+        @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' })"
+        class="px-3.5 py-2 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm hover:shadow transition-all active:scale-95 flex-shrink-0"
+      >
+        <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+        <span>Add</span>
+      </button>
+      {% endif %}
+    </div>
+  </div>
+</div>

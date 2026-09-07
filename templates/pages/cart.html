@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shopping Cart — Greenland Foodstuff{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8" x-data="{ couponInput: '' }">
+  
+  <!-- Title Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-200">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-black text-[#124A2E] tracking-tight font-display">
+        Shopping Cart (<span x-text="$store.cart.totalCount"></span> items)
+      </h1>
+      <p class="text-xs text-stone-500 mt-1">Review your foodstuff orders before checkout</p>
+    </div>
+    <button
+      @click="$store.cart.clear()"
+      class="text-xs text-[#BA1B1D] hover:text-[#8E0E10] font-semibold flex items-center gap-1.5"
+    >
+      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+      <span>Clear Cart</span>
+    </button>
+  </div>
+
+  <!-- When Cart is Empty -->
+  <template x-if="$store.cart.items.length === 0">
+    <div class="max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
+      <div class="w-24 h-24 rounded-full bg-[#FAF6EE] border-2 border-[#124A2E]/20 text-[#124A2E] flex items-center justify-center mx-auto shadow-inner">
+        <i data-lucide="shopping-bag" class="w-12 h-12"></i>
+      </div>
+      <div class="space-y-2">
+        <h2 class="text-2xl font-black text-[#124A2E]">Your Cart is Empty</h2>
+        <p class="text-xs sm:text-sm text-stone-500 max-w-sm mx-auto">
+          You haven't added any fresh foodstuff or pantry essentials to your cart yet. Explore our authentic grains, flours, and spices!
+        </p>
+      </div>
+      <div>
+        <a
+          href="{% url 'store:products' %}"
+          class="inline-flex items-center gap-2 px-6 py-3.5 bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs rounded-xl shadow-md transition-all hover:shadow-lg"
+        >
+          <span>Start Shopping Foodstuff</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </template>
+
+  <!-- When Cart has items -->
+  <template x-if="$store.cart.items.length > 0">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Cart Items List -->
+      <div class="lg:col-span-8 space-y-4">
+        <div class="bg-white rounded-2xl border border-stone-200 divide-y divide-stone-100 shadow-sm overflow-hidden">
+          <template x-for="item in $store.cart.items" :key="item.id">
+            <div class="p-3.5 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+              <!-- Top Row on Mobile: Image + Info -->
+              <div class="flex items-center gap-3 w-full sm:w-auto flex-1 min-w-0">
+                <!-- Thumbnail -->
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-[#FAF6EE] border border-stone-200/70 flex-shrink-0">
+                  <img :src="item.image" :alt="item.name" class="w-full h-full object-cover" />
+                </div>
+
+                <!-- Info -->
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-bold text-[#124A2E] text-xs sm:text-sm line-clamp-1" x-text="item.name"></h4>
+                  <div class="flex items-center gap-2 text-xs text-stone-500 mt-1">
+                    <span class="bg-[#FAF6EE] px-2 py-0.5 rounded font-medium text-[#1D261E] text-[10px] sm:text-[11px] border border-stone-200/60" x-text="item.weight"></span>
+                    <span>•</span>
+                    <span class="font-bold text-[#BA1B1D] text-xs" x-text="'₹' + item.price + ' each'"></span>
+                    <template x-if="item.originalPrice && item.originalPrice > item.price">
+                      <span class="line-through text-stone-400 text-[10px] sm:text-[11px]" x-text="'₹' + item.originalPrice"></span>
+                    </template>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quantity Controls & Subtotal: Full Width Row on Mobile, Inline on Desktop -->
+              <div class="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-3 sm:gap-4 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
+                <div class="flex items-center border border-stone-200 rounded-xl bg-[#FAF6EE] p-0.5 sm:p-1">
+                  <button
+                    @click="$store.cart.updateQty(item.id, item.quantity - 1)"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center text-[#1D261E] hover:bg-white transition-colors"
+                  >
+                    -
+                  </button>
+                  <span class="w-7 sm:w-8 text-center text-xs font-bold text-[#124A2E]" x-text="item.quantity"></span>
+                  <button
+                    @click="$store.cart.updateQty(item.id, item.quantity + 1)"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center text-[#1D261E] hover:bg-white transition-colors"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <!-- Subtotal in Ceramic Red -->
+                <div class="w-20 text-right sm:text-right">
+                  <span class="font-black text-[#BA1B1D] text-xs sm:text-sm" x-text="'₹' + (item.price * item.quantity)"></span>
+                </div>
+
+                <!-- Delete -->
+                <button
+                  @click="$store.cart.removeItem(item.id)"
+                  class="text-stone-400 hover:text-[#BA1B1D] transition-colors p-1.5"
+                  title="Remove item"
+                >
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <!-- Coupon Code Bar -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-stone-200 shadow-sm space-y-3">
+          <h4 class="font-display font-bold text-xs uppercase tracking-wider text-[#124A2E] flex items-center gap-2">
+            <i data-lucide="tag" class="w-4 h-4 text-[#D34E1B]"></i>
+            <span>Apply Foodstuff Promotional Code</span>
+          </h4>
+
+          <template x-if="!$store.cart.appliedCoupon">
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input
+                type="text"
+                x-model="couponInput"
+                placeholder="Enter promo code (e.g. GREENLAND20 or FLAT50)"
+                class="flex-1 px-4 py-2.5 rounded-xl bg-white border border-stone-300 text-xs font-mono uppercase focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B]"
+              />
+              <button
+                @click="$store.cart.applyPromo(couponInput); couponInput = '';"
+                class="px-5 py-2.5 bg-[#124A2E] hover:bg-[#D34E1B] text-white rounded-xl text-xs font-bold transition-colors"
+              >
+                Apply
+              </button>
+            </div>
+          </template>
+
+          <template x-if="$store.cart.appliedCoupon">
+            <div class="flex items-center justify-between p-3 bg-[#FAF6EE] border border-[#FAB82A]/50 rounded-xl text-xs">
+              <span class="font-bold text-[#124A2E]" x-text="'Applied: ' + $store.cart.appliedCoupon.code + ' (' + $store.cart.appliedCoupon.desc + ')'"></span>
+              <button @click="$store.cart.removePromo()" class="text-[#BA1B1D] font-bold hover:underline">Remove</button>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="lg:col-span-4 bg-white rounded-2xl p-5 sm:p-6 border border-stone-200 shadow-sm space-y-5 sm:space-y-6 lg:sticky lg:top-28">
+        <h3 class="font-display font-black text-[#124A2E] text-base pb-3 border-b border-stone-100">
+          Order Summary
+        </h3>
+
+        <div class="space-y-3 text-xs text-[#1D261E]/80">
+          <div class="flex justify-between">
+            <span>Items Subtotal:</span>
+            <span class="font-bold text-[#1D261E]" x-text="'₹' + $store.cart.subtotal"></span>
+          </div>
+
+          <template x-if="$store.cart.discount > 0">
+            <div class="flex justify-between text-[#BA1B1D] font-semibold">
+              <span>Promo Discount:</span>
+              <span x-text="'-₹' + $store.cart.discount"></span>
+            </div>
+          </template>
+
+          <div class="flex justify-between">
+            <span>Delivery Fee:</span>
+            <span class="font-semibold text-[#1D261E]" x-text="$store.cart.finalDeliveryFee === 0 ? 'FREE' : '₹' + $store.cart.finalDeliveryFee"></span>
+          </div>
+
+          <div class="flex justify-between">
+            <span>Estimated Tax (5% GST):</span>
+            <span class="font-semibold text-[#1D261E]" x-text="'₹' + $store.cart.tax"></span>
+          </div>
+
+          <div class="flex justify-between text-sm font-black text-[#1D261E] pt-3 border-t border-stone-100">
+            <span>Total Payable:</span>
+            <span class="text-[#BA1B1D] text-base font-black" x-text="'₹' + $store.cart.total"></span>
+          </div>
+        </div>
+
+        <!-- Auth requirement note when logged out -->
+        <template x-if="!$store.auth || !$store.auth.isLoggedIn">
+          <div class="p-3 bg-[#FAF6EE] border border-[#FAB82A]/50 rounded-xl text-xs flex items-center gap-2.5 text-stone-600">
+            <i data-lucide="lock" class="w-4 h-4 text-[#D34E1B] flex-shrink-0"></i>
+            <span class="text-[11px] leading-tight">You must be logged in to place an order at checkout.</span>
+          </div>
+        </template>
+
+        <template x-if="$store.auth && $store.auth.isLoggedIn">
+          <div class="p-2.5 bg-[#4F8B3A]/10 border border-[#4F8B3A]/30 rounded-xl text-xs flex items-center gap-2 text-[#124A2E]">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#4F8B3A] flex-shrink-0"></i>
+            <span class="text-[11px] font-semibold truncate" x-text="'Ordering as: ' + $store.auth.user.name"></span>
+          </div>
+        </template>
+
+        <!-- Primary checkout button: #124A2E, hover #D34E1B -->
+        <a
+          href="{% url 'store:checkout' %}"
+          class="block text-center w-full py-4 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all"
+        >
+          Proceed to Checkout
+        </a>
+      </div>
+
+    </div>
+  </template>
+
+</div>
+{% endblock %}

@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us — Greenland Foodstuff Wholesale &amp; Retail Desk{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
+
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-2 text-xs font-semibold text-stone-500">
+    <a href="{% url 'store:home' %}" class="hover:text-[#124A2E] transition-colors">Home</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-stone-400"></i>
+    <span class="text-[#D34E1B] font-bold">Contact Us</span>
+  </nav>
+
+  <!-- Page Header Banner -->
+  <div class="relative bg-gradient-to-r from-[#124A2E] via-[#1A613D] to-[#124A2E] text-white rounded-3xl p-8 sm:p-14 overflow-hidden shadow-2xl border border-[#FAB82A]/30">
+    <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+      <i data-lucide="mail" class="w-96 h-96"></i>
+    </div>
+    <!-- Accent Top Line -->
+    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FAB82A] via-[#D34E1B] to-[#FAB82A]"></div>
+    
+    <div class="relative z-10 max-w-2xl space-y-4">
+      <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAB82A]/20 border border-[#FAB82A]/40 text-[#FAB82A] text-xs font-black uppercase tracking-wider">
+        <i data-lucide="phone-call" class="w-3.5 h-3.5"></i> Customer &amp; Wholesale Support
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-black font-display tracking-tight leading-tight">
+        Get in Touch With <span class="text-[#FAB82A]">Greenland</span>
+      </h1>
+      <p class="text-sm sm:text-base text-white/85 leading-relaxed">
+        Whether you are placing daily grocery requirements, scheduling wholesale restaurant supply, or requesting distributor pricing, our dedicated team is here to help you promptly.
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Contact Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+    <!-- Left Column: Fast Contact Cards & Facility Info (5 cols) -->
+    <div class="lg:col-span-5 space-y-6">
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-xl space-y-6">
+        <h2 class="text-xl font-black text-[#124A2E] font-display flex items-center gap-2.5">
+          <i data-lucide="headphones" class="w-5 h-5 text-[#D34E1B]"></i>
+          Direct Communication Channels
+        </h2>
+
+        <div class="space-y-4">
+          <!-- Hotline -->
+          <a href="tel:+919876543210" class="flex items-start gap-4 p-4 rounded-2xl bg-[#FAF6EE] hover:bg-[#F5EEDC] border border-stone-200 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-[#BA1B1D] text-white flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+              <i data-lucide="phone" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] uppercase font-bold text-stone-500">Order Hotline &amp; Toll-Free</span>
+              <p class="text-sm font-bold text-[#124A2E] mt-0.5">+91 98765 43210</p>
+              <p class="text-xs text-stone-500">+91 80 2345 6789 (Dispatch Desk)</p>
+            </div>
+          </a>
+
+          <!-- WhatsApp -->
+          <a href="https://wa.me/919876543210" target="_blank" class="flex items-start gap-4 p-4 rounded-2xl bg-[#FAF6EE] hover:bg-[#F5EEDC] border border-stone-200 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-[#4F8B3A] text-white flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+              <i data-lucide="message-square" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] uppercase font-bold text-stone-500">Instant WhatsApp Order Desk</span>
+              <p class="text-sm font-bold text-[#124A2E] mt-0.5">+91 98765 43210</p>
+              <span class="inline-block mt-1 px-2 py-0.5 text-[10px] font-extrabold bg-[#4F8B3A]/15 text-[#4F8B3A] rounded-md">Live 8 AM – 8 PM</span>
+            </div>
+          </a>
+
+          <!-- Email -->
+          <a href="mailto:orders@greenlandfoodstuff.com" class="flex items-start gap-4 p-4 rounded-2xl bg-[#FAF6EE] hover:bg-[#F5EEDC] border border-stone-200 transition-all group">
+            <div class="w-12 h-12 rounded-xl bg-[#124A2E] text-white flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+              <i data-lucide="mail" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] uppercase font-bold text-stone-500">Official Inquiries &amp; Quotations</span>
+              <p class="text-sm font-bold text-[#124A2E] mt-0.5">orders@greenlandfoodstuff.com</p>
+              <p class="text-xs text-stone-500">customercare@greenlandfoodstuff.com</p>
+            </div>
+          </a>
+
+          <!-- Warehouse Facility -->
+          <div class="flex items-start gap-4 p-4 rounded-2xl bg-[#FAF6EE] border border-stone-200">
+            <div class="w-12 h-12 rounded-xl bg-[#FAB82A] text-[#124A2E] flex items-center justify-center flex-shrink-0">
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[11px] uppercase font-bold text-stone-500">Warehouse Facility &amp; Hub</span>
+              <p class="text-xs text-stone-800 font-semibold mt-0.5 leading-relaxed">
+                Greenland Foodstuff Complex, 4th Cross Road, Indiranagar Food Distribution Hub, Bengaluru, Karnataka - 560038
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Operational Hours Card -->
+      <div class="bg-white rounded-3xl p-6 border border-stone-200 shadow-md space-y-3">
+        <h3 class="text-xs font-black uppercase tracking-wider text-[#124A2E] flex items-center gap-2">
+          <i data-lucide="clock" class="w-4 h-4 text-[#D34E1B]"></i> Dispatch &amp; Delivery Schedule
+        </h3>
+        <ul class="text-xs text-stone-600 space-y-1.5 font-medium">
+          <li class="flex justify-between border-b border-stone-100 pb-1">
+            <span>Monday – Saturday:</span>
+            <span class="font-bold text-stone-800">8:00 AM – 8:30 PM</span>
+          </li>
+          <li class="flex justify-between border-b border-stone-100 pb-1">
+            <span>Sunday:</span>
+            <span class="font-bold text-stone-800">9:00 AM – 4:00 PM (Emergency Dispatch)</span>
+          </li>
+          <li class="flex justify-between text-[#4F8B3A] font-bold pt-0.5">
+            <span>Delivery Turnaround:</span>
+            <span>Same-Day &amp; Next-Day Slots</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Interactive Contact / Wholesale Request Form (7 cols) -->
+    <div class="lg:col-span-7 bg-white rounded-3xl p-5 sm:p-8 md:p-12 border border-stone-200 shadow-2xl space-y-6">
+      <div class="space-y-2 border-b border-stone-100 pb-5">
+        <h2 class="text-2xl sm:text-3xl font-black text-[#124A2E] font-display">
+          Send a Message or Wholesale Request
+        </h2>
+        <p class="text-xs sm:text-sm text-stone-500">
+          Please fill out the form below. A dedicated Greenland foodstuff representative will review your request and reach out within 15 minutes during operating hours.
+        </p>
+      </div>
+
+      <form
+        onsubmit="event.preventDefault(); alert('Thank you! Your enquiry has been registered with Greenland Foodstuff. Our desk will contact you immediately.'); this.reset();"
+        class="space-y-5"
+      >
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-1.5">
+              Full Name *
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="e.g. Rajesh Kumar"
+              class="w-full px-4 py-3 rounded-xl bg-[#FAF6EE]/50 border border-stone-300 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B] font-medium"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-1.5">
+              Contact Phone Number *
+            </label>
+            <input
+              type="tel"
+              required
+              placeholder="e.g. +91 98765 43210"
+              class="w-full px-4 py-3 rounded-xl bg-[#FAF6EE]/50 border border-stone-300 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B] font-medium"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-1.5">
+              Email Address
+            </label>
+            <input
+              type="email"
+              placeholder="e.g. rajesh@example.com"
+              class="w-full px-4 py-3 rounded-xl bg-[#FAF6EE]/50 border border-stone-300 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B] font-medium"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-1.5">
+              Category of Interest
+            </label>
+            <select class="w-full px-4 py-3 rounded-xl bg-[#FAF6EE]/50 border border-stone-300 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B] font-medium text-[#1D261E]">
+              <option>Rice &amp; Grains (Bulk / Retail)</option>
+              <option>Cereals &amp; Legumes (Atta &amp; Dals)</option>
+              <option>Spices &amp; Seeds (Single Estate Harvest)</option>
+              <option>Nuts &amp; Dry Fruits (Premium Graded)</option>
+              <option>Milk &amp; Dairy Staples</option>
+              <option>Tea (Single Estate Leaf &amp; CTC)</option>
+              <option>Canned Products &amp; Purees</option>
+              <option>General Foodstuff Distribution Inquiry</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-1.5">
+            Your Message &amp; Required Quantities *
+          </label>
+          <textarea
+            rows="5"
+            required
+            placeholder="Please specify item names, bag sizes (e.g. 5kg, 25kg), delivery location in Bengaluru or outside, or delivery timeline..."
+            class="w-full px-4 py-3 rounded-xl bg-[#FAF6EE]/50 border border-stone-300 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D34E1B] focus:border-[#D34E1B] font-medium"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-4 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs uppercase tracking-wider shadow-xl transition-all hover:scale-[1.01] active:scale-95"
+        >
+          Submit Request to Greenland Desk
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Trust & Assurance Row -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+    <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-[#124A2E]/10 text-[#124A2E] flex items-center justify-center flex-shrink-0">
+        <i data-lucide="shield-check" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs text-[#124A2E]">Certified Pure Foodstuff</h4>
+        <p class="text-[11px] text-stone-500">Every consignment lab-tested for moisture &amp; pesticide purity.</p>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-[#D34E1B]/10 text-[#D34E1B] flex items-center justify-center flex-shrink-0">
+        <i data-lucide="truck" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs text-[#124A2E]">Direct Logistics Fleet</h4>
+        <p class="text-[11px] text-stone-500">Temperature-stable dispatch vehicles across city hubs.</p>
+      </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-[#FAB82A]/20 text-[#124A2E] flex items-center justify-center flex-shrink-0">
+        <i data-lucide="award" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h4 class="font-bold text-xs text-[#124A2E]">Wholesale Price Match</h4>
+        <p class="text-[11px] text-stone-500">Transparent APMC benchmarked bulk rates for restaurants &amp; retailers.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

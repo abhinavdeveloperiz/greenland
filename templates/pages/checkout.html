@@ -1,0 +1,407 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Checkout &amp; Secure Order Placement — Greenland{% endblock %}
+
+{% block content %}
+<div
+  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8"
+  x-data="{
+    paymentMethod: 'online',
+    selectedAddress: 'addr-1',
+    showNewAddressForm: false,
+    couponInput: '',
+    isProcessing: false,
+    newAddr: { name: '', phone: '', address: '', city: 'Bengaluru', pincode: '' },
+    addresses: JSON.parse(localStorage.getItem('greenland_saved_addresses') || JSON.stringify([
+      {
+        id: 'addr-1',
+        label: 'Home Residence',
+        address: 'Flat 402, Greenfield Residency, 4th Cross Road, Indiranagar, Bengaluru, Karnataka - 560038',
+        city: 'Bengaluru',
+        pincode: '560038',
+        isDefault: true
+      },
+      {
+        id: 'addr-2',
+        label: 'Commercial Wholesale Outlet',
+        address: 'Warehouse 12, APMC Market Yard, Yeshwanthpur, Bengaluru, Karnataka - 560022',
+        city: 'Bengaluru',
+        pincode: '560022',
+        isDefault: false
+      }
+    ])),
+    init() {
+      if (this.addresses.length > 0) {
+        const def = this.addresses.find(a => a.isDefault);
+        this.selectedAddress = def ? def.id : this.addresses[0].id;
+      }
+      this.$nextTick(() => { if (window.lucide) lucide.createIcons(); });
+    },
+    addNewAddress() {
+      if (!this.newAddr.address || !this.newAddr.name) {
+        alert('Please enter recipient name and street address.');
+        return;
+      }
+      const newId = 'addr-' + Date.now();
+      const newObj = {
+        id: newId,
+        label: this.newAddr.name + ' • ' + (this.newAddr.city || 'Bengaluru'),
+        address: this.newAddr.address + (this.newAddr.pincode ? ' - ' + this.newAddr.pincode : ''),
+        city: this.newAddr.city || 'Bengaluru',
+        pincode: this.newAddr.pincode || '',
+        isDefault: false
+      };
+      this.addresses.push(newObj);
+      this.selectedAddress = newId;
+      localStorage.setItem('greenland_saved_addresses', JSON.stringify(this.addresses));
+      this.showNewAddressForm = false;
+      this.newAddr = { name: '', phone: '', address: '', city: 'Bengaluru', pincode: '' };
+      this.$nextTick(() => { if (window.lucide) lucide.createIcons(); });
+    }
+  }"
+>
+  
+  <!-- Breadcrumb -->
+  <div class="flex items-center gap-2 text-xs text-stone-500">
+    <a href="{% url 'store:cart' %}" class="hover:text-[#124A2E]">Cart</a>
+    <span>/</span>
+    <span class="text-[#292D27] font-bold">Checkout &amp; Payment</span>
+  </div>
+
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <h1 class="text-2xl sm:text-3xl font-black text-[#124A2E] tracking-tight font-display">
+      Checkout &amp; Secure Order Placement
+    </h1>
+
+    <!-- Auth State Pill in Header -->
+    <template x-if="$store.auth && $store.auth.isLoggedIn">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#4F8B3A]/15 border border-[#4F8B3A]/30 text-xs text-[#124A2E]">
+        <i data-lucide="check-circle" class="w-4 h-4 text-[#4F8B3A]"></i>
+        <span>Logged in as <strong x-text="$store.auth.user.name"></strong></span>
+      </div>
+    </template>
+  </div>
+
+  <!-- Prominent Login Required Warning (When Logged Out) -->
+  <template x-if="!$store.auth || !$store.auth.isLoggedIn">
+    <div class="p-5 rounded-2xl bg-gradient-to-r from-[#BA1B1D]/10 via-[#FAF6EE] to-[#FAB82A]/15 border-2 border-[#D34E1B]/40 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="flex items-start sm:items-center gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-[#D34E1B] text-white flex items-center justify-center flex-shrink-0 shadow-md">
+          <i data-lucide="lock" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="text-sm sm:text-base font-black text-[#124A2E] font-display">Sign In Required to Place Order</h3>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-[#BA1B1D] text-white">Action Needed</span>
+          </div>
+          <p class="text-xs text-stone-600 mt-1">
+            Orders can only be placed by verified customers. Please sign in or register to select your delivery address and confirm your purchase.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2.5 self-end md:self-center flex-shrink-0">
+        <a
+          href="{% url 'store:login' %}?next={% url 'store:checkout' %}"
+          class="px-5 py-2.5 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-black uppercase tracking-wider shadow-md transition-all flex items-center gap-1.5"
+        >
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span>Sign In Now</span>
+        </a>
+        <a
+          href="{% url 'store:register' %}?next={% url 'store:checkout' %}"
+          class="px-4 py-2.5 rounded-xl border-2 border-[#124A2E]/30 bg-white hover:bg-stone-50 text-[#124A2E] text-xs font-bold transition-all"
+        >
+          Register
+        </a>
+      </div>
+    </div>
+  </template>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+    
+    <!-- Left Column: Address & Payment Selection -->
+    <div class="lg:col-span-8 space-y-6 sm:space-y-8">
+      
+      <!-- Section 1: Address Management UI -->
+      <section class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-5">
+        <div class="flex items-center justify-between pb-3 border-stone-100 border-b">
+          <div class="flex items-center gap-2 font-black text-[#124A2E] text-base font-display">
+            <i data-lucide="map-pin" class="w-5 h-5 text-[#D34E1B]"></i>
+            <span>1. Select Delivery Address</span>
+          </div>
+          <template x-if="$store.auth && $store.auth.isLoggedIn">
+            <button
+              type="button"
+              @click="showNewAddressForm = !showNewAddressForm"
+              class="text-xs text-[#D34E1B] font-bold hover:underline flex items-center gap-1"
+            >
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span x-text="showNewAddressForm ? 'Cancel' : '+ Add New Address'"></span>
+            </button>
+          </template>
+        </div>
+
+        <!-- Logged In: Dynamic Saved Addresses List -->
+        <template x-if="$store.auth && $store.auth.isLoggedIn">
+          <div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <template x-for="addr in addresses" :key="addr.id">
+                <div
+                  @click="selectedAddress = addr.id"
+                  class="p-4 rounded-xl border-2 cursor-pointer transition-all space-y-2 relative"
+                  :class="selectedAddress === addr.id ? 'border-[#124A2E] bg-[#FAF6EE]' : 'border-stone-200 hover:border-stone-300'"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="delivery_addr"
+                        :value="addr.id"
+                        :checked="selectedAddress === addr.id"
+                        class="accent-[#D34E1B]"
+                      />
+                      <h4 class="font-bold text-[#124A2E] text-xs sm:text-sm" x-text="addr.label"></h4>
+                    </div>
+                    <span
+                      x-show="addr.isDefault"
+                      class="text-[10px] bg-[#4F8B3A]/15 text-[#124A2E] font-bold px-2 py-0.5 rounded-full"
+                    >Default</span>
+                  </div>
+                  <p class="text-xs text-[#1D261E]/80 leading-relaxed pl-5" x-text="addr.address"></p>
+                  <p class="text-[11px] text-stone-500 font-medium pl-5" x-text="$store.auth.user.phone || '+91 98765 43210'"></p>
+                </div>
+              </template>
+            </div>
+
+            <!-- Add New Address Form -->
+            <div x-show="showNewAddressForm" class="pt-4 mt-4 border-t border-stone-100 space-y-3" style="display: none;">
+              <h5 class="text-xs font-bold text-[#124A2E]">Enter New Delivery Details</h5>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <input
+                  type="text"
+                  placeholder="Recipient / Location Name"
+                  x-model="newAddr.name"
+                  class="px-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] focus:border-[#D34E1B] outline-none"
+                />
+                <input
+                  type="tel"
+                  placeholder="Mobile Number"
+                  x-model="newAddr.phone"
+                  class="px-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] focus:border-[#D34E1B] outline-none"
+                />
+                <input
+                  type="text"
+                  placeholder="Street Address / Flat / Building"
+                  x-model="newAddr.address"
+                  class="sm:col-span-2 px-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] focus:border-[#D34E1B] outline-none"
+                />
+                <input
+                  type="text"
+                  placeholder="City"
+                  x-model="newAddr.city"
+                  class="px-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] focus:border-[#D34E1B] outline-none"
+                />
+                <input
+                  type="text"
+                  placeholder="Pincode"
+                  x-model="newAddr.pincode"
+                  class="px-3 py-2 rounded-xl border border-stone-300 text-xs focus:ring-1 focus:ring-[#D34E1B] focus:border-[#D34E1B] outline-none"
+                />
+              </div>
+              <button
+                type="button"
+                @click="addNewAddress()"
+                class="px-4 py-2 bg-[#124A2E] text-white text-xs font-bold rounded-xl hover:bg-[#D34E1B] transition-colors"
+              >
+                Save &amp; Use Address
+              </button>
+            </div>
+          </div>
+        </template>
+
+        <!-- Logged Out: Address Selection Placeholder Prompt -->
+        <template x-if="!$store.auth || !$store.auth.isLoggedIn">
+          <div class="p-6 rounded-xl border border-dashed border-stone-300 bg-[#FAF6EE]/50 text-center space-y-3">
+            <div class="w-10 h-10 rounded-full bg-stone-200 text-stone-500 flex items-center justify-center mx-auto">
+              <i data-lucide="map-pin-off" class="w-5 h-5"></i>
+            </div>
+            <div class="space-y-1">
+              <h4 class="text-xs sm:text-sm font-bold text-[#124A2E]">Addresses Locked for Guest User</h4>
+              <p class="text-xs text-stone-500 max-w-md mx-auto">
+                Sign in to your Greenland account to automatically load your saved addresses, manage delivery locations, and place this order.
+              </p>
+            </div>
+            <a
+              href="{% url 'store:login' %}?next={% url 'store:checkout' %}"
+              class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold transition-all shadow-sm"
+            >
+              <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+              <span>Sign In to Select Address</span>
+            </a>
+          </div>
+        </template>
+      </section>
+
+      <!-- Section 2: Payment Method Selection -->
+      <section class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-5">
+        <div class="pb-3 border-b border-stone-100 flex items-center gap-2 font-black text-[#124A2E] text-base font-display">
+          <i data-lucide="credit-card" class="w-5 h-5 text-[#D34E1B]"></i>
+          <span>2. Select Payment Method</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Online Payment -->
+          <label
+            @click="paymentMethod = 'online'"
+            class="flex items-center gap-3.5 p-4 rounded-2xl border-2 cursor-pointer transition-all"
+            :class="paymentMethod === 'online' ? 'border-[#124A2E] bg-[#FAF6EE]' : 'border-stone-200 hover:border-stone-300'"
+          >
+            <input type="radio" name="pay_mode" value="online" :checked="paymentMethod === 'online'" class="accent-[#D34E1B]" />
+            <div>
+              <p class="font-bold text-[#1D261E] text-xs">Online Payment (UPI, Cards, NetBanking)</p>
+              <p class="text-[11px] text-stone-500">Secured via Razorpay &amp; Instant Confirmation</p>
+            </div>
+          </label>
+
+          <!-- Cash on Delivery -->
+          <label
+            @click="paymentMethod = 'cod'"
+            class="flex items-center gap-3.5 p-4 rounded-2xl border-2 cursor-pointer transition-all"
+            :class="paymentMethod === 'cod' ? 'border-[#124A2E] bg-[#FAF6EE]' : 'border-stone-200 hover:border-stone-300'"
+          >
+            <input type="radio" name="pay_mode" value="cod" :checked="paymentMethod === 'cod'" class="accent-[#D34E1B]" />
+            <div>
+              <p class="font-bold text-[#1D261E] text-xs">Cash on Delivery (COD)</p>
+              <p class="text-[11px] text-stone-500">Pay cash/UPI at your doorstep upon delivery</p>
+            </div>
+          </label>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Column: Order Summary & Place Order Action -->
+    <div class="lg:col-span-4 bg-white rounded-2xl p-5 sm:p-6 border border-stone-200 shadow-sm space-y-5 sm:space-y-6 lg:sticky lg:top-28">
+      <h3 class="font-display font-black text-[#124A2E] text-base pb-3 border-b border-stone-100">
+        Review &amp; Pay
+      </h3>
+
+      <!-- Coupon / Offer Code in Checkout -->
+      <div class="space-y-2 pb-4 border-b border-stone-100">
+        <template x-if="!$store.cart.appliedCoupon">
+          <div class="flex gap-2">
+            <input
+              type="text"
+              placeholder="Coupon (e.g. GREENLAND10)"
+              x-model="couponInput"
+              class="flex-1 px-3 py-2 bg-[#FAF6EE] border border-stone-200 rounded-xl text-xs uppercase focus:outline-none focus:ring-1 focus:ring-[#D34E1B]"
+            />
+            <button
+              type="button"
+              @click="$store.cart.applyPromo(couponInput); couponInput = ''"
+              class="px-3.5 py-2 bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold rounded-xl transition-colors"
+            >
+              Apply
+            </button>
+          </div>
+        </template>
+        <template x-if="$store.cart.appliedCoupon">
+          <div class="flex items-center justify-between p-2.5 bg-[#FAF6EE] border border-[#FAB82A]/50 rounded-xl text-xs">
+            <span class="font-bold text-[#124A2E]" x-text="'Applied: ' + $store.cart.appliedCoupon.code"></span>
+            <button type="button" @click="$store.cart.removePromo()" class="text-[#BA1B1D] font-bold hover:underline text-[11px]">Remove</button>
+          </div>
+        </template>
+      </div>
+
+      <div class="space-y-3 text-xs text-[#1D261E]/80">
+        <div class="flex justify-between">
+          <span>Foodstuff Subtotal:</span>
+          <span class="font-bold text-[#1D261E]" x-text="'₹' + $store.cart.subtotal"></span>
+        </div>
+
+        <template x-if="$store.cart.discount > 0">
+          <div class="flex justify-between text-[#BA1B1D] font-semibold">
+            <span>Promo Discount:</span>
+            <span x-text="'-₹' + $store.cart.discount"></span>
+          </div>
+        </template>
+
+        <div class="flex justify-between">
+          <span>Standard Delivery:</span>
+          <span class="font-semibold text-[#1D261E]" x-text="$store.cart.finalDeliveryFee === 0 ? 'FREE' : '₹' + $store.cart.finalDeliveryFee"></span>
+        </div>
+
+        <div class="flex justify-between">
+          <span>Taxes (5% GST):</span>
+          <span class="font-semibold text-[#1D261E]" x-text="'₹' + $store.cart.tax"></span>
+        </div>
+
+        <div class="flex justify-between text-sm font-black text-[#1D261E] pt-3 border-t border-stone-100">
+          <span>Total Amount:</span>
+          <span class="text-[#BA1B1D] text-base font-black" x-text="'₹' + $store.cart.total"></span>
+        </div>
+      </div>
+
+      <!-- Condition: Only allow order confirmation when logged in -->
+      <!-- Case 1: USER IS LOGGED IN -> Show Confirm & Place Order button -->
+      <template x-if="$store.auth && $store.auth.isLoggedIn">
+        <div class="space-y-2 pt-2">
+          <button
+            type="button"
+            @click="
+              if (!$store.auth || !$store.auth.isLoggedIn) {
+                alert('Please sign in to place your order.');
+                window.location.href = '{% url 'store:login' %}?next={% url 'store:checkout' %}';
+                return;
+              }
+              if ($store.cart.items.length === 0) {
+                alert('Your cart is empty. Please add items before checkout.');
+                return;
+              }
+              isProcessing = true;
+              const ordId = 'GL-ORD-' + Math.floor(100000 + Math.random() * 900000);
+              setTimeout(() => {
+                $store.cart.clear();
+                window.location.href = '/order-confirmation/' + ordId + '/';
+              }, 1000);
+            "
+            :disabled="isProcessing || $store.cart.items.length === 0"
+            class="w-full py-4 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95"
+          >
+            <span x-show="!isProcessing">Confirm &amp; Place Order</span>
+            <span x-show="isProcessing" style="display: none;">Processing Secure Payment...</span>
+          </button>
+          <p class="text-[11px] text-center text-stone-500">
+            ✓ Placing order as <strong class="text-[#124A2E]" x-text="$store.auth.user.name"></strong>
+          </p>
+        </div>
+      </template>
+
+      <!-- Case 2: USER IS NOT LOGGED IN -> Block order placement, require login -->
+      <template x-if="!$store.auth || !$store.auth.isLoggedIn">
+        <div class="space-y-3 pt-2">
+          <a
+            href="{% url 'store:login' %}?next={% url 'store:checkout' %}"
+            class="w-full py-4 rounded-xl bg-[#D34E1B] hover:bg-[#BA1B1D] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-2 hover:scale-[1.01]"
+          >
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>Sign In to Place Order</span>
+          </a>
+          <div class="p-3 rounded-xl bg-[#FAF6EE] border border-stone-200 text-center text-xs text-stone-600 space-y-1">
+            <p class="font-bold text-[#BA1B1D] text-[11px] uppercase tracking-wider flex items-center justify-center gap-1">
+              <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+              <span>Login Required</span>
+            </p>
+            <p class="text-[11px] leading-relaxed">
+              New customer? <a href="{% url 'store:register' %}?next={% url 'store:checkout' %}" class="text-[#124A2E] font-bold underline hover:text-[#D34E1B]">Create Account</a> to place your order.
+            </p>
+          </div>
+        </div>
+      </template>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

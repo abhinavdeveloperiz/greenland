@@ -1,0 +1,191 @@
+{% load static %}
+<header 
+  class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 {% if request.resolver_match.url_name != 'home' %}bg-[#124A2E] shadow-xl border-b border-[#FAB82A]/30{% endif %}"
+  x-data="{ 
+    mobileMenuOpen: false, 
+    scrolled: false 
+  }"
+  @scroll.window="scrolled = (window.pageYOffset > 20)"
+  @keydown.escape.window="mobileMenuOpen = false"
+  {% if request.resolver_match.url_name == 'home' %}
+  :class="scrolled ? 'bg-[#124A2E]/95 backdrop-blur-md shadow-2xl border-b border-[#FAB82A]/40' : 'bg-gradient-to-b from-[#124A2E]/95 via-[#124A2E]/50 to-transparent'"
+  {% endif %}
+>
+  <!-- Subtle Radiant Amber Sunset Accent Line at Very Top -->
+  <div class="h-[2.5px] w-full bg-gradient-to-r from-[#124A2E] via-[#FAB82A] via-50% to-[#D34E1B] opacity-90 shadow-[0_1px_12px_rgba(250,184,42,0.6)]"></div>
+
+  <!-- Main Header Bar -->
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 sm:h-20 md:h-24 gap-2 sm:gap-6 transition-all duration-300" :class="scrolled ? 'py-1 sm:py-1.5' : 'py-1.5 sm:py-2.5'">
+      
+      <!-- Official Transparent Brand Logo (Responsive Scaling) -->
+      <a href="{% url 'store:home' %}" class="flex items-center flex-shrink-0 group py-1" title="GreenLand Foodstuff">
+        <img
+          src="{% static 'images/greenland-transparent-logo.png' %}?v=clear"
+          alt="GreenLand Food Stuff"
+          class="h-11 sm:h-16 md:h-20 w-auto object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] group-hover:scale-105 transition-all duration-300"
+        />
+      </a>
+
+      <!-- Center Navigation Links (Desktop & Large Tablet) -->
+      <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-bold text-white tracking-wide">
+        <a href="{% url 'store:home' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'home' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Home</a>
+        <a href="{% url 'store:categories' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'categories' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Categories</a>
+        <a href="{% url 'store:products' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'products' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Shop Now</a>
+        <a href="{% url 'store:about' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'about' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">About Us</a>
+        <a href="{% url 'store:contact' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'contact' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Contact Us</a>
+        <a href="{% url 'store:cart' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'cart' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">My Cart</a>
+      </nav>
+
+      <!-- Right Section: Search / Cart / Login / Register / Hamburger -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- Search Quick Button (Glassmorphic circular action) -->
+        <a
+          href="{% url 'store:products' %}"
+          class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-white/90 hover:text-[#FAB82A] bg-white/10 hover:bg-white/20 border border-white/20 hover:border-[#FAB82A]/50 rounded-full backdrop-blur-md transition-all duration-200 shadow-sm active:scale-95 group"
+          title="Search Products"
+        >
+          <i data-lucide="search" class="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2] group-hover:scale-110 transition-transform"></i>
+        </a>
+
+        <!-- Cart Quick Button (Glassmorphic circular action with radiant badge) -->
+        <a
+          href="{% url 'store:cart' %}"
+          class="relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-white/90 hover:text-[#FAB82A] bg-white/10 hover:bg-white/20 border border-white/20 hover:border-[#FAB82A]/50 rounded-full backdrop-blur-md transition-all duration-200 shadow-sm active:scale-95 group"
+          title="Shopping Cart"
+        >
+          <i data-lucide="shopping-cart" class="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2] group-hover:scale-110 transition-transform"></i>
+          <span
+            x-show="$store.cart.totalCount > 0"
+            style="display: none;"
+            class="absolute -top-1 -right-1 min-w-[20px] h-[20px] px-1.5 rounded-full bg-[#BA1B1D] text-white text-[10px] font-black flex items-center justify-center shadow-lg border-2 border-[#124A2E] animate-pulse"
+            x-text="$store.cart.totalCount"
+          ></span>
+        </a>
+
+        <!-- Mobile menu toggle (Accessible Touch Target) -->
+        <button
+          @click="mobileMenuOpen = !mobileMenuOpen"
+          class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-white lg:hidden rounded-full bg-white/10 hover:bg-white/20 border border-white/20 hover:text-[#FAB82A] transition-colors active:scale-95"
+          aria-label="Toggle navigation menu"
+        >
+          <i data-lucide="menu" class="w-5 h-5 stroke-[2.5]" x-show="!mobileMenuOpen"></i>
+          <i data-lucide="x" class="w-5 h-5 stroke-[2.5]" x-show="mobileMenuOpen" style="display: none;"></i>
+        </button>
+
+        <!-- Account / Login / Profile for Tablet & Desktop -->
+        <div class="hidden sm:flex items-center gap-2 pl-1">
+          <!-- Logged In: Show Profile Chip -->
+          <template x-if="$store.auth && $store.auth.isLoggedIn">
+            <div class="flex items-center gap-2">
+              <a
+                href="{% url 'store:profile' %}"
+                class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 hover:border-[#FAB82A]/50 text-xs font-bold text-white transition-all group backdrop-blur-md shadow-sm"
+                title="View My Profile"
+              >
+                <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-[#FAB82A] to-[#D34E1B] text-[#124A2E] flex items-center justify-center font-black text-[11px] shadow-xs">
+                  <span x-text="$store.auth.user.name ? $store.auth.user.name.charAt(0).toUpperCase() : 'A'">A</span>
+                </div>
+                <span class="max-w-[100px] truncate" x-text="$store.auth.user.name ? $store.auth.user.name.split(' ')[0] : 'Profile'">Profile</span>
+              </a>
+              <button
+                @click="$store.auth.logout()"
+                class="w-8 h-8 flex items-center justify-center text-white/70 hover:text-[#BA1B1D] hover:bg-white/15 rounded-full transition-colors"
+                title="Log Out"
+              >
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </template>
+
+          <!-- Guest: Show Login & Register -->
+          <template x-if="!$store.auth || !$store.auth.isLoggedIn">
+            <div class="flex items-center gap-2.5">
+              <a
+                href="{% url 'store:login' %}"
+                class="inline-flex items-center justify-center px-4 sm:px-5 py-2 rounded-full text-xs font-bold text-white/95 hover:text-white bg-white/10 hover:bg-white/20 border border-white/25 hover:border-[#FAB82A]/60 backdrop-blur-md shadow-sm transition-all duration-200 active:scale-95 whitespace-nowrap"
+              >
+                Login
+              </a>
+              <a
+                href="{% url 'store:register' %}"
+                class="inline-flex items-center justify-center px-5 sm:px-6 py-2 rounded-full text-xs font-black text-white bg-gradient-to-r from-[#D34E1B] via-[#E25822] to-[#BA1B1D] hover:from-[#BA1B1D] hover:to-[#D34E1B] border border-[#FAB82A]/70 shadow-[0_3px_15px_rgba(211,78,27,0.45)] hover:shadow-[0_5px_22px_rgba(211,78,27,0.6)] transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
+              >
+                Register
+              </a>
+            </div>
+          </template>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu with Smooth Transitions & Outside-Click Handling -->
+  <div
+    x-show="mobileMenuOpen"
+    @click.outside="mobileMenuOpen = false"
+    x-transition:enter="transition ease-out duration-250"
+    x-transition:enter-start="opacity-0 -translate-y-4"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 -translate-y-4"
+    class="lg:hidden bg-[#124A2E]/98 backdrop-blur-2xl border-b border-[#FAB82A]/30 p-5 sm:p-6 space-y-4 text-white shadow-2xl max-h-[calc(100vh-4.5rem)] overflow-y-auto"
+    style="display: none;"
+  >
+    <!-- In-Drawer Quick Search Form for Mobile -->
+    <form action="{% url 'store:products' %}" method="GET" class="relative pb-1">
+      <input
+        type="text"
+        name="search"
+        placeholder="Search rice, spices, grains..."
+        class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-xs text-white placeholder:text-white/60 focus:bg-white/15 focus:outline-none focus:border-[#FAB82A]"
+      />
+      <i data-lucide="search" class="w-4 h-4 text-white/60 absolute left-3.5 top-3"></i>
+    </form>
+
+    <!-- Navigation Links -->
+    <div class="space-y-1 text-sm font-semibold divide-y divide-white/10">
+      <a href="{% url 'store:home' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Home</a>
+      <a href="{% url 'store:categories' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Categories</a>
+      <a href="{% url 'store:products' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Shop Now</a>
+      <a href="{% url 'store:about' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">About Us</a>
+      <a href="{% url 'store:contact' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Contact Us</a>
+      <a href="{% url 'store:cart' %}" @click="mobileMenuOpen = false" class="flex items-center justify-between py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">
+        <span>My Cart</span>
+        <span x-show="$store.cart.totalCount > 0" style="display: none;" class="px-2 py-0.5 rounded-full bg-[#BA1B1D] text-white text-xs font-black" x-text="$store.cart.totalCount"></span>
+      </a>
+      <a href="{% url 'store:order_history' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Track Orders</a>
+      <a href="{% url 'store:profile' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">My Profile</a>
+    </div>
+
+    <!-- Mobile Auth Actions -->
+    <div class="pt-3 border-t border-white/15">
+      <template x-if="$store.auth && $store.auth.isLoggedIn">
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 p-2 rounded-xl bg-white/10">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#FAB82A] to-[#D34E1B] text-[#124A2E] flex items-center justify-center font-black text-xs">
+              <span x-text="$store.auth.user.name ? $store.auth.user.name.charAt(0).toUpperCase() : 'A'">A</span>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs font-bold text-white truncate" x-text="$store.auth.user.name"></p>
+              <p class="text-[10px] text-white/60 truncate" x-text="$store.auth.user.email"></p>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <a href="{% url 'store:profile' %}" @click="mobileMenuOpen = false" class="flex-1 text-center py-2.5 rounded-xl bg-white/15 text-white text-xs font-bold">My Profile</a>
+            <button @click="$store.auth.logout(); mobileMenuOpen = false;" class="flex-1 text-center py-2.5 rounded-xl bg-[#BA1B1D] text-white text-xs font-bold">Log Out</button>
+          </div>
+        </div>
+      </template>
+      <template x-if="!$store.auth || !$store.auth.isLoggedIn">
+        <div class="flex gap-2.5 pt-1">
+          <a href="{% url 'store:login' %}" @click="mobileMenuOpen = false" class="flex-1 text-center py-2.5 px-4 rounded-xl border border-white/25 text-xs font-bold text-white hover:bg-white/10 transition-colors">Login</a>
+          <a href="{% url 'store:register' %}" @click="mobileMenuOpen = false" class="flex-1 text-center py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#D34E1B] to-[#BA1B1D] border border-[#FAB82A]/50 text-white text-xs font-bold shadow-md hover:scale-[1.02] transition-transform">Register</a>
+        </div>
+      </template>
+    </div>
+  </div>
+</header>
