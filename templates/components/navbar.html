@@ -30,11 +30,9 @@
       <!-- Center Navigation Links (Desktop & Large Tablet) -->
       <nav class="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-bold text-white tracking-wide">
         <a href="{% url 'store:home' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'home' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Home</a>
-        <a href="{% url 'store:categories' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'categories' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Categories</a>
-        <a href="{% url 'store:products' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'products' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Shop Now</a>
         <a href="{% url 'store:about' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'about' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">About Us</a>
+        <a href="{% url 'store:products' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'products' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Product</a>
         <a href="{% url 'store:contact' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'contact' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">Contact Us</a>
-        <a href="{% url 'store:cart' %}" class="hover:text-[#FAB82A] transition-colors py-1 {% if request.resolver_match.url_name == 'cart' %}text-[#FAB82A] border-b-2 border-[#FAB82A]{% endif %}">My Cart</a>
       </nav>
 
       <!-- Right Section: Search / Cart / Login / Register / Hamburger -->
@@ -149,9 +147,8 @@
     <!-- Navigation Links -->
     <div class="space-y-1 text-sm font-semibold divide-y divide-white/10">
       <a href="{% url 'store:home' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Home</a>
-      <a href="{% url 'store:categories' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Categories</a>
-      <a href="{% url 'store:products' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Shop Now</a>
       <a href="{% url 'store:about' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">About Us</a>
+      <a href="{% url 'store:products' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Product</a>
       <a href="{% url 'store:contact' %}" @click="mobileMenuOpen = false" class="block py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">Contact Us</a>
       <a href="{% url 'store:cart' %}" @click="mobileMenuOpen = false" class="flex items-center justify-between py-2.5 px-2 hover:bg-white/10 rounded-lg hover:text-[#FAB82A] transition-colors">
         <span>My Cart</span>

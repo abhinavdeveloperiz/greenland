@@ -7,10 +7,9 @@
 <div class="space-y-0">
 
   <!-- ========================================================================= -->
-  <!-- 1. CINEMATIC HERO SLIDER (Explore a World of Flavors!)                    -->
+  <!-- 1. CINEMATIC HERO BANNER (Explore a World of Flavors!)                    -->
   <!-- ========================================================================= -->
-  <section class="relative w-full h-[85vh] min-h-[580px] max-h-[850px] bg-[#124A2E] overflow-hidden select-none"
-    x-data="{ currentSlide: 0 }">
+  <section class="relative w-full h-[85vh] min-h-[580px] max-h-[850px] bg-[#124A2E] overflow-hidden select-none">
 
     <!-- Background Hero Image with 100% Pure CSS Stationary Parallax on Desktop (Zero JS, Zero Jerk) -->
     <div class="absolute inset-0 bg-cover bg-[position:72%_center] sm:bg-[position:75%_center] bg-no-repeat bg-scroll sm:bg-fixed pointer-events-none"
@@ -33,14 +32,14 @@
 
     <!-- Centered Content Overlay (Dead Center on Mobile, Bottom-Aligned on Desktop) -->
     <div
-      class="relative max-w-7xl h-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center sm:justify-end pt-16 sm:pt-0 pb-16 sm:pb-24 z-10">
+      class="relative max-w-7xl h-full mx-auto px-3 sm:px-6 lg:px-8 flex flex-col justify-center sm:justify-end pt-16 sm:pt-0 pb-14 sm:pb-24 z-10 w-full overflow-hidden">
       <div
-        class="max-w-2xl mx-auto sm:mx-0 space-y-3 sm:space-y-4 text-center sm:text-left flex flex-col items-center sm:items-start">
+        class="max-w-2xl mx-auto sm:mx-0 space-y-3 sm:space-y-4 text-center sm:text-left flex flex-col items-center sm:items-start w-full">
 
 
         <!-- Headline: Explore a World of Flavors! with White & Glowing Sunlit Amber Gold -->
         <h1
-          class="text-3xl sm:text-6xl lg:text-7xl font-black text-white font-display leading-[1.1] sm:leading-[1.05] tracking-tight">
+          class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white font-display leading-[1.1] sm:leading-[1.05] tracking-tight">
           Explore a World of <br />
           <span
             class="text-transparent bg-clip-text bg-gradient-to-r from-[#FAB82A] via-[#FFD54F] to-[#FF7043] drop-shadow-[0_4px_30px_rgba(250,184,42,0.7)]">
@@ -49,92 +48,72 @@
         </h1>
 
         <!-- Packaging Amber-to-Terracotta Accent Ribbon Line -->
-        <div class="w-32 h-1.5 bg-gradient-to-r from-[#FAB82A] via-[#D34E1B] to-transparent rounded-full shadow-[0_0_12px_rgba(250,184,42,0.7)] mt-0.5 mb-1"></div>
+        <div class="w-28 sm:w-32 h-1.5 bg-gradient-to-r from-[#FAB82A] via-[#D34E1B] to-transparent rounded-full shadow-[0_0_12px_rgba(250,184,42,0.7)] mt-0.5 mb-1"></div>
 
         <p
-          class="text-xs sm:text-sm md:text-base text-white/95 max-w-md sm:max-w-lg leading-relaxed font-medium px-2 sm:px-0 text-center sm:text-left drop-shadow-sm">
+          class="text-xs sm:text-sm md:text-base text-white/95 max-w-md sm:max-w-lg leading-relaxed font-medium px-2 sm:px-0 text-center sm:text-left drop-shadow-sm w-full">
           Pure stone-ground spices, aged aromatic basmati grains, unpolished pulses, and cold-pressed cooking oils
           delivered direct to your doorstep.
         </p>
 
         <!-- CTA Action Buttons -->
-        <div class="pt-2 sm:pt-3 flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-4">
+        <div class="pt-2 sm:pt-3 flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2.5 sm:gap-4 w-full sm:w-auto">
           <!-- Primary CTA Button (Sunset Terracotta & Ceramic Red Gradient) -->
           <a href="{% url 'store:products' %}"
-            class="px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-[#D34E1B] via-[#E65100] to-[#BA1B1D] hover:from-[#BA1B1D] hover:to-[#D34E1B] text-white font-display font-black text-[11px] sm:text-xs uppercase tracking-wider rounded-full shadow-[0_8px_25px_rgba(211,78,27,0.5)] border border-[#FAB82A]/50 hover:scale-105 transition-all duration-300 flex items-center gap-2 group">
+            class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-[#D34E1B] via-[#E65100] to-[#BA1B1D] hover:from-[#BA1B1D] hover:to-[#D34E1B] text-white font-display font-black text-[11px] sm:text-xs uppercase tracking-wider rounded-full shadow-[0_8px_25px_rgba(211,78,27,0.5)] border border-[#FAB82A]/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 group">
             <span>Shop The Collection</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform"></i>
           </a>
 
           <!-- Secondary CTA Button (Forest Green Backdrop with Golden Amber Border & Glow) -->
           <a href="{% url 'store:category' 'spices-and-seeds' %}"
-            class="px-5 sm:px-6 py-3 sm:py-3.5 bg-[#124A2E]/70 hover:bg-[#124A2E]/95 backdrop-blur-md text-[#FAB82A] hover:text-white font-display font-bold text-[11px] sm:text-xs uppercase tracking-wider rounded-full border border-[#FAB82A]/70 hover:border-[#FAB82A] shadow-lg transition-all duration-300">
-            View Spices &amp; Seeds
+            class="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 bg-[#124A2E]/70 hover:bg-[#124A2E]/95 backdrop-blur-md text-[#FAB82A] hover:text-white font-display font-bold text-[11px] sm:text-xs uppercase tracking-wider rounded-full border border-[#FAB82A]/70 hover:border-[#FAB82A] shadow-lg transition-all duration-300 flex items-center justify-center text-center">
+            <span>View Spices &amp; Seeds</span>
           </a>
         </div>
 
       </div>
     </div>
 
-    <!-- Navigation Slider Arrows (Visible on sm: screens and up to prevent touch collisions on small phones) -->
-    <div class="hidden sm:flex absolute inset-y-0 left-3 sm:left-8 items-center z-20 pointer-events-auto">
-      <button @click="alert('Showing previous featured foodstuff collection')"
-        class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 text-[#124A2E] border-2 border-[#FAB82A]/50 shadow-[0_4px_20px_rgba(0,0,0,0.35)] flex items-center justify-center hover:bg-[#D34E1B] hover:text-white hover:border-white transition-all duration-300 active:scale-95 group"
-        title="Previous">
-      <i data-lucide="chevron-left" class="w-4 h-4 sm:w-6 sm:h-6 group-hover:-translate-x-0.5 transition-transform"></i>
-      </button>
-    </div>
-
-    <div class="hidden sm:flex absolute inset-y-0 right-3 sm:right-8 items-center z-20 pointer-events-auto">
-      <button @click="alert('Showing next featured foodstuff collection')"
-        class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 text-[#124A2E] border-2 border-[#FAB82A]/50 shadow-[0_4px_20px_rgba(0,0,0,0.35)] flex items-center justify-center hover:bg-[#D34E1B] hover:text-white hover:border-white transition-all duration-300 active:scale-95 group"
-        title="Next">
-      <i data-lucide="chevron-right" class="w-4 h-4 sm:w-6 sm:h-6 group-hover:translate-x-0.5 transition-transform"></i>
-      </button>
-    </div>
 
   </section>
 
   <!-- ========================================================================= -->
   <!-- PACKAGING HERITAGE TRUST RIBBON (Golden-Amber & Forest Green)             -->
   <!-- ========================================================================= -->
-  <div class="relative z-30 bg-gradient-to-r from-[#0B351F] via-[#124A2E] to-[#0B351F] border-y-2 border-[#FAB82A]/50 shadow-2xl py-3.5 sm:py-4">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 text-white">
+  <!-- TRUST & QUALITY HIGHLIGHTS BAR (3 Pillars - Mobile, Tablet & Desktop)     -->
+  <!-- ========================================================================= -->
+  <div class="relative z-30 bg-gradient-to-r from-[#0B351F] via-[#124A2E] to-[#0B351F] border-y-2 border-[#FAB82A]/50 shadow-2xl py-2 sm:py-3 md:py-4 w-full overflow-hidden">
+    <div class="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 w-full">
+      <div class="grid grid-cols-3 gap-1.5 sm:gap-4 md:gap-6 text-white w-full">
         
-        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5 border border-[#FAB82A]/20">
-          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#FAB82A]/20 border border-[#FAB82A] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_12px_rgba(250,184,42,0.4)]">
-            <i data-lucide="award" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+        <!-- Pillar 1: Finest Quality Blend -->
+        <div class="min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/40 hover:bg-white/10 transition-all duration-300">
+          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#FAB82A]/20 border border-[#FAB82A] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_10px_rgba(250,184,42,0.35)]">
+            <i data-lucide="award" class="w-3 h-3 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5"></i>
           </div>
-          <div class="text-[11px] sm:text-xs font-black text-white uppercase tracking-wider">
+          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words">
             Finest Quality Blend
           </div>
         </div>
 
-        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5 border border-[#FAB82A]/20">
-          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#D34E1B]/25 border border-[#D34E1B] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_12px_rgba(211,78,27,0.4)]">
-            <i data-lucide="leaf" class="w-4 h-4 sm:w-5 sm:h-5 text-[#FAB82A]"></i>
+        <!-- Pillar 2: 100% Pure & Natural -->
+        <div class="min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/40 hover:bg-white/10 transition-all duration-300">
+          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#D34E1B]/25 border border-[#D34E1B] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_10px_rgba(211,78,27,0.35)]">
+            <i data-lucide="leaf" class="w-3 h-3 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-[#FAB82A]"></i>
           </div>
-          <div class="text-[11px] sm:text-xs font-black text-white uppercase tracking-wider">
+          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words">
             100% Pure &amp; Natural
           </div>
         </div>
 
-        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5 border border-[#FAB82A]/20">
-          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#BA1B1D]/30 border border-[#BA1B1D] flex items-center justify-center text-white flex-shrink-0 shadow-[0_0_12px_rgba(186,27,29,0.5)]">
-            <i data-lucide="shield-check" class="w-4 h-4 sm:w-5 sm:h-5 text-[#FAB82A]"></i>
+        <!-- Pillar 3: Sealed Freshness -->
+        <div class="min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/40 hover:bg-white/10 transition-all duration-300">
+          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#BA1B1D]/30 border border-[#BA1B1D] flex items-center justify-center text-white flex-shrink-0 shadow-[0_0_10px_rgba(186,27,29,0.4)]">
+            <i data-lucide="shield-check" class="w-3 h-3 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-[#FAB82A]"></i>
           </div>
-          <div class="text-[11px] sm:text-xs font-black text-white uppercase tracking-wider">
+          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words">
             Sealed Freshness
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3 p-2.5 rounded-xl bg-white/5 border border-[#FAB82A]/20">
-          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#FAB82A]/20 border border-[#FAB82A] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_12px_rgba(250,184,42,0.4)]">
-            <i data-lucide="truck" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-          </div>
-          <div class="text-[11px] sm:text-xs font-black text-white uppercase tracking-wider">
-            Direct Delivery
           </div>
         </div>
 
@@ -246,59 +225,6 @@
     </div>
   </section>
 
-  <!-- ========================================================================= -->
-  <!-- 3. INFORMATION BAR (4-Column Bar: Headings Only in Forest Green & Gold)    -->
-  <!-- ========================================================================= -->
-  <section class="bg-[#124A2E] text-white py-6 border-y border-[#FAB82A]/20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-
-        <!-- Box 1: Fast Delivery -->
-        <div class="flex items-center gap-4 pt-3 sm:pt-0 sm:px-4 first:pl-0">
-          <div
-            class="w-12 h-12 rounded-2xl bg-white/10 text-[#FAB82A] flex items-center justify-center flex-shrink-0">
-            <i data-lucide="shopping-bag" class="w-6 h-6"></i>
-          </div>
-          <div class="text-left">
-            <h3 class="font-display font-extrabold text-white text-base">Fast Delivery</h3>
-          </div>
-        </div>
-
-        <!-- Box 2: Easy Returns -->
-        <div class="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4">
-          <div class="w-12 h-12 rounded-2xl bg-white/10 text-[#D34E1B] flex items-center justify-center flex-shrink-0">
-            <i data-lucide="refresh-cw" class="w-6 h-6"></i>
-          </div>
-          <div class="text-left">
-            <h3 class="font-display font-extrabold text-white text-base">Easy Returns</h3>
-          </div>
-        </div>
-
-        <!-- Box 3: Secure Shopping -->
-        <div class="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4">
-          <div
-            class="w-12 h-12 rounded-2xl bg-white/10 text-[#4F8B3A] flex items-center justify-center flex-shrink-0">
-            <i data-lucide="shield-check" class="w-6 h-6"></i>
-          </div>
-          <div class="text-left">
-            <h3 class="font-display font-extrabold text-white text-base">Secure Shopping</h3>
-          </div>
-        </div>
-
-        <!-- Box 4: 2500+ Products -->
-        <div class="flex items-center gap-4 pt-4 sm:pt-0 sm:px-4 last:pr-0">
-          <div class="w-12 h-12 rounded-2xl bg-white/10 text-[#FAB82A] flex items-center justify-center flex-shrink-0">
-            <i data-lucide="box" class="w-6 h-6"></i>
-          </div>
-          <div class="text-left">
-            <h3 class="font-display font-extrabold text-white text-base">2500+ Products</h3>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <!-- ========================================================================= -->
   <!-- 4. OUR PRODUCTS (Category Grid: 8 Core Categories)                        -->
@@ -393,54 +319,7 @@
     </div>
   </section>
 
-  <!-- ========================================================================= -->
-  <!-- 6. WHOLESALE & CUSTOMER INQUIRY CTA (Clean Visual Separation from Footer) -->
-  <!-- ========================================================================= -->
-  <section class="py-16 md:py-20 bg-[#FAF6EE] relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-3xl p-8 sm:p-12 border border-stone-200 shadow-xl relative overflow-hidden">
-        <!-- Amber Accent Top Bar -->
-        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#124A2E] via-[#FAB82A] to-[#D34E1B]"></div>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div class="lg:col-span-8 space-y-3">
-            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124A2E]/10 text-[#124A2E] text-xs font-black uppercase tracking-wider">
-              <i data-lucide="building-2" class="w-3.5 h-3.5 text-[#D34E1B]"></i> Wholesale &amp; Retail Supply
-            </span>
-            <h2 class="text-2xl sm:text-4xl font-black text-[#124A2E] font-display tracking-tight">
-              Looking for Bulk Foodstuff or Custom Bag Supplies?
-            </h2>
-            <p class="text-xs sm:text-sm text-stone-600 max-w-2xl leading-relaxed">
-              We supply restaurants, caterers, supermarkets, and households across India with certified pure staples, unpolished pulses, and single-estate spices at transparent wholesale rates.
-            </p>
-            <div class="flex flex-wrap items-center gap-4 pt-2 text-xs text-stone-600 font-semibold">
-              <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-[#4F8B3A]"></i> APMC Matched Pricing</span>
-              <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-[#4F8B3A]"></i> Dedicated Logistics Fleet</span>
-              <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-[#4F8B3A]"></i> Custom 5kg to 50kg Bags</span>
-            </div>
-          </div>
 
-          <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3.5">
-            <a
-              href="{% url 'store:contact' %}"
-              class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-black uppercase tracking-wider shadow-lg hover:scale-105 transition-all text-center"
-            >
-              <span>Visit Contact &amp; Enquiry Page</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </a>
-            <a
-              href="https://wa.me/919876543210"
-              target="_blank"
-              class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#FAF6EE] hover:bg-[#F5EEDC] border border-stone-300 text-[#124A2E] text-xs font-bold transition-all text-center"
-            >
-              <i data-lucide="message-square" class="w-4 h-4 text-[#4F8B3A]"></i>
-              <span>WhatsApp Direct Desk</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
 </div>
 {% endblock %}

@@ -73,12 +73,6 @@ def category_view(request, slug):
     }
     return render(request, 'pages/category.html', context)
 
-def categories_view(request):
-    context = {
-        'categories': CATEGORIES,
-    }
-    return render(request, 'pages/categories.html', context)
-
 def about_view(request):
     return render(request, 'pages/about.html')
 
