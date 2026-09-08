@@ -5,13 +5,13 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-  
+
   <!-- Success Banner -->
   <div class="bg-white rounded-3xl p-8 border border-brand-100 shadow-md text-center space-y-4">
     <div class="w-16 h-16 rounded-full bg-[#4F8B3A]/15 text-[#124A2E] flex items-center justify-center mx-auto">
       <i data-lucide="check-circle-2" class="w-8 h-8 text-[#4F8B3A]"></i>
     </div>
-    
+
     <div class="space-y-1">
       <span class="text-xs font-bold uppercase tracking-widest text-[#D34E1B]">Thank You for Your Order</span>
       <h1 class="text-2xl sm:text-3xl font-black text-[#124A2E] font-display">
@@ -21,18 +21,14 @@
     </div>
 
     <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a
-        href="{% url 'store:order_tracking' order_id %}"
-        class="w-full sm:w-auto px-6 py-3.5 bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold rounded-xl shadow transition-all flex items-center justify-center gap-2"
-      >
+      <a href="{% url 'store:order_tracking' order_id %}"
+        class="w-full sm:w-auto px-6 py-3.5 bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold rounded-xl shadow transition-all flex items-center justify-center gap-2">
         <i data-lucide="truck" class="w-4 h-4"></i>
         <span>Track Live Order Pipeline</span>
       </a>
 
-      <a
-        href="{% url 'store:products' %}"
-        class="w-full sm:w-auto px-6 py-3.5 border border-[#124A2E]/20 hover:bg-[#FAF6EE] text-[#124A2E] text-xs font-bold rounded-xl transition-all"
-      >
+      <a href="{% url 'store:products' %}"
+        class="w-full sm:w-auto px-6 py-3.5 border border-[#124A2E]/20 hover:bg-[#FAF6EE] text-[#124A2E] text-xs font-bold rounded-xl transition-all">
         Continue Shopping
       </a>
     </div>
@@ -46,7 +42,8 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-slate-600">
       <div>
         <span class="text-slate-400 block text-[11px]">Delivery Address</span>
-        <strong class="text-slate-900 font-semibold block mt-0.5" x-text="$store.auth && $store.auth.user ? $store.auth.user.name : 'Aryan Sharma'">Aryan Sharma</strong>
+        <strong class="text-slate-900 font-semibold block mt-0.5"
+          x-text="$store.auth && $store.auth.user ? $store.auth.user.name : 'Aryan Sharma'">Aryan Sharma</strong>
         <p>Flat 402, Greenfield Residency, Indiranagar, Bengaluru - 560038</p>
       </div>
       <div>
