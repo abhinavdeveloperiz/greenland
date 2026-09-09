@@ -1,20 +1,20 @@
 {% load static %}
-<div class="bg-white rounded-2xl border border-stone-200/90 hover:border-[#FAB82A]/80 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col h-full overflow-hidden group">
+<div class="bg-white rounded-2xl border border-stone-200/90 hover:border-[#FAB82A] transition-all duration-300 ease-out shadow-sm hover:shadow-[0_16px_36px_rgba(18,74,46,0.12),0_6px_20px_rgba(250,184,42,0.18)] hover:-translate-y-1.5 flex flex-col h-full overflow-hidden group">
   <!-- Image Container -->
-  <div class="relative w-full aspect-square bg-[#FAF6EE] overflow-hidden">
-    <a href="{% url 'store:product_detail' product.id %}">
+  <div class="relative w-full aspect-square bg-gradient-to-b from-stone-50/60 to-white group-hover:from-amber-50/30 group-hover:to-white transition-colors duration-500 overflow-hidden flex items-center justify-center p-3.5 border-b border-stone-100">
+    <a href="{% url 'store:product_detail' product.id %}" class="w-full h-full flex items-center justify-center">
       <img
         src="{{ product.images.0 }}"
         alt="{{ product.name }}"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
         loading="lazy"
       />
     </a>
 
-    <!-- Wishlist Button -->
+    <!-- Wishlist Button with Micro-Bounce & Ruby Glow -->
     <button
       @click="$store.wishlist.toggle({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' })"
-      class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200/80 flex items-center justify-center text-stone-400 hover:text-[#BA1B1D] hover:bg-white transition-all shadow-sm z-10"
+      class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200/80 flex items-center justify-center text-stone-400 hover:text-[#BA1B1D] hover:bg-white hover:border-[#BA1B1D]/40 transition-all duration-200 shadow-sm z-10 hover:scale-110 active:scale-90"
       title="Save to wishlist"
     >
       <i data-lucide="heart" class="w-4 h-4" :class="$store.wishlist.has('{{ product.id }}') ? 'text-[#BA1B1D] fill-[#BA1B1D]' : ''"></i>
@@ -22,8 +22,8 @@
 
     <!-- Discount Offer Badge (Ceramic Cup Red #BA1B1D) -->
     {% if product.originalPrice and product.originalPrice > product.price %}
-    <div class="absolute top-3 left-3 bg-[#BA1B1D] text-white text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-md shadow-sm">
-      SAVE ₹{{ product.originalPrice|add:"-"|add:product.price }}
+    <div class="absolute top-3 left-3 bg-gradient-to-r from-[#BA1B1D] to-[#D34E1B] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-xs border border-white/20 group-hover:shadow-[0_2px_10px_rgba(186,27,29,0.35)] transition-shadow">
+      SPECIAL OFFER
     </div>
     {% endif %}
 
@@ -40,12 +40,12 @@
   <div class="p-4 flex flex-col flex-1 justify-between gap-3">
     <div class="space-y-1">
       <div class="flex items-center justify-between text-[11px] text-stone-500 font-medium">
-        <span class="text-[#124A2E] font-bold tracking-wider uppercase text-[10px]">{{ product.categoryName }}</span>
-        <span class="bg-[#FAF6EE] px-2 py-0.5 rounded text-[#1D261E] font-semibold border border-stone-200/60">{{ product.weight }}</span>
+        <span class="text-[#124A2E] font-bold tracking-wider uppercase text-[10px] group-hover:text-[#4F8B3A] transition-colors">{{ product.categoryName }}</span>
+        <span class="bg-[#FAF6EE] px-2 py-0.5 rounded text-[#1D261E] font-semibold border border-stone-200/60 text-[10.5px] group-hover:border-[#FAB82A]/40 transition-colors">{{ product.weight }}</span>
       </div>
 
       <a href="{% url 'store:product_detail' product.id %}" class="block">
-        <h4 class="font-display font-bold text-[#124A2E] text-sm leading-snug group-hover:text-[#D34E1B] transition-colors line-clamp-2">
+        <h4 class="font-display font-bold text-[#124A2E] text-sm leading-snug group-hover:text-[#D34E1B] transition-colors duration-200 line-clamp-2">
           {{ product.name }}
         </h4>
       </a>
@@ -56,15 +56,15 @@
     </div>
 
     <!-- Pricing & Add to Cart -->
-    <div class="pt-2 border-t border-stone-100 flex items-center justify-between gap-2 mt-auto">
+    <div class="pt-2.5 border-t border-stone-100 flex items-center justify-between gap-2 mt-auto">
       <div>
         <div class="flex items-baseline gap-1.5">
-          <span class="font-display font-black text-[#BA1B1D] text-base">₹{{ product.price }}</span>
+          <span class="font-display font-black text-[#BA1B1D] text-base">KD {{ product.price|floatformat:3 }}</span>
           {% if product.originalPrice %}
-          <span class="text-xs text-stone-400 line-through">₹{{ product.originalPrice }}</span>
+          <span class="text-xs text-stone-400 line-through">KD {{ product.originalPrice|floatformat:3 }}</span>
           {% endif %}
         </div>
-        <span class="text-[10px] text-[#4F8B3A] font-bold block">100% Authentic Staple</span>
+        <span class="text-[10px] text-[#4F8B3A] font-bold block">{{ product.brand|default:"100% Authentic Staple" }}</span>
       </div>
 
       {% if product.availability == 'out_of_stock' %}
@@ -77,9 +77,9 @@
       {% else %}
       <button
         @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' })"
-        class="px-3.5 py-2 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm hover:shadow transition-all active:scale-95 flex-shrink-0"
+        class="group/btn px-3.5 py-2 rounded-xl bg-[#124A2E] hover:bg-gradient-to-r hover:from-[#D34E1B] hover:to-[#BA1B1D] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm hover:shadow-[0_4px_14px_rgba(211,78,27,0.35)] transition-all duration-200 active:scale-95 flex-shrink-0 border border-transparent hover:border-[#FAB82A]/30"
       >
-        <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+        <i data-lucide="shopping-bag" class="w-3.5 h-3.5 group-hover/btn:scale-115 group-hover/btn:-rotate-6 transition-transform duration-200"></i>
         <span>Add</span>
       </button>
       {% endif %}

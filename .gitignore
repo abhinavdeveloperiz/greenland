@@ -24,3 +24,6 @@ local_settings.py
 Thumbs.db
 .vscode/
 .idea/
+
+# Temporary / Scratch assets
+static/images/catalog_extracted/

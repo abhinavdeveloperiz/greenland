@@ -59,8 +59,8 @@
               <!-- Top Row on Mobile: Image + Info -->
               <div class="flex items-center gap-3 w-full sm:w-auto flex-1 min-w-0">
                 <!-- Thumbnail -->
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-[#FAF6EE] border border-stone-200/70 flex-shrink-0">
-                  <img :src="item.image" :alt="item.name" class="w-full h-full object-cover" />
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-white border border-stone-200/70 flex items-center justify-center p-1.5 flex-shrink-0">
+                  <img :src="item.image" :alt="item.name" class="w-full h-full object-contain" />
                 </div>
 
                 <!-- Info -->
@@ -69,9 +69,9 @@
                   <div class="flex items-center gap-2 text-xs text-stone-500 mt-1">
                     <span class="bg-[#FAF6EE] px-2 py-0.5 rounded font-medium text-[#1D261E] text-[10px] sm:text-[11px] border border-stone-200/60" x-text="item.weight"></span>
                     <span>•</span>
-                    <span class="font-bold text-[#BA1B1D] text-xs" x-text="'₹' + item.price + ' each'"></span>
+                    <span class="font-bold text-[#BA1B1D] text-xs" x-text="'KD ' + Number(item.price).toFixed(3) + ' each'"></span>
                     <template x-if="item.originalPrice && item.originalPrice > item.price">
-                      <span class="line-through text-stone-400 text-[10px] sm:text-[11px]" x-text="'₹' + item.originalPrice"></span>
+                      <span class="line-through text-stone-400 text-[10px] sm:text-[11px]" x-text="'KD ' + Number(item.originalPrice).toFixed(3)"></span>
                     </template>
                   </div>
                 </div>
@@ -96,8 +96,8 @@
                 </div>
 
                 <!-- Subtotal in Ceramic Red -->
-                <div class="w-20 text-right sm:text-right">
-                  <span class="font-black text-[#BA1B1D] text-xs sm:text-sm" x-text="'₹' + (item.price * item.quantity)"></span>
+                <div class="w-24 text-right sm:text-right">
+                  <span class="font-black text-[#BA1B1D] text-xs sm:text-sm" x-text="'KD ' + (item.price * item.quantity).toFixed(3)"></span>
                 </div>
 
                 <!-- Delete -->
@@ -155,29 +155,29 @@
         <div class="space-y-3 text-xs text-[#1D261E]/80">
           <div class="flex justify-between">
             <span>Items Subtotal:</span>
-            <span class="font-bold text-[#1D261E]" x-text="'₹' + $store.cart.subtotal"></span>
+            <span class="font-bold text-[#1D261E]" x-text="'KD ' + Number($store.cart.subtotal).toFixed(3)"></span>
           </div>
 
           <template x-if="$store.cart.discount > 0">
             <div class="flex justify-between text-[#BA1B1D] font-semibold">
               <span>Promo Discount:</span>
-              <span x-text="'-₹' + $store.cart.discount"></span>
+              <span x-text="'-KD ' + Number($store.cart.discount).toFixed(3)"></span>
             </div>
           </template>
 
           <div class="flex justify-between">
             <span>Delivery Fee:</span>
-            <span class="font-semibold text-[#1D261E]" x-text="$store.cart.finalDeliveryFee === 0 ? 'FREE' : '₹' + $store.cart.finalDeliveryFee"></span>
+            <span class="font-semibold text-[#1D261E]" x-text="$store.cart.finalDeliveryFee === 0 ? 'FREE' : 'KD ' + Number($store.cart.finalDeliveryFee).toFixed(3)"></span>
           </div>
 
           <div class="flex justify-between">
-            <span>Estimated Tax (5% GST):</span>
-            <span class="font-semibold text-[#1D261E]" x-text="'₹' + $store.cart.tax"></span>
+            <span>Commercial Tax:</span>
+            <span class="font-semibold text-[#1D261E]" x-text="'KD ' + Number($store.cart.tax).toFixed(3)"></span>
           </div>
 
           <div class="flex justify-between text-sm font-black text-[#1D261E] pt-3 border-t border-stone-100">
             <span>Total Payable:</span>
-            <span class="text-[#BA1B1D] text-base font-black" x-text="'₹' + $store.cart.total"></span>
+            <span class="text-[#BA1B1D] text-base font-black" x-text="'KD ' + Number($store.cart.total).toFixed(3)"></span>
           </div>
         </div>
 

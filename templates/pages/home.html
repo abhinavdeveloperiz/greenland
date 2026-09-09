@@ -9,37 +9,28 @@
   <!-- ========================================================================= -->
   <!-- 1. CINEMATIC HERO BANNER (Explore a World of Flavors!)                    -->
   <!-- ========================================================================= -->
-  <section class="relative w-full h-[85vh] min-h-[580px] max-h-[850px] bg-[#124A2E] overflow-hidden select-none">
+  <section class="relative w-full h-[88vh] min-h-[620px] max-h-[880px] bg-[#124A2E] overflow-hidden select-none">
 
-    <!-- Background Hero Image with 100% Pure CSS Stationary Parallax on Desktop (Zero JS, Zero Jerk) -->
-    <div class="absolute inset-0 bg-cover bg-[position:72%_center] sm:bg-[position:75%_center] bg-no-repeat bg-scroll sm:bg-fixed pointer-events-none"
-         style="background-image: url('{% static 'images/greenland-hero-groceries.jpg' %}?v=2');">
+    <!-- Background Hero Image: Perfectly framed panoramic showcase (Tea Pouch headroom, cans & jar, reflective floor) -->
+    <div class="absolute inset-0 bg-cover bg-no-repeat bg-scroll pointer-events-none"
+         style="background-image: url('{% static 'images/greenland-hero-products.jpg' %}?v=8'); background-position: right bottom; background-size: cover;">
       
-      <!-- Forest Green Vignette: Balanced vertical atmosphere on mobile, horizontal on desktop for maximum text clarity -->
-      <div class="absolute inset-0 bg-gradient-to-b from-[#0B351F]/80 via-[#0B351F]/45 to-[#0B351F]/90 sm:bg-gradient-to-r sm:from-[#0B351F]/95 sm:via-[#124A2E]/55 sm:to-transparent"></div>
-      
-      <!-- Radiant Packaging Sunrise / Sunlit Amber Gold & Warm Terracotta Sky Glow -->
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_75%_65%_at_72%_25%,rgba(250,184,42,0.36)_0%,rgba(211,78,27,0.24)_40%,transparent_75%)] pointer-events-none"></div>
-      <div class="absolute top-0 right-0 w-full h-1/2 bg-gradient-to-b from-[#FAB82A]/15 via-[#D34E1B]/10 to-transparent pointer-events-none"></div>
-
-      <!-- Ambient Radiant Color Orbs Mimicking the Packaging Golden Sky -->
-      <div class="absolute -top-20 right-1/4 w-96 h-96 bg-[#FAB82A]/25 rounded-full blur-3xl pointer-events-none animate-pulse" style="animation-duration: 6s;"></div>
-      <div class="absolute top-1/3 right-12 w-80 h-80 bg-[#D34E1B]/20 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Contrast Overlay: Deep contrast on mobile for ultra-crisp typography, seamlessly fading on desktop (sm:) to leave right 55% products 100% vibrant -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-[#0B351F]/75 to-black/90 sm:bg-gradient-to-r sm:from-black/75 sm:via-black/20 sm:via-42% sm:to-transparent"></div>
     </div>
 
-    <!-- Smooth Base Gradient Blending into Packaging Heritage Ribbon -->
-    <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0B351F] via-[#124A2E]/60 to-transparent pointer-events-none z-10"></div>
+    <!-- Subtle Base Transition to Packaging Heritage Ribbon -->
+    <div class="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-[#0B351F]/40 to-transparent pointer-events-none z-10"></div>
 
-    <!-- Centered Content Overlay (Dead Center on Mobile, Bottom-Aligned on Desktop) -->
+    <!-- Vertically Centered Content Overlay (Left 45% composition) -->
     <div
-      class="relative max-w-7xl h-full mx-auto px-3 sm:px-6 lg:px-8 flex flex-col justify-center sm:justify-end pt-16 sm:pt-0 pb-14 sm:pb-24 z-10 w-full overflow-hidden">
+      class="relative max-w-7xl h-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center pt-20 sm:pt-16 pb-12 sm:pb-14 z-10 w-full">
       <div
-        class="max-w-2xl mx-auto sm:mx-0 space-y-3 sm:space-y-4 text-center sm:text-left flex flex-col items-center sm:items-start w-full">
-
+        class="max-w-lg lg:max-w-xl space-y-3.5 sm:space-y-4 text-center sm:text-left flex flex-col items-center sm:items-start w-full">
 
         <!-- Headline: Explore a World of Flavors! with White & Glowing Sunlit Amber Gold -->
         <h1
-          class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white font-display leading-[1.1] sm:leading-[1.05] tracking-tight">
+          class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-black text-white font-display leading-[1.1] sm:leading-[1.08] tracking-tight">
           Explore a World of <br />
           <span
             class="text-transparent bg-clip-text bg-gradient-to-r from-[#FAB82A] via-[#FFD54F] to-[#FF7043] drop-shadow-[0_4px_30px_rgba(250,184,42,0.7)]">
@@ -48,26 +39,26 @@
         </h1>
 
         <!-- Packaging Amber-to-Terracotta Accent Ribbon Line -->
-        <div class="w-28 sm:w-32 h-1.5 bg-gradient-to-r from-[#FAB82A] via-[#D34E1B] to-transparent rounded-full shadow-[0_0_12px_rgba(250,184,42,0.7)] mt-0.5 mb-1"></div>
+        <div class="w-24 sm:w-28 h-1.5 bg-gradient-to-r from-[#FAB82A] via-[#D34E1B] to-transparent rounded-full shadow-[0_0_12px_rgba(250,184,42,0.7)] mt-0.5 mb-1"></div>
 
         <p
-          class="text-xs sm:text-sm md:text-base text-white/95 max-w-md sm:max-w-lg leading-relaxed font-medium px-2 sm:px-0 text-center sm:text-left drop-shadow-sm w-full">
+          class="text-xs sm:text-sm md:text-[15px] text-white/95 max-w-md sm:max-w-lg leading-relaxed font-medium px-2 sm:px-0 text-center sm:text-left drop-shadow-sm w-full">
           Pure stone-ground spices, aged aromatic basmati grains, unpolished pulses, and cold-pressed cooking oils
           delivered direct to your doorstep.
         </p>
 
         <!-- CTA Action Buttons -->
         <div class="pt-2 sm:pt-3 flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2.5 sm:gap-4 w-full sm:w-auto">
-          <!-- Primary CTA Button (Sunset Terracotta & Ceramic Red Gradient) -->
+          <!-- Primary CTA Button (Sunset Terracotta & Ceramic Red Gradient with Light Sweep Shimmer) -->
           <a href="{% url 'store:products' %}"
-            class="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-[#D34E1B] via-[#E65100] to-[#BA1B1D] hover:from-[#BA1B1D] hover:to-[#D34E1B] text-white font-display font-black text-[11px] sm:text-xs uppercase tracking-wider rounded-full shadow-[0_8px_25px_rgba(211,78,27,0.5)] border border-[#FAB82A]/50 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 group">
+            class="btn-shine w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-[#D34E1B] via-[#E65100] to-[#BA1B1D] hover:from-[#BA1B1D] hover:to-[#D34E1B] text-white font-display font-black text-[11px] sm:text-xs uppercase tracking-wider rounded-full shadow-[0_8px_25px_rgba(211,78,27,0.5)] hover:shadow-[0_12px_32px_rgba(211,78,27,0.7)] border border-[#FAB82A]/60 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 group">
             <span>Shop The Collection</span>
-            <i data-lucide="arrow-right" class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform"></i>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-1.5 transition-transform duration-300"></i>
           </a>
 
           <!-- Secondary CTA Button (Forest Green Backdrop with Golden Amber Border & Glow) -->
           <a href="{% url 'store:category' 'spices-and-seeds' %}"
-            class="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 bg-[#124A2E]/70 hover:bg-[#124A2E]/95 backdrop-blur-md text-[#FAB82A] hover:text-white font-display font-bold text-[11px] sm:text-xs uppercase tracking-wider rounded-full border border-[#FAB82A]/70 hover:border-[#FAB82A] shadow-lg transition-all duration-300 flex items-center justify-center text-center">
+            class="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 bg-[#124A2E]/70 hover:bg-[#124A2E]/95 backdrop-blur-md text-[#FAB82A] hover:text-white font-display font-bold text-[11px] sm:text-xs uppercase tracking-wider rounded-full border border-[#FAB82A]/70 hover:border-[#FAB82A] shadow-lg hover:shadow-[0_0_20px_rgba(250,184,42,0.35)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center text-center">
             <span>View Spices &amp; Seeds</span>
           </a>
         </div>
@@ -88,31 +79,31 @@
       <div class="grid grid-cols-3 gap-1.5 sm:gap-4 md:gap-6 text-white w-full">
         
         <!-- Pillar 1: Finest Quality Blend -->
-        <div class="min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/40 hover:bg-white/10 transition-all duration-300">
-          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#FAB82A]/20 border border-[#FAB82A] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_10px_rgba(250,184,42,0.35)]">
+        <div class="group/pillar min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/70 hover:bg-white/10 hover:shadow-[0_4px_16px_rgba(250,184,42,0.25)] hover:-translate-y-0.5 transition-all duration-300 cursor-default">
+          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#FAB82A]/20 border border-[#FAB82A] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_10px_rgba(250,184,42,0.35)] group-hover/pillar:scale-110 group-hover/pillar:rotate-6 transition-all duration-300">
             <i data-lucide="award" class="w-3 h-3 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5"></i>
           </div>
-          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words">
+          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words group-hover/pillar:text-[#FAB82A] transition-colors">
             Finest Quality Blend
           </div>
         </div>
 
         <!-- Pillar 2: 100% Pure & Natural -->
-        <div class="min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/40 hover:bg-white/10 transition-all duration-300">
-          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#D34E1B]/25 border border-[#D34E1B] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_10px_rgba(211,78,27,0.35)]">
+        <div class="group/pillar min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/70 hover:bg-white/10 hover:shadow-[0_4px_16px_rgba(211,78,27,0.25)] hover:-translate-y-0.5 transition-all duration-300 cursor-default">
+          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#D34E1B]/25 border border-[#D34E1B] flex items-center justify-center text-[#FAB82A] flex-shrink-0 shadow-[0_0_10px_rgba(211,78,27,0.35)] group-hover/pillar:scale-110 group-hover/pillar:-rotate-6 transition-all duration-300">
             <i data-lucide="leaf" class="w-3 h-3 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-[#FAB82A]"></i>
           </div>
-          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words">
+          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words group-hover/pillar:text-[#FAB82A] transition-colors">
             100% Pure &amp; Natural
           </div>
         </div>
 
         <!-- Pillar 3: Sealed Freshness -->
-        <div class="min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/40 hover:bg-white/10 transition-all duration-300">
-          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#BA1B1D]/30 border border-[#BA1B1D] flex items-center justify-center text-white flex-shrink-0 shadow-[0_0_10px_rgba(186,27,29,0.4)]">
+        <div class="group/pillar min-w-0 w-full flex flex-col sm:flex-row items-center justify-center sm:justify-start text-center sm:text-left gap-1 sm:gap-3 px-1 py-1.5 sm:p-2.5 md:p-3 rounded-xl sm:rounded-2xl bg-white/5 border border-[#FAB82A]/20 hover:border-[#FAB82A]/70 hover:bg-white/10 hover:shadow-[0_4px_16px_rgba(186,27,29,0.25)] hover:-translate-y-0.5 transition-all duration-300 cursor-default">
+          <div class="w-6 h-6 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-[#BA1B1D]/30 border border-[#BA1B1D] flex items-center justify-center text-white flex-shrink-0 shadow-[0_0_10px_rgba(186,27,29,0.4)] group-hover/pillar:scale-110 group-hover/pillar:rotate-6 transition-all duration-300">
             <i data-lucide="shield-check" class="w-3 h-3 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-[#FAB82A]"></i>
           </div>
-          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words">
+          <div class="min-w-0 w-full text-[8.5px] xs:text-[9.5px] sm:text-xs md:text-xs lg:text-sm font-black text-white uppercase tracking-tight sm:tracking-wider leading-tight text-center sm:text-left break-words group-hover/pillar:text-[#FAB82A] transition-colors">
             Sealed Freshness
           </div>
         </div>
@@ -126,35 +117,26 @@
   <!-- ========================================================================= -->
   <section id="about" class="pt-16 sm:pt-24 pb-16 md:pb-24 bg-[#FAF6EE] relative overflow-hidden dot-pattern-bg">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 reveal-on-scroll">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
         <!-- Left Column: Visual Staggered Showcase -->
         <div class="lg:col-span-5 relative max-w-sm sm:max-w-md mx-auto lg:mx-0 w-full pb-10 sm:pb-8 pr-8 sm:pr-10">
 
-          <!-- Primary Rice Image (Top Left) -->
+          <!-- Primary Product Image (Top Left) -->
           <div
-            class="relative z-10 w-[80%] rounded-[28px] sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5] bg-stone-100">
-            <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80"
-              alt="Greenland Aromatic Basmati Harvest"
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            class="relative z-10 w-[80%] rounded-[28px] sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5] bg-white flex items-center justify-center p-3 group/img">
+            <img src="{% static 'images/products/toor-dal-1kg.png' %}"
+              alt="Greenland Toor Dal 100% Natural"
+              class="w-full h-full object-contain group-hover/img:scale-105 transition-transform duration-700" />
           </div>
 
-          <!-- Secondary Spices Image (Bottom Right Overlap) -->
+          <!-- Secondary Product Image (Bottom Right Overlap) -->
           <div
-            class="absolute right-2 sm:right-0 bottom-0 w-[65%] rounded-[24px] sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[1/1] z-20 bg-stone-100">
-            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80"
-              alt="Authentic Spices and Grains"
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
-          </div>
-
-          <!-- Established 2002 Badge in Forest Green & Sunlit Amber -->
-          <div
-            class="absolute -top-3 left-0 sm:-top-4 sm:-left-4 z-30 bg-gradient-to-br from-[#124A2E] to-[#0B351F] text-white p-3 sm:p-5 rounded-2xl shadow-2xl flex flex-col items-center justify-center text-center border-2 border-[#FAB82A]">
-            <span
-              class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#FAB82A]">Established</span>
-            <span class="text-xl sm:text-3xl font-black font-display text-white">2002</span>
-            <span class="text-[8px] sm:text-[9px] text-[#FAB82A] font-semibold">22+ Yrs Trust</span>
+            class="absolute right-2 sm:right-0 bottom-0 w-[65%] rounded-[24px] sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[1/1] z-20 bg-white flex items-center justify-center p-3 group/img">
+            <img src="{% static 'images/products/tomato-paste-3kg.png' %}"
+              alt="Greenland Food Stuff Tomato Paste"
+              class="w-full h-full object-contain group-hover/img:scale-105 transition-transform duration-700" />
           </div>
         </div>
 
@@ -181,7 +163,7 @@
           </p>
 
           <!-- Quote / Highlight Card in Sunlit Amber Accent -->
-          <div class="p-5 sm:p-6 rounded-2xl bg-[#FAB82A]/10 border border-[#FAB82A]/40 shadow-sm relative">
+          <div class="p-5 sm:p-6 rounded-2xl bg-[#FAB82A]/10 border border-[#FAB82A]/40 shadow-sm relative hover:border-[#FAB82A] transition-colors">
             <p class="text-xs sm:text-sm font-semibold text-[#1D261E] italic leading-relaxed">
               "We take supreme pride in ensuring every grain of rice, spoonful of spice, and batch of chakki atta
               delivered to your kitchen meets the highest uncompromised benchmarks of purity and taste."
@@ -214,9 +196,9 @@
 
           <div class="pt-2">
             <a href="{% url 'store:products' %}"
-              class="inline-flex items-center gap-2 px-6 py-3.5 bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs rounded-full shadow-lg transition-all hover:scale-105">
+              class="btn-shine group inline-flex items-center gap-2 px-6 py-3.5 bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs rounded-full shadow-lg transition-all hover:scale-105">
               <span>Explore All Products</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200"></i>
             </a>
           </div>
         </div>
@@ -230,7 +212,7 @@
   <!-- 4. OUR PRODUCTS (Category Grid: 8 Core Categories)                        -->
   <!-- ========================================================================= -->
   <section id="categories" class="py-16 md:py-24 bg-[#FAF6EE] relative overflow-hidden dot-pattern-bg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
 
       <!-- Section Heading -->
       <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
@@ -246,14 +228,13 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {% for cat in categories %}
         <a href="{% url 'store:category' cat.slug %}"
-          class="group bg-white rounded-[20px] overflow-hidden border border-stone-200/90 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col">
+          class="foodstuff-card-glow group bg-white rounded-[22px] overflow-hidden border border-stone-200/90 shadow-sm transition-all duration-300 flex flex-col hover:border-[#FAB82A]">
           <!-- Category Image Container -->
-          <div class="relative aspect-[4/3] w-full overflow-hidden bg-[#FAF6EE]">
+          <div class="relative aspect-[4/3] w-full overflow-hidden bg-white group-hover:bg-amber-50/20 flex items-center justify-center p-4 border-b border-stone-100 transition-colors duration-300">
             <img src="{{ cat.image }}" alt="{{ cat.name }}"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#124A2E]/50 to-transparent"></div>
-            <div class="absolute bottom-3 left-3">
-              <span class="text-[11px] font-bold text-white bg-[#124A2E]/90 backdrop-blur-xs px-2.5 py-1 rounded-md">
+              class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out" />
+            <div class="absolute bottom-2.5 left-2.5">
+              <span class="text-[10.5px] font-bold text-[#124A2E] bg-[#FAF6EE] border border-stone-200/80 group-hover:bg-[#124A2E] group-hover:text-[#FAB82A] group-hover:border-[#124A2E] px-2.5 py-0.5 rounded-md shadow-xs transition-colors duration-300">
                 {{ cat.itemCount }}
               </span>
             </div>
@@ -262,7 +243,7 @@
           <!-- Category Info -->
           <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
             <div>
-              <h3 class="font-display font-extrabold text-lg text-[#124A2E] group-hover:text-[#D34E1B] transition-all">
+              <h3 class="font-display font-extrabold text-lg text-[#124A2E] group-hover:text-[#D34E1B] transition-colors duration-300">
                 {{ cat.name }}
               </h3>
               <p class="text-xs text-stone-500 line-clamp-2 mt-1 leading-relaxed">
@@ -271,10 +252,10 @@
             </div>
 
             <div
-              class="flex items-center text-xs font-bold text-[#124A2E] group-hover:text-[#D34E1B] transition-colors">
+              class="flex items-center text-xs font-bold text-[#124A2E] group-hover:text-[#D34E1B] transition-colors duration-300">
               <span>Explore Products</span>
               <i data-lucide="arrow-right"
-                class="w-3.5 h-3.5 ml-1.5 transform group-hover:translate-x-1 transition-transform"></i>
+                class="w-3.5 h-3.5 ml-1.5 transform group-hover:translate-x-2 transition-transform duration-300"></i>
             </div>
           </div>
         </a>
@@ -288,7 +269,7 @@
   <!-- 5. NEW ARRIVALS (Product Card Grid)                                       -->
   <!-- ========================================================================= -->
   <section id="shop" class="py-16 md:py-20 bg-[#FAF6EE] border-t border-stone-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
 
       <!-- Section Header -->
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-4 border-b border-stone-200">
@@ -303,9 +284,9 @@
           </h2>
         </div>
         <a href="{% url 'store:products' %}"
-          class="text-xs font-bold text-[#BA1B1D] hover:text-[#8E0E10] flex items-center gap-1 group self-start sm:self-auto">
-          <span>View All Foodstuffs (24+)</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+          class="text-xs font-bold text-[#BA1B1D] hover:text-[#8E0E10] flex items-center gap-1 group self-start sm:self-auto transition-colors">
+          <span class="group-hover:underline">View All Foodstuffs (24+)</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5 transform group-hover:translate-x-1.5 transition-transform duration-200"></i>
         </a>
       </div>
 
@@ -318,8 +299,6 @@
 
     </div>
   </section>
-
-
 
 </div>
 {% endblock %}

@@ -22,11 +22,11 @@
     
     <!-- Image Gallery -->
     <div class="lg:col-span-6 space-y-4">
-      <div class="aspect-square w-full rounded-3xl overflow-hidden bg-[#FAF6EE] border border-stone-200 shadow-md">
+      <div class="aspect-square w-full rounded-3xl overflow-hidden bg-white border border-stone-200 shadow-md flex items-center justify-center p-6">
         <img
           :src="activeImage"
           alt="{{ product.name }}"
-          class="w-full h-full object-cover transition-all duration-300"
+          class="w-full h-full object-contain transition-all duration-300"
         />
       </div>
 
@@ -40,7 +40,7 @@
           class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 bg-white transition-all hover:scale-105 flex-shrink-0"
           :class="activeImage === '{{ img }}' ? 'border-[#D34E1B] ring-2 ring-[#D34E1B]/30 shadow-md' : 'border-stone-200 opacity-70 hover:opacity-100'"
         >
-          <img src="{{ img }}" alt="{{ product.name }}" class="w-full h-full object-cover" />
+          <img src="{{ img }}" alt="{{ product.name }}" class="w-full h-full object-contain p-1" />
         </button>
         {% endfor %}
       </div>
@@ -69,12 +69,12 @@
       <div class="p-4 rounded-2xl bg-white border border-stone-200 shadow-sm flex items-center justify-between">
         <div>
           <div class="flex items-baseline gap-2">
-            <span class="text-3xl font-black text-[#BA1B1D] font-display">₹{{ product.price }}</span>
+            <span class="text-3xl font-black text-[#BA1B1D] font-display">KD {{ product.price|floatformat:3 }}</span>
             {% if product.originalPrice %}
-            <span class="text-sm text-stone-400 line-through">₹{{ product.originalPrice }}</span>
+            <span class="text-sm text-stone-400 line-through">KD {{ product.originalPrice|floatformat:3 }}</span>
             {% endif %}
           </div>
-          <p class="text-[11px] text-stone-500 mt-0.5">Inclusive of all taxes &amp; authentic packaging</p>
+          <p class="text-[11px] text-stone-500 mt-0.5">Wholesale &amp; Retail Certified • Packed in UAE</p>
         </div>
 
         {% if product.availability == 'in_stock' %}
@@ -151,9 +151,9 @@
         <a
           href="{% url 'store:checkout' %}"
           @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
-          class="block text-center w-full py-3.5 rounded-xl bg-[#D34E1B] hover:bg-[#B43912] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all"
+          class="btn-shine block text-center w-full py-3.5 rounded-xl bg-[#D34E1B] hover:bg-[#B43912] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all active:scale-[0.99]"
         >
-          Instant Checkout &amp; Fast Delivery
+          Instant Checkout
         </a>
       </div>
 
@@ -179,9 +179,9 @@
   <div class="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-stone-200 p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] flex items-center justify-between gap-3">
     <div>
       <div class="flex items-baseline gap-1">
-        <span class="font-display font-black text-[#BA1B1D] text-lg">₹{{ product.price }}</span>
+        <span class="font-display font-black text-[#BA1B1D] text-lg">KD {{ product.price|floatformat:3 }}</span>
         {% if product.originalPrice %}
-        <span class="text-[11px] text-stone-400 line-through">₹{{ product.originalPrice }}</span>
+        <span class="text-[11px] text-stone-400 line-through">KD {{ product.originalPrice|floatformat:3 }}</span>
         {% endif %}
       </div>
       <span class="text-[10px] text-stone-500 font-semibold block">{{ product.weight }}</span>

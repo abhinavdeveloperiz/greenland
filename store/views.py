@@ -24,7 +24,7 @@ def products_view(request):
     search_query = request.GET.get('search', '').strip().lower()
     selected_category = request.GET.get('category', 'all')
     sort_by = request.GET.get('sort', 'featured')
-    max_price = float(request.GET.get('max_price', 1000))
+    max_price = float(request.GET.get('max_price', 15))
     availability = request.GET.get('availability', 'all')
 
     def matches_filters(p):
@@ -54,7 +54,7 @@ def products_view(request):
         'search_query': search_query,
         'selected_category': selected_category,
         'sort_by': sort_by,
-        'max_price': int(max_price),
+        'max_price': max_price,
         'availability': availability,
         'total_count': len(filtered),
     }

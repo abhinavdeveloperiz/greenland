@@ -317,29 +317,29 @@
       <div class="space-y-3 text-xs text-[#1D261E]/80">
         <div class="flex justify-between">
           <span>Foodstuff Subtotal:</span>
-          <span class="font-bold text-[#1D261E]" x-text="'₹' + $store.cart.subtotal"></span>
+          <span class="font-bold text-[#1D261E]" x-text="'KD ' + Number($store.cart.subtotal).toFixed(3)"></span>
         </div>
 
         <template x-if="$store.cart.discount > 0">
           <div class="flex justify-between text-[#BA1B1D] font-semibold">
             <span>Promo Discount:</span>
-            <span x-text="'-₹' + $store.cart.discount"></span>
+            <span x-text="'-KD ' + Number($store.cart.discount).toFixed(3)"></span>
           </div>
         </template>
 
         <div class="flex justify-between">
           <span>Standard Delivery:</span>
-          <span class="font-semibold text-[#1D261E]" x-text="$store.cart.finalDeliveryFee === 0 ? 'FREE' : '₹' + $store.cart.finalDeliveryFee"></span>
+          <span class="font-semibold text-[#1D261E]" x-text="$store.cart.finalDeliveryFee === 0 ? 'FREE' : 'KD ' + Number($store.cart.finalDeliveryFee).toFixed(3)"></span>
         </div>
 
         <div class="flex justify-between">
-          <span>Taxes (5% GST):</span>
-          <span class="font-semibold text-[#1D261E]" x-text="'₹' + $store.cart.tax"></span>
+          <span>Commercial Tax:</span>
+          <span class="font-semibold text-[#1D261E]" x-text="'KD ' + Number($store.cart.tax).toFixed(3)"></span>
         </div>
 
         <div class="flex justify-between text-sm font-black text-[#1D261E] pt-3 border-t border-stone-100">
           <span>Total Amount:</span>
-          <span class="text-[#BA1B1D] text-base font-black" x-text="'₹' + $store.cart.total"></span>
+          <span class="text-[#BA1B1D] text-base font-black" x-text="'KD ' + Number($store.cart.total).toFixed(3)"></span>
         </div>
       </div>
 

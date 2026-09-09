@@ -1,747 +1,509 @@
-# static_data.py - Greenland Foodstuff Static Data & Catalog
+# static_data.py - Greenland Foodstuff & 88 Brand Wholesale Static Data & Catalog
 
 CATEGORIES = [
   {
-    'id': 'spices-and-seeds',
-    'name': 'Spices and seeds',
-    'slug': 'spices-and-seeds',
-    'description': 'Pure stone-ground single-origin spices, aromatic powders & whole seeds.',
-    'image': 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80',
-    'itemCount': '24+ Items',
-    'featured': True
-  },
-  {
     'id': 'cereals-and-legumes',
-    'name': 'Cereals and legumes',
+    'name': 'Cereals & Legumes',
     'slug': 'cereals-and-legumes',
-    'description': 'Protein-dense unpolished pulses, whole dals, hearty grains & wholesome cereals.',
-    'image': 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=600&q=80',
-    'itemCount': '20+ Items',
-    'featured': True
-  },
-  {
-    'id': 'rice',
-    'name': 'Rice',
-    'slug': 'rice',
-    'description': 'Aged royal basmati, daily sonamasuri, seeraga samba & harvest brown rice.',
-    'image': 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80',
-    'itemCount': '18+ Items',
-    'featured': True
-  },
-  {
-    'id': 'nuts-and-dry-fruits',
-    'name': 'Nuts and dry fruits',
-    'slug': 'nuts-and-dry-fruits',
-    'description': 'Hand-picked California almonds, jumbo cashews, walnuts, raisins & pistachios.',
-    'image': 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=600&q=80',
-    'itemCount': '22+ Items',
-    'featured': True
-  },
-  {
-    'id': 'milk',
-    'name': 'Milk',
-    'slug': 'milk',
-    'description': 'Farm fresh full cream UHT milk, traditional desi A2 cow milk & coconut milk.',
-    'image': 'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80',
-    'itemCount': '12+ Items',
-    'featured': True
-  },
-  {
-    'id': 'tea',
-    'name': 'Tea',
-    'slug': 'tea',
-    'description': 'Green Land Indian premium CTC tea blends, Assam golden leaf & herbal kahwa.',
-    'image': 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80',
-    'itemCount': '16+ Items',
+    'description': '100% natural retail pulses (Toor Dal, Urad Dal) & 88 Brand commercial bulk sacks of chickpeas, moong and lentils.',
+    'image': '/static/images/products/toor-dal-1kg.png',
+    'itemCount': '8 Products',
     'featured': True
   },
   {
     'id': 'canned-products',
-    'name': 'Canned products',
+    'name': 'Canned Products',
     'slug': 'canned-products',
-    'description': 'Sealed golden sweet corn, alphonso mango pulp, plum tomatoes & legumes.',
-    'image': 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
-    'itemCount': '15+ Items',
+    'description': 'Pure double concentrated tomato paste and culinary canned essentials in commercial 3 KG tins (Box of 4).',
+    'image': '/static/images/products/tomato-paste-3kg.png',
+    'itemCount': '1 Product',
     'featured': True
+  },
+  {
+    'id': 'spices-and-seeds',
+    'name': 'Spices & Seeds',
+    'slug': 'spices-and-seeds',
+    'description': 'Aromatic whole spices and carom seeds including 88 Brand wholesale Ajwain seeds in 10 KG commercial sacks.',
+    'image': '/static/images/products/88-ajwain-seeds-10kg.png',
+    'itemCount': '1 Product',
+    'featured': True
+  },
+  {
+    'id': 'tea',
+    'name': 'Indian Premium Tea',
+    'slug': 'tea',
+    'description': 'GreenLand Indian premium CTC tea blends in aroma-sealed glass jars and heavy-duty 5 KG master carry pouches.',
+    'image': '/static/images/products/greenland-tea-pouch.png?v=clean2',
+    'itemCount': '2 Products',
+    'featured': True
+  },
+  {
+    'id': 'rice',
+    'name': 'Rice & Grains',
+    'slug': 'rice',
+    'description': 'Authentic Indian origin rice bags (Idli Rice, Long Grain White Rice, Palakkadan Matta & Thanjavur Ponni) in wholesale 18-20 KG bulk sacks.',
+    'image': '/static/images/products/greenland-thanjavur-ponni-rice-20kg.png',
+    'itemCount': '4 Products',
+    'featured': True
+  },
+  {
+    'id': 'nuts-and-dry-fruits',
+    'name': 'Nuts & Dry Fruits',
+    'slug': 'nuts-and-dry-fruits',
+    'description': 'Premium California almonds, jumbo cashews, walnuts, raisins & wholesale dry fruits.',
+    'image': '/static/images/products/88-black-chick-peas-15kg.png',
+    'itemCount': 'Wholesale Supply',
+    'featured': False
+  },
+  {
+    'id': 'milk',
+    'name': 'Dairy & Pantry',
+    'slug': 'milk',
+    'description': 'Wholesale commercial dairy powders, condensed milk, and essential pantry staples.',
+    'image': '/static/images/products/greenland-tea-jar.png',
+    'itemCount': 'Wholesale Supply',
+    'featured': False
   }
 ]
 
 PRODUCTS = [
   # =========================================================================
-  # 1. SPICES AND SEEDS
+  # 1. GREENLAND CULINARY ESSENTIALS (Canned Products)
   # =========================================================================
   {
-    'id': 'prod-spice-01',
-    'name': 'Salem Pure Golden Turmeric Powder',
-    'category': 'spices-and-seeds',
-    'categoryName': 'Spices and seeds',
-    'price': 145,
-    'originalPrice': 180,
-    'weight': '500g',
-    'unit': 'pouch',
-    'stock': 40,
+    'id': 'prod-gl-tomato-paste',
+    'name': 'GreenLand Double Concentrated Tomato Paste (3 KG)',
+    'category': 'canned-products',
+    'categoryName': 'Canned Products',
+    'brand': 'GreenLand Food Stuff',
+    'price': 5.500,
+    'originalPrice': 6.250,
+    'weight': '3 KG (Box of 4)',
+    'unit': 'box of 4 cans',
+    'stock': 45,
     'availability': 'in_stock',
     'isFeatured': True,
     'isPopular': True,
-    'description': 'High-curcumin (3.5%+) pure single-origin turmeric powder grown in Salem, Tamil Nadu. Cold stone ground to preserve beneficial antioxidants and intense natural aroma.',
+    'description': '100% Pure & Natural Culinary Essential Tomato Paste by GreenLand Food Stuff. Rich crimson color and thick velvety texture prepared from vine-ripened tomatoes. Packed in heavy commercial 3 KG tins (Box of 4).',
     'specs': {
-      'Curcumin Content': 'Min 3.5% Certified',
-      'Origin': 'Salem, Tamil Nadu',
-      'Processing': 'Slow Stone Ground (Unheated)',
-      'Shelf Life': '12 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-spice-02',
-    'name': 'Guntur Stemless Red Chilli Powder',
-    'category': 'spices-and-seeds',
-    'categoryName': 'Spices and seeds',
-    'price': 160,
-    'originalPrice': 195,
-    'weight': '500g',
-    'unit': 'pouch',
-    'stock': 35,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': True,
-    'description': 'Finely powdered stemless Guntur Sannam chillies. Yields a deep crimson red curry color with sharp, balanced heat and zero artificial colorants or adulterants.',
-    'specs': {
-      'Pungency Rating': 'Medium-Hot (35,000 SHU)',
-      'Origin': 'Guntur, Andhra Pradesh',
-      'Purity': '100% Stemless Pure Pods',
-      'Shelf Life': '12 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-spice-03',
-    'name': 'Malabar Whole Black Peppercorns & Cumin Seeds',
-    'category': 'spices-and-seeds',
-    'categoryName': 'Spices and seeds',
-    'price': 220,
-    'originalPrice': 260,
-    'weight': '250g',
-    'unit': 'pack',
-    'stock': 30,
-    'availability': 'in_stock',
-    'isFeatured': False,
-    'isPopular': True,
-    'description': 'Sun-dried jumbo Tellicherry black peppercorns paired with aromatic Rajasthani jeera seeds. Essential whole pantry spice pairing for daily tempering and gravies.',
-    'specs': {
-      'Grade': 'Tellicherry Garbled Extra Bold (TGEB)',
-      'Origin': 'Wayanad, Kerala & Jodhpur, Rajasthan',
-      'Moisture': '< 10%',
-      'Shelf Life': '18 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-spice-04',
-    'name': 'Royal Green Cardamom Pods (Elaichi)',
-    'category': 'spices-and-seeds',
-    'categoryName': 'Spices and seeds',
-    'price': 380,
-    'originalPrice': 450,
-    'weight': '100g',
-    'unit': 'jar',
-    'stock': 28,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': False,
-    'description': '8mm+ jumbo green cardamom pods from the high altitudes of Idukki. Bursting with sweet camphoraceous oils, ideal for premium tea, biryani, and festive sweets.',
-    'specs': {
-      'Pod Size': '8mm Jumbo Bold',
-      'Origin': 'Idukki Hills, Kerala',
-      'Color': 'Natural Lush Green (Unbleached)',
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '3 KG per Can (Box of 4)',
+      'Origin / Processing': 'GreenLand Foodstuff Certified',
+      'Classification': 'Culinary Essential Double Concentrated',
       'Shelf Life': '24 Months'
     },
     'images': [
-      'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/tomato-paste-3kg.png'
     ]
   },
 
   # =========================================================================
-  # 2. CEREALS AND LEGUMES
+  # 2. GREENLAND 100% NATURAL RETAIL PACK PULSES (Cereals & Legumes)
   # =========================================================================
   {
-    'id': 'prod-legume-01',
-    'name': 'Unpolished Desi Toor Dal (Pigeon Pea)',
+    'id': 'prod-gl-toor-dal',
+    'name': 'GreenLand Toor Dal (Split Pigeon Peas)',
     'category': 'cereals-and-legumes',
-    'categoryName': 'Cereals and legumes',
-    'price': 175,
-    'originalPrice': 210,
-    'weight': '1kg',
-    'unit': 'bag',
+    'categoryName': 'Cereals & Legumes',
+    'brand': 'GreenLand Food Stuff',
+    'price': 0.950,
+    'originalPrice': 1.200,
+    'weight': '1 KG Pouch',
+    'unit': 'retail pack',
+    'stock': 120,
+    'availability': 'in_stock',
+    'isFeatured': True,
+    'isPopular': True,
+    'description': '100% Natural split pigeon peas (Toor Dal) by GreenLand. Premium unpolished grains rich in plant protein and dietary fibre for wholesome daily nutrition and traditional culinary cooking.',
+    'specs': {
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '1 KG Retail Pack Pouch',
+      'Origin / Processing': '100% Natural Selected Grains',
+      'Nutrition': 'Rich in Protein & Fibre',
+      'Common Name': 'Split Pigeon Peas (Toor Dal)'
+    },
+    'images': [
+      '/static/images/products/toor-dal-1kg.png'
+    ]
+  },
+  {
+    'id': 'prod-gl-urad-dal',
+    'name': 'GreenLand Urad Dal (Peeled Black Gram)',
+    'category': 'cereals-and-legumes',
+    'categoryName': 'Cereals & Legumes',
+    'brand': 'GreenLand Food Stuff',
+    'price': 1.100,
+    'originalPrice': 1.350,
+    'weight': '1 KG Pouch',
+    'unit': 'retail pack',
+    'stock': 100,
+    'availability': 'in_stock',
+    'isFeatured': True,
+    'isPopular': True,
+    'description': 'Healthy Choice peeled black gram (Urad Dal) by GreenLand. High in natural protein, diet-friendly, and perfect for soft idli/dosa batters, dal makhani, and culinary recipes.',
+    'specs': {
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '1 KG Retail Pack Pouch',
+      'Origin / Processing': '100% Natural Selected Grains',
+      'Nutrition': 'High Protein • Diet Friendly',
+      'Common Name': 'Peeled Black Gram (Urad Dal)'
+    },
+    'images': [
+      '/static/images/products/urad-dal-1kg.png'
+    ]
+  },
+  {
+    'id': 'prod-gl-urad-split',
+    'name': 'GreenLand Urad Split (Split Black Gram)',
+    'category': 'cereals-and-legumes',
+    'categoryName': 'Cereals & Legumes',
+    'brand': 'GreenLand Food Stuff',
+    'price': 1.150,
+    'originalPrice': 1.400,
+    'weight': '1 KG Pouch',
+    'unit': 'retail pack',
+    'stock': 90,
+    'availability': 'in_stock',
+    'isFeatured': False,
+    'isPopular': True,
+    'description': 'Healthy Choice split black gram with skin (Urad Split). Finest traditional selection with natural grain texture, rich earthy taste, and balanced aroma.',
+    'specs': {
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '1 KG Retail Pack Pouch',
+      'Origin / Processing': '100% Natural Selected Grains',
+      'Quality Grade': 'Finest Traditional Selection',
+      'Common Name': 'Split Black Gram (Urad Split)'
+    },
+    'images': [
+      '/static/images/products/urad-split-1kg.png'
+    ]
+  },
+
+  # =========================================================================
+  # 3. 88 BRAND WHOLESALE AGRO COMMODITIES (Commercial & Bulk Sacks)
+  # =========================================================================
+  {
+    'id': 'prod-88-ajwain-seeds',
+    'name': '88 Brand Wholesale Ajwain Seeds',
+    'category': 'spices-and-seeds',
+    'categoryName': 'Spices & Seeds',
+    'brand': '88 Brand Wholesale',
+    'price': 6.000,
+    'originalPrice': 7.200,
+    'weight': '10 KG Sack (Net 9.9 KG)',
+    'unit': 'commercial sack',
+    'stock': 40,
+    'availability': 'in_stock',
+    'isFeatured': True,
+    'isPopular': True,
+    'description': '88 Brand premium wholesale aromatic ajwain seeds (Carom Seeds). Processed & packed in UAE in heavy-duty commercial sacks. Natural high-thymol seeds with intense fragrance and medicinal aroma.',
+    'specs': {
+      'Brand': '88 Brand™ Wholesale Agro Commodities',
+      'Pack Size': 'Gross: 10 KG | Net: 9.9 KG',
+      'Origin / Processing': 'Processed & Packed in UAE',
+      'Type': 'Aromatic Spice (Carom Seeds)',
+      'Packaging': 'Heavy-Duty Commercial Sack'
+    },
+    'images': [
+      '/static/images/products/88-ajwain-seeds-10kg.png'
+    ]
+  },
+  {
+    'id': 'prod-88-black-chick-peas',
+    'name': '88 Brand Wholesale Black Chick Peas',
+    'category': 'cereals-and-legumes',
+    'categoryName': 'Cereals & Legumes',
+    'brand': '88 Brand Wholesale',
+    'price': 5.400,
+    'originalPrice': 6.500,
+    'weight': '15 KG Bulk Pack',
+    'unit': 'commercial sack',
+    'stock': 65,
+    'availability': 'in_stock',
+    'isFeatured': True,
+    'isPopular': True,
+    'description': '88 Brand wholesale premium black chick peas (Kala Chana). High protein agro commodity, machine sorted and packed in UAE in heavy-duty 15 KG sacks with transparent viewing window.',
+    'specs': {
+      'Brand': '88 Brand™ Wholesale Agro Commodities',
+      'Gross Weight': '15 KG Bulk Pack',
+      'Origin / Processing': 'Processed & Packed in UAE',
+      'Grade': 'Wholesale Bulk Premium',
+      'Packaging': 'Commercial Printed Bulk Sack'
+    },
+    'images': [
+      '/static/images/products/88-black-chick-peas-15kg.png'
+    ]
+  },
+  {
+    'id': 'prod-88-chick-peas-8mm',
+    'name': '88 Brand Chick Peas Kabuli 8mm',
+    'category': 'cereals-and-legumes',
+    'categoryName': 'Cereals & Legumes',
+    'brand': '88 Brand Wholesale',
+    'price': 5.000,
+    'originalPrice': 6.000,
+    'weight': '15 KG Bulk Pack',
+    'unit': 'commercial sack',
+    'stock': 85,
+    'availability': 'in_stock',
+    'isFeatured': True,
+    'isPopular': True,
+    'description': '88 Brand standard grade 8mm Kabuli chick peas (Size 8mm). Clean, calibrated 8mm grains with high boiling yield and tender skin. Processed and packed in UAE in 15 KG sacks.',
+    'specs': {
+      'Brand': '88 Brand™ Wholesale Agro Commodities',
+      'Grain Calibration': '8MM Standard Calibrated',
+      'Gross Weight': '15 KG Bulk Pack',
+      'Origin / Processing': 'Processed & Packed in UAE',
+      'Packaging': 'Commercial Blue Sack with Window'
+    },
+    'images': [
+      '/static/images/products/88-chick-peas-kabuli-8mm-15kg.png'
+    ]
+  },
+  {
+    'id': 'prod-88-chick-peas-premium',
+    'name': '88 Brand Chick Peas Kabuli Premium Grade',
+    'category': 'cereals-and-legumes',
+    'categoryName': 'Cereals & Legumes',
+    'brand': '88 Brand Wholesale',
+    'price': 8.000,
+    'originalPrice': 9.500,
+    'weight': '14/15 KG Pack',
+    'unit': 'commercial sack',
+    'stock': 55,
+    'availability': 'in_stock',
+    'isFeatured': True,
+    'isPopular': True,
+    'description': '88 Brand Premium Grade jumbo Kabuli chick peas. Selected top-tier bold grains, exceptional tenderness, high water absorption, and superior culinary presentation. Processed and packed in UAE.',
+    'specs': {
+      'Brand': '88 Brand™ Wholesale Agro Commodities',
+      'Grade': 'Premium Grade Jumbo Selection',
+      'Gross Weight': '14/15 KG Pack',
+      'Origin / Processing': 'Processed & Packed in UAE',
+      'Packaging': 'Heavy-Duty Commercial Blue Sack'
+    },
+    'images': [
+      '/static/images/products/88-chick-peas-kabuli-premium-14kg.png'
+    ]
+  },
+  {
+    'id': 'prod-88-green-moong-split',
+    'name': '88 Brand Green Moong Split',
+    'category': 'cereals-and-legumes',
+    'categoryName': 'Cereals & Legumes',
+    'brand': '88 Brand Wholesale',
+    'price': 7.750,
+    'originalPrice': 9.000,
+    'weight': '15 KG Bulk Pack',
+    'unit': 'commercial sack',
     'stock': 50,
     'availability': 'in_stock',
-    'isFeatured': True,
+    'isFeatured': False,
     'isPopular': True,
-    'description': 'Pure unpolished Desi toor dal sourced directly from Latur farmers. Natural dehulling without oil, water, or marble powder polish keeps natural protein intact.',
+    'description': '88 Brand Selected Green Moong Split. Cleaned, uniformly split green gram lentils with high nutrient density, processed and packed in UAE in 15 KG sacks with clear product display window.',
     'specs': {
-      'Purity': '100% Unpolished & Oil-Free',
-      'Protein': '22g per 100g',
-      'Origin': 'Latur, Maharashtra',
-      'Shelf Life': '12 Months'
+      'Brand': '88 Brand™ Wholesale Agro Commodities',
+      'Gross Weight': '15 KG Bulk Pack',
+      'Origin / Processing': 'Processed & Packed in UAE',
+      'Selection': 'Selected Split Green Gram',
+      'Packaging': 'Commercial Green Wholesale Sack'
     },
     'images': [
-      'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/88-green-moong-split-15kg.png'
     ]
   },
   {
-    'id': 'prod-legume-02',
-    'name': 'Organic Whole Moong Beans (Green Gram)',
+    'id': 'prod-88-green-whole-lentils',
+    'name': '88 Brand Green Whole Lentils',
     'category': 'cereals-and-legumes',
-    'categoryName': 'Cereals and legumes',
-    'price': 160,
-    'originalPrice': 190,
-    'weight': '1kg',
-    'unit': 'bag',
-    'stock': 35,
-    'availability': 'in_stock',
-    'isFeatured': False,
-    'isPopular': True,
-    'description': 'Small-grained, tender whole green moong beans excellent for high-yield nutrient sprouting, hearty gravies, and light dietary khichdi.',
-    'specs': {
-      'Type': 'Sabut Green Moong',
-      'Sprout Rate': '95%+ High Germination',
-      'Origin': 'Madhya Pradesh',
-      'Shelf Life': '12 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-legume-03',
-    'name': 'Premium Jumbo Kabuli Chickpeas (Chole)',
-    'category': 'cereals-and-legumes',
-    'categoryName': 'Cereals and legumes',
-    'price': 195,
-    'originalPrice': 240,
-    'weight': '1kg',
-    'unit': 'bag',
-    'stock': 40,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': False,
-    'description': 'Extra-large 12mm Kabuli chana that cooks into melt-in-the-mouth, buttery chickpeas. Perfect for Amritsari chole, salads, and fresh hummus.',
-    'specs': {
-      'Size': '12mm Extra Jumbo Count',
-      'Origin': 'Indore, Madhya Pradesh',
-      'Cooking Time': '35 mins after overnight soak',
-      'Shelf Life': '12 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1587486913049-53fc88980cfc?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-legume-04',
-    'name': 'Golden Whole Rolled Oats & Multi-Millet Cereal',
-    'category': 'cereals-and-legumes',
-    'categoryName': 'Cereals and legumes',
-    'price': 225,
-    'originalPrice': 270,
-    'weight': '1kg',
-    'unit': 'pack',
-    'stock': 25,
-    'availability': 'in_stock',
-    'isFeatured': False,
-    'isPopular': True,
-    'description': 'Heart-healthy blend of steamed rolled oats combined with ragi, bajra, and jowar flakes. High in soluble beta-glucan fiber and sustained energy.',
-    'specs': {
-      'Grains': 'Rolled Oats, Ragi, Bajra, Jowar',
-      'Fiber Content': '11g per 100g',
-      'Dietary': 'No Added Sugar or Preservatives',
-      'Shelf Life': '9 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-
-  # =========================================================================
-  # 3. RICE
-  # =========================================================================
-  {
-    'id': 'prod-rice-01',
-    'name': 'Royal Heritage Extra Long Basmati Rice',
-    'category': 'rice',
-    'categoryName': 'Rice',
-    'price': 349,
-    'originalPrice': 420,
-    'weight': '5kg',
-    'unit': 'bag',
-    'stock': 45,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': True,
-    'description': 'Aged for two years in Himalayan foothills to ensure distinct, non-sticky, fluffiest grains with a signature aroma. Elongates to over 24mm upon cooking.',
-    'specs': {
-      'Grain Type': '1121 Super Long Grain Aged Basmati',
-      'Aging': '24 Months Naturally Aged',
-      'Origin': 'Dehradun Valley, Uttarakhand',
-      'Shelf Life': '24 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-rice-02',
-    'name': 'Greenland Daily Sona Masoori Raw Rice',
-    'category': 'rice',
-    'categoryName': 'Rice',
-    'price': 650,
-    'originalPrice': 740,
-    'weight': '10kg',
-    'unit': 'bag',
-    'stock': 60,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': True,
-    'description': 'Lightweight, aromatic medium-grain rice cultivated along the Tungabhadra river basin. Naturally low in starch and ideal for everyday meals, rasam, and sambar rice.',
-    'specs': {
-      'Grain Type': 'Medium Fine Sona Masoori',
-      'Cultivation': 'Kurnool Delta Basin',
-      'Starch Index': 'Low Glycemic Friendly',
-      'Shelf Life': '18 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-rice-03',
-    'name': 'Kerala Palakkadan Matta Brown Rice',
-    'category': 'rice',
-    'categoryName': 'Rice',
-    'price': 280,
-    'originalPrice': 330,
-    'weight': '5kg',
-    'unit': 'bag',
-    'stock': 30,
-    'availability': 'in_stock',
-    'isFeatured': False,
-    'isPopular': False,
-    'description': 'Nutrient-dense parboiled red rice with rich pericarp outer layer. Earthy flavor, chewy texture, packed with dietary magnesium and zinc.',
-    'specs': {
-      'Grain Type': 'Bold Parboiled Red Matta',
-      'Origin': 'Palakkad, Kerala',
-      'Nutrition': 'High Fiber & Minerals',
-      'Shelf Life': '12 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-
-  # =========================================================================
-  # 4. NUTS AND DRY FRUITS
-  # =========================================================================
-  {
-    'id': 'prod-nut-01',
-    'name': 'Premium California Whole Almonds (Badam Giri)',
-    'category': 'nuts-and-dry-fruits',
-    'categoryName': 'Nuts and dry fruits',
-    'price': 440,
-    'originalPrice': 520,
-    'weight': '500g',
-    'unit': 'pouch',
-    'stock': 45,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': True,
-    'description': 'Crisp, whole jumbo Nonpareil California almonds rich in Vitamin E, dietary magnesium, and protein. Vacuum nitrogen flushed for enduring garden-fresh crunch.',
-    'specs': {
-      'Grade': 'California Nonpareil Extra #1',
-      'Nutrients': 'High Vitamin E & Heart-Healthy Fats',
-      'Packaging': 'Resealable Zip Foil Pouch',
-      'Shelf Life': '9 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-nut-02',
-    'name': 'Royal King Cashew Nuts (Kaju W240)',
-    'category': 'nuts-and-dry-fruits',
-    'categoryName': 'Nuts and dry fruits',
-    'price': 520,
-    'originalPrice': 610,
-    'weight': '500g',
-    'unit': 'pouch',
-    'stock': 35,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': True,
-    'description': 'Grade W240 whole king cashews with a rich buttery taste and sweet natural finish. Sourced from Mangalore estates, unsalted and unroasted for versatile cooking.',
-    'specs': {
-      'Grade': 'White Whole 240 (W240)',
-      'Origin': 'Coastal Karnataka',
-      'Taste': 'Naturally Sweet & Creamy',
-      'Shelf Life': '9 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-nut-03',
-    'name': 'Kashmiri Walnut Kernels (Akhrot Giri)',
-    'category': 'nuts-and-dry-fruits',
-    'categoryName': 'Nuts and dry fruits',
-    'price': 490,
-    'originalPrice': 580,
-    'weight': '500g',
-    'unit': 'pack',
-    'stock': 28,
-    'availability': 'in_stock',
-    'isFeatured': False,
-    'isPopular': True,
-    'description': 'Light-amber Kashmiri walnut halves packed with plant-based Omega-3 fatty acids. Tender, sweet, and free from bitter aftertaste.',
-    'specs': {
-      'Variety': 'Kashmir Snow Halves',
-      'Omega-3': '2.5g ALA per 28g serving',
-      'Origin': 'Anantnag, Kashmir Valley',
-      'Shelf Life': '6 Months (Store Cold)'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-nut-04',
-    'name': 'Golden Afghani Seedless Raisins (Kismis)',
-    'category': 'nuts-and-dry-fruits',
-    'categoryName': 'Nuts and dry fruits',
-    'price': 195,
-    'originalPrice': 240,
-    'weight': '500g',
-    'unit': 'pouch',
-    'stock': 40,
-    'availability': 'in_stock',
-    'isFeatured': False,
-    'isPopular': False,
-    'description': 'Long green and golden seedless raisins naturally sun-dried in Kandahar vineyards. Chewy, luscious, and rich in natural iron and dietary energy.',
-    'specs': {
-      'Type': 'Kandahar Long Green Kismis',
-      'Treatment': 'No Added Sugar / Sulphur-Free',
-      'Origin': 'Afghani Vineyards',
-      'Shelf Life': '12 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-
-  # =========================================================================
-  # 5. MILK
-  # =========================================================================
-  {
-    'id': 'prod-milk-01',
-    'name': 'Pure Farm Fresh UHT Full Cream Milk',
-    'category': 'milk',
-    'categoryName': 'Milk',
-    'price': 85,
-    'originalPrice': 95,
-    'weight': '1L',
-    'unit': 'tetra-pack',
+    'categoryName': 'Cereals & Legumes',
+    'brand': '88 Brand Wholesale',
+    'price': 5.000,
+    'originalPrice': 6.000,
+    'weight': '15 KG Bulk Pack',
+    'unit': 'commercial sack',
     'stock': 70,
     'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': True,
-    'description': 'Homogenized, ultra-heat treated full cream milk sourced from grass-fed dairy cattle. Rich in natural calcium, vitamin D, and essential proteins with no preservative additives.',
-    'specs': {
-      'Fat Content': '6.0% Rich Cream',
-      'SNF (Solid-Not-Fat)': '9.0% Min',
-      'Sterilization': 'Aseptic UHT Technology',
-      'Shelf Life': '6 Months (Unopened)'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-milk-02',
-    'name': 'Traditional Pure Desi A2 Cow Milk',
-    'category': 'milk',
-    'categoryName': 'Milk',
-    'price': 120,
-    'originalPrice': 140,
-    'weight': '1L',
-    'unit': 'bottle',
-    'stock': 35,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': True,
-    'description': 'Nutrient-rich A2 beta-casein milk obtained exclusively from indigenous Gir and Sahiwal cows. Gentle on digestion, easy to assimilate, and deeply nourishing.',
-    'specs': {
-      'Protein Type': '100% Certified A2 Beta-Casein',
-      'Cattle Breed': 'Indigenous Gir Cow',
-      'Homogenization': 'Gently Pasteurized',
-      'Shelf Life': '5 Days (Refrigerated)'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-milk-03',
-    'name': 'Creamy Thick Coconut Milk (First Extract)',
-    'category': 'milk',
-    'categoryName': 'Milk',
-    'price': 135,
-    'originalPrice': 160,
-    'weight': '400ml',
-    'unit': 'tin',
-    'stock': 40,
-    'availability': 'in_stock',
     'isFeatured': False,
-    'isPopular': False,
-    'description': 'Thick, luscious first-press coconut milk squeezed from fresh matured Malabar coconuts. Lactose-free, dairy-free base for Thai curries, Kerala stews, and desserts.',
+    'isPopular': True,
+    'description': '88 Brand Selected Whole Green Lentils. Rich in dietary fiber, earthy flavor, processed and packed in UAE in heavy-duty 15 KG commercial sacks.',
     'specs': {
-      'Extract': 'First Cold-Press Coconut Milk',
-      'Fat Content': '18% Natural Coconut Cream',
-      'Dietary': '100% Vegan & Dairy-Free',
-      'Shelf Life': '18 Months'
+      'Brand': '88 Brand™ Wholesale Agro Commodities',
+      'Gross Weight': '15 KG Bulk Pack',
+      'Origin / Processing': 'Processed & Packed in UAE',
+      'Selection': 'Selected Whole Green Lentils',
+      'Packaging': 'Commercial Heavy-Duty Green Sack'
     },
     'images': [
-      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/88-green-whole-lentils-15kg.png'
     ]
   },
 
   # =========================================================================
-  # 6. TEA
+  # 4. GREENLAND INDIAN PREMIUM TEA (Tea Line)
   # =========================================================================
   {
-    'id': 'prod-tea-01',
-    'name': 'Green Land Indian Premium Tea (5kg Master Pack)',
+    'id': 'prod-gl-tea-pouch-5kg',
+    'name': 'GreenLand Indian Premium Tea (5 KG Master Pouch)',
     'category': 'tea',
-    'categoryName': 'Tea',
-    'price': 780,
-    'originalPrice': 920,
-    'weight': '5kg',
-    'unit': 'master-pack',
-    'stock': 50,
-    'availability': 'in_stock',
-    'isFeatured': True,
-    'isPopular': True,
-    'description': 'The signature flagship Green Land blend! High-grown Assam CTC granules blended with tender Darjeeling orthodox leaves. Yields a brisk amber-golden liquor, malt aroma, and rich, invigorating body.',
-    'specs': {
-      'Blend Type': 'CTC Grain & Orthodox Golden Leaves',
-      'Packaging': 'Heavy-Duty 5kg Commercial Foil Sack',
-      'Strength': 'Strong Kadak with Malty Finish',
-      'Shelf Life': '24 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-tea-02',
-    'name': 'Assam Gold CTC Strong Kadak Tea',
-    'category': 'tea',
-    'categoryName': 'Tea',
-    'price': 180,
-    'originalPrice': 220,
-    'weight': '500g',
-    'unit': 'pouch',
+    'categoryName': 'Indian Premium Tea',
+    'brand': 'GreenLand Food Stuff',
+    'price': 7.500,
+    'originalPrice': 9.000,
+    'weight': '5 KG Master Pouch',
+    'unit': 'master pouch',
     'stock': 40,
     'availability': 'in_stock',
     'isFeatured': True,
     'isPopular': True,
-    'description': 'Selected from second-flush Upper Assam gardens. Deep red-coppery cup with robust strength, ideally matched for Indian spiced masala chai with milk and cardamom.',
+    'description': 'GreenLand Indian Premium CTC Tea. High-grown estate tea blend with brisk aroma and rich reddish liquor, packed in durable 5 KG carry-handle master pouch.',
     'specs': {
-      'Estate': 'Upper Assam Brahmaputra Valley',
-      'Grade': 'BOPL Extra Strong Granules',
-      'Cupping Notes': 'Malty, Brisk, Full Bodied',
-      'Shelf Life': '18 Months'
+      'Brand': 'GreenLand Food Stuff',
+      'Pack Size': '5 KG Master Pouch with Handle',
+      'Origin': 'Indian Premium Estates',
+      'Grade': 'CTC Premium Tea Blend',
+      'Aroma': 'Brisk, Kadak Golden Liquor'
     },
     'images': [
-      'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/greenland-tea-pouch.png?v=clean2'
     ]
   },
   {
-    'id': 'prod-tea-03',
-    'name': 'Darjeeling First Flush Muscatel Black Tea',
+    'id': 'prod-gl-tea-gold-jar',
+    'name': 'GreenLand Indian Premium Tea Gold (250g Glass Jar)',
     'category': 'tea',
-    'categoryName': 'Tea',
-    'price': 340,
-    'originalPrice': 410,
-    'weight': '250g',
-    'unit': 'tin',
-    'stock': 25,
+    'categoryName': 'Indian Premium Tea',
+    'brand': 'GreenLand Food Stuff',
+    'price': 1.850,
+    'originalPrice': 2.200,
+    'weight': '250g Jar',
+    'unit': 'aroma seal jar',
+    'stock': 80,
     'availability': 'in_stock',
-    'isFeatured': False,
-    'isPopular': False,
-    'description': 'The champagne of teas! Hand-plucked tender two leaves and a bud from 6,000ft high Himalayan slopes. Delicate pale amber brew with floral notes and muscatel grape finish.',
-    'specs': {
-      'Grade': 'FTGFOP-1 Whole Leaf',
-      'Flush': 'Spring First Flush',
-      'Elevation': '6,200 Feet Darjeeling',
-      'Shelf Life': '24 Months'
-    },
-    'images': [
-      'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80'
-    ]
-  },
-  {
-    'id': 'prod-tea-04',
-    'name': 'Kashmiri Shahi Saffron Green Tea (Kahwa)',
-    'category': 'tea',
-    'categoryName': 'Tea',
-    'price': 295,
-    'originalPrice': 360,
-    'weight': '250g',
-    'unit': 'jar',
-    'stock': 30,
-    'availability': 'in_stock',
-    'isFeatured': False,
+    'isFeatured': True,
     'isPopular': True,
-    'description': 'Traditional royal Kashmiri kahwa combining pure green tea leaves with whole saffron strands, crushed cardamom, cinnamon bark, and rose petals.',
+    'description': 'GreenLand Indian Premium Tea Gold edition. Premium CTC leaf granules packed in a sealed square glass jar with red airtight cap to lock in freshness, strength, and aroma.',
     'specs': {
-      'Ingredients': 'Green Tea, Kashmiri Kesar, Cardamom, Cinnamon',
-      'Caffeine': 'Low / Gentle Revitalizer',
-      'Origin': 'Srinagar, Kashmir',
-      'Shelf Life': '12 Months'
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '250 Grams',
+      'Packaging': 'Square Airtight Aroma Seal Jar',
+      'Grade': 'Gold Reserve Premium Tea',
+      'Aroma': 'Intense Kadak Blend'
     },
     'images': [
-      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/greenland-tea-jar.png?v=clean2'
     ]
   },
 
   # =========================================================================
-  # 7. CANNED PRODUCTS
+  # 5. GREENLAND AUTHENTIC RICE & GRAINS (18 - 20 KG Wholesale Sacks)
   # =========================================================================
   {
-    'id': 'prod-can-01',
-    'name': 'Sweet Golden Corn Kernels in Brine',
-    'category': 'canned-products',
-    'categoryName': 'Canned products',
-    'price': 95,
-    'originalPrice': 115,
-    'weight': '400g',
-    'unit': 'can',
+    'id': 'prod-gl-idli-rice-20kg',
+    'name': 'GreenLand Idli Rice (20 KG)',
+    'category': 'rice',
+    'categoryName': 'Rice & Grains',
+    'brand': 'GreenLand Food Stuff',
+    'price': 6.250,
+    'originalPrice': 7.500,
+    'weight': '20 KG Bulk Sack',
+    'unit': 'commercial sack',
     'stock': 60,
     'availability': 'in_stock',
     'isFeatured': True,
     'isPopular': True,
-    'description': 'Crisp, naturally tender sweet corn picked at the peak of sweetness and hermetically sealed in light sea-salt brine within hours of harvest.',
+    'description': '100% Indian Origin premium Idli Rice by GreenLand Food Stuff. Selected short, plump grains ideal for producing soft, fluffy idlis and crispy dosas with authentic fermentation. Net Weight: 20 KG wholesale sack.',
     'specs': {
-      'Net Weight': '400g (Drained Wt: 250g)',
-      'Processing': 'Non-GMO Fresh Harvest Steam Packed',
-      'Preservatives': 'Zero Chemical Additives',
-      'Shelf Life': '24 Months'
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '20 KG Wholesale Sack',
+      'Origin': '100% Indian Origin',
+      'Variety': 'South Indian Short Grain Idli Rice',
+      'Usage': 'Traditional Idli & Dosa Batter',
+      'Packaging': 'Heavy-Duty Stitched Grain Sack'
     },
     'images': [
-      'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1546069901-d5bfd2cbfb1f?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/greenland-idli-rice-20kg.png'
     ]
   },
   {
-    'id': 'prod-can-02',
-    'name': 'Canned Royal Alphonso Mango Pulp',
-    'category': 'canned-products',
-    'categoryName': 'Canned products',
-    'price': 185,
-    'originalPrice': 225,
-    'weight': '850g',
-    'unit': 'tin',
-    'stock': 45,
+    'id': 'prod-gl-long-grain-rice-19kg',
+    'name': 'GreenLand Long Grain White Rice (19 KG)',
+    'category': 'rice',
+    'categoryName': 'Rice & Grains',
+    'brand': 'GreenLand Food Stuff',
+    'price': 6.800,
+    'originalPrice': 8.000,
+    'weight': '19 KG Bulk Sack',
+    'unit': 'commercial sack',
+    'stock': 75,
     'availability': 'in_stock',
     'isFeatured': True,
     'isPopular': True,
-    'description': 'Prepared 100% from tree-ripened Ratnagiri Alphonso (Hapus) mangoes. Luscious golden-orange pulp for homemade aamras, mango lassi, kulfi, and desserts.',
+    'description': '100% Natural long grain white rice by GreenLand Food Stuff. Milled to perfection with non-sticky grains, bright pearl white texture, and uniform length. Ideal for mandy, biryani, and daily meals. Net Weight: 19 KG sack.',
     'specs': {
-      'Mango Variety': '100% Ratnagiri Alphonso',
-      'Sugar Level': 'Natural Sweetness + Minimal Cane Syrup',
-      'Origin': 'Konkan Coast, Maharashtra',
-      'Shelf Life': '24 Months'
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '19 KG Wholesale Sack',
+      'Origin': 'Product of India',
+      'Variety': 'Long Grain Pearl White Rice',
+      'Grain Type': 'Long Grain Pearl White',
+      'Packaging': 'Durable Woven Commercial Sack'
     },
     'images': [
-      'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/greenland-long-grain-white-rice-19kg.png'
     ]
   },
   {
-    'id': 'prod-can-03',
-    'name': 'Peeled Plum Italian Tomatoes in Rich Puree',
-    'category': 'canned-products',
-    'categoryName': 'Canned products',
-    'price': 140,
-    'originalPrice': 175,
-    'weight': '800g',
-    'unit': 'can',
-    'stock': 35,
+    'id': 'prod-gl-palakkadan-matta-18kg',
+    'name': 'GreenLand Palakkadan Matta Rice (18 KG)',
+    'category': 'rice',
+    'categoryName': 'Rice & Grains',
+    'brand': 'GreenLand Food Stuff',
+    'price': 6.500,
+    'originalPrice': 7.800,
+    'weight': '18 KG Bulk Sack',
+    'unit': 'commercial sack',
+    'stock': 50,
     'availability': 'in_stock',
-    'isFeatured': False,
+    'isFeatured': True,
     'isPopular': True,
-    'description': 'Whole sun-ripened plum tomatoes steam-peeled and submerged in rich, savory tomato coulis. Authentic robust acid-sweet base for pasta sauces and stews.',
+    'description': '100% Natural parboiled red/brown rice grown in the nutrient-dense fields of Palakkad, Kerala. Rich in vitamins, high dietary fibre, and authentic earthy flavour. Net Weight: 18 KG sack.',
     'specs': {
-      'Tomato Type': '100% Italian San Marzano Style Plum',
-      'Pack': 'BPA-Free Lined Can',
-      'Ingredients': 'Tomatoes, Tomato Juice, Sea Salt',
-      'Shelf Life': '36 Months'
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '18 KG Wholesale Sack',
+      'Origin': 'Product of India (Palakkad, Kerala)',
+      'Variety': 'Palakkadan Matta Parboiled Red Rice',
+      'Nutrition': 'High Dietary Fibre & Minerals',
+      'Packaging': 'Commercial Heavy-Duty Sack'
     },
     'images': [
-      'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/greenland-palakkadan-matta-rice-18kg.png'
     ]
   },
   {
-    'id': 'prod-can-04',
-    'name': 'Premium Red Kidney Beans (Rajma) in Savoury Brine',
-    'category': 'canned-products',
-    'categoryName': 'Canned products',
-    'price': 110,
-    'originalPrice': 135,
-    'weight': '400g',
-    'unit': 'can',
-    'stock': 40,
+    'id': 'prod-gl-thanjavur-ponni-20kg',
+    'name': 'GreenLand Thanjavur Ponni Rice (20 KG)',
+    'category': 'rice',
+    'categoryName': 'Rice & Grains',
+    'brand': 'GreenLand Food Stuff',
+    'price': 7.200,
+    'originalPrice': 8.500,
+    'weight': '20 KG Bulk Sack',
+    'unit': 'commercial sack',
+    'stock': 80,
     'availability': 'in_stock',
-    'isFeatured': False,
-    'isPopular': False,
-    'description': 'Pre-soaked, tender cooked dark red kidney beans canned at source. Ready to toss into quick Punjabi rajma masala, salads, chili, and wraps without boiling delay.',
+    'isFeatured': True,
+    'isPopular': True,
+    'description': '100% Natural Thanjavur Ponni Rice by GreenLand Food Stuff. Grown in the fertile Kaveri delta of Thanjavur. Aged for perfect softness, non-sticky cooking, and delicate aroma. Net Weight: 20 KG sack.',
     'specs': {
-      'Net Weight': '400g (Drained Wt: 240g)',
-      'Convenience': 'Pre-Cooked, Heat & Serve',
-      'Origin': 'Himachal Highlands',
-      'Shelf Life': '24 Months'
+      'Brand': 'GreenLand Food Stuff',
+      'Net Weight': '20 KG Wholesale Sack',
+      'Origin': 'Product of India (Thanjavur, Tamil Nadu)',
+      'Variety': 'Thanjavur Aged Ponni Rice',
+      'Quality': '100% Natural Aged Ponni',
+      'Packaging': 'Heavy-Duty Stitched Grain Sack'
     },
     'images': [
-      'https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=800&q=80'
+      '/static/images/products/greenland-thanjavur-ponni-rice-20kg.png'
     ]
   }
 ]

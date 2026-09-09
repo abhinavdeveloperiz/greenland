@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-[#FAF6EE] text-[#1D261E] antialiased selection:bg-[#D34E1B] selection:text-white">
+<html lang="en" class="bg-[#FAF6EE] text-[#1D261E] antialiased selection:bg-[#D34E1B] selection:text-white">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -98,24 +98,27 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
   <style>
-    html, body {
-      overflow-x: hidden;
+    /* Clean layout bounds for Lenis smooth scrolling (clip avoids breaking scroll containers) */
+    html {
+      overflow-x: clip;
       max-width: 100%;
       width: 100%;
+      scroll-padding-top: 6.5rem;
     }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    body {
+      overflow-x: clip;
+      max-width: 100%;
+      width: 100%;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
     h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Outfit', sans-serif; }
+    
     .dot-pattern-bg {
       background-image: radial-gradient(rgba(18, 74, 46, 0.12) 1px, transparent 1px);
       background-size: 20px 20px;
     }
 
-    /* Fixed Header Offset */
-    html {
-      scroll-padding-top: 6.5rem;
-    }
-
-    /* Custom Luxury Brand Scrollbar */
+    /* Custom Luxury Foodstuff Scrollbar */
     ::-webkit-scrollbar {
       width: 10px;
       height: 10px;
@@ -127,7 +130,7 @@
       background: #124A2E;
       border-radius: 9999px;
       border: 2px solid #FAF6EE;
-      transition: background 0.2s ease;
+      transition: background 0.3s ease;
     }
     ::-webkit-scrollbar-thumb:hover {
       background: #D34E1B;
@@ -153,10 +156,92 @@
     .lenis.lenis-smooth iframe {
       pointer-events: none;
     }
+
+    /* Modern Scroll Reveal Animation (Silky 60fps fade & glide) */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* Primary CTA Button Light-Sweep Shimmer */
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shine::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 35%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.32) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(25deg);
+      pointer-events: none;
+      transition: none;
+    }
+    .btn-shine:hover::after {
+      left: 130%;
+      transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Navbar Link Animated Golden-Amber Underline */
+    .nav-link-anim {
+      position: relative;
+    }
+    .nav-link-anim::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #FAB82A;
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link-anim:hover::after,
+    .nav-link-anim.active-nav::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Foodstuff Signature Glow Card */
+    .foodstuff-card-glow {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+    }
+    .foodstuff-card-glow:hover {
+      transform: translateY(-6px);
+      border-color: #FAB82A;
+      box-shadow: 0 18px 36px -4px rgba(18, 74, 46, 0.12),
+                  0 6px 18px -2px rgba(250, 184, 42, 0.2);
+    }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
-<body class="flex flex-col min-h-screen bg-[#FAF6EE] text-[#1D261E] overflow-x-hidden" x-data>
+<body class="flex flex-col min-h-screen bg-[#FAF6EE] text-[#1D261E]" x-data>
 
   <!-- Main Navigation (Deep Forest Green Header) -->
   {% include 'components/navbar.html' %}
@@ -168,6 +253,9 @@
 
   <!-- Footer -->
   {% include 'components/footer.html' %}
+
+  <!-- Scroll Progress Indicator Bar (Radiant Golden-Amber to Terracotta Accent) -->
+  <div id="scroll-progress" class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-[#FAB82A] via-[#D34E1B] to-[#4F8B3A] z-50 pointer-events-none w-0 opacity-0 transition-opacity duration-300 shadow-[0_1px_8px_rgba(250,184,42,0.7)]"></div>
 
   <!-- Floating Back to Top Button with Smooth Inertia Scroll -->
   <div
@@ -185,7 +273,7 @@
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       "
-      class="group flex items-center gap-2 p-3 sm:px-4 sm:py-3 rounded-full bg-[#124A2E] hover:bg-[#D34E1B] text-white shadow-[0_8px_25px_rgba(18,74,46,0.35)] border border-[#FAB82A]/40 transition-all duration-300 hover:scale-105 active:scale-95"
+      class="group flex items-center gap-2 p-3 sm:px-4 sm:py-3 rounded-full bg-[#124A2E] hover:bg-[#D34E1B] text-white shadow-[0_8px_25px_rgba(18,74,46,0.35)] hover:shadow-[0_8px_25px_rgba(211,78,27,0.45)] border border-[#FAB82A]/50 transition-all duration-300 hover:scale-105 active:scale-95"
       title="Scroll to Top"
     >
       <i data-lucide="arrow-up" class="w-4 h-4 sm:w-4.5 sm:h-4.5 group-hover:-translate-y-1 transition-transform"></i>
@@ -209,22 +297,25 @@
     });
   </script>
 
-  <!-- Lenis Momentum Smooth Scroll Engine -->
+  <!-- Lenis Momentum Smooth Scroll & Micro-Interactions Engine -->
   <script src="{% static 'js/lenis.min.js' %}"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const progressBar = document.getElementById('scroll-progress');
 
+      // 1. Initialize Lenis Momentum Smooth Scroll
+      let lenis = null;
       if (window.Lenis && !prefersReducedMotion) {
         try {
-          const lenis = new Lenis({
-            duration: 1.0,
+          lenis = new Lenis({
+            duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             gestureDirection: 'vertical',
             smooth: true,
             smoothWheel: true,
-            wheelMultiplier: 1.0,
+            wheelMultiplier: 0.95,
             smoothTouch: false,
             touchMultiplier: 1.0,
             infinite: false,
@@ -251,8 +342,43 @@
             });
           });
         } catch (err) {
-          console.warn('Lenis smooth scroll fallback to native:', err);
+          console.warn('Lenis smooth scroll fallback:', err);
         }
+      }
+
+      // 2. Scroll Progress Tracker (Golden Amber Fill)
+      function updateScrollProgress() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (scrollHeight > 0 && progressBar) {
+          const progress = Math.min(Math.max((scrollTop / scrollHeight) * 100, 0), 100);
+          progressBar.style.width = progress + '%';
+          progressBar.style.opacity = scrollTop > 30 ? '1' : '0';
+        }
+      }
+      window.addEventListener('scroll', updateScrollProgress, { passive: true });
+      if (lenis) {
+        lenis.on('scroll', updateScrollProgress);
+      }
+
+      // 3. Scroll Reveal Observer for Sections & Grids
+      const revealElements = document.querySelectorAll('.reveal-on-scroll');
+      if ('IntersectionObserver' in window && !prefersReducedMotion) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.08,
+          rootMargin: '0px 0px -30px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+      } else {
+        revealElements.forEach(el => el.classList.add('is-revealed'));
       }
     });
   </script>
