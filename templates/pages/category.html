@@ -17,12 +17,12 @@
 >
   
   <!-- Category Hero Header in Deep Forest Green with Sunlit Amber accents -->
-  <div class="relative bg-gradient-to-r from-[#072415] via-[#124A2E] to-[#0A341E] text-white py-12 sm:py-16 overflow-hidden border-b border-[#FAB82A]/30">
+  <div class="relative bg-gradient-to-r from-[#072415] via-[#124A2E] to-[#0A341E] text-white py-8 xs:py-12 sm:py-16 overflow-hidden border-b border-[#FAB82A]/30">
     <!-- Ambient Glow Backdrop -->
     <div class="absolute -top-24 -right-24 w-80 h-80 bg-[#FAB82A]/15 rounded-full blur-3xl pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-      <div class="space-y-2.5 max-w-2xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+      <div class="space-y-2 max-w-2xl">
         <div class="flex items-center gap-2 text-xs text-[#FAB82A] font-bold uppercase tracking-wider">
           <a href="{% url 'store:home' %}" class="hover:underline">Home</a>
           <span>/</span>
@@ -30,7 +30,7 @@
           <span>/</span>
           <span class="text-white">{{ category.name }}</span>
         </div>
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white font-display tracking-tight">
+        <h1 class="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-black text-white font-display tracking-tight">
           {{ category.name }}
         </h1>
         <p class="text-xs sm:text-sm text-white/85 leading-relaxed max-w-xl">
@@ -38,7 +38,7 @@
         </p>
       </div>
 
-      <div class="bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/20 text-xs text-white/90 space-y-1.5 self-start shadow-xl">
+      <div class="bg-white/10 backdrop-blur-md p-3.5 xs:p-4 sm:p-5 rounded-2xl border border-white/20 text-xs text-white/90 space-y-1.5 self-start shadow-xl">
         <p class="font-bold text-[#FAB82A] flex items-center gap-1.5">
           <i data-lucide="sparkles" class="w-4 h-4 text-[#FAB82A]"></i>
           <span>100% Certified Farm Purity</span>
@@ -60,7 +60,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-200">
       
       <!-- Brand Filter Tabs inside Category -->
-      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 no-scrollbar touch-pan-x">
         <span class="text-xs font-bold text-stone-500 mr-1 hidden sm:inline">Brand:</span>
         <button
           type="button"
@@ -134,8 +134,8 @@
     <!-- Products Container: Adaptive Grid or List -->
     <div
       :class="viewMode === 'grid'
-        ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'
-        : 'flex flex-col gap-4'"
+        ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6'
+        : 'flex flex-col gap-3 sm:gap-4'"
     >
       {% for product in products %}
       <div

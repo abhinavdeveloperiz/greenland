@@ -5,7 +5,7 @@
 
 {% block content %}
 <div
-  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8"
+  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8"
   x-data="{
     paymentMethod: 'online',
     selectedAddress: 'addr-1',
@@ -124,7 +124,7 @@
     <div class="lg:col-span-8 space-y-6 sm:space-y-8">
       
       <!-- Section 1: Address Management UI -->
-      <section class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-5">
+      <section class="bg-white rounded-2xl p-4 xs:p-5 sm:p-6 border border-stone-200 shadow-sm space-y-4 sm:space-y-5">
         <div class="flex items-center justify-between pb-3 border-stone-100 border-b">
           <div class="flex items-center gap-2 font-black text-[#124A2E] text-base font-display">
             <i data-lucide="map-pin" class="w-5 h-5 text-[#D34E1B]"></i>
@@ -244,7 +244,7 @@
       </section>
 
       <!-- Section 2: Payment Method Selection -->
-      <section class="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm space-y-5">
+      <section class="bg-white rounded-2xl p-4 xs:p-5 sm:p-6 border border-stone-200 shadow-sm space-y-4 sm:space-y-5">
         <div class="pb-3 border-b border-stone-100 flex items-center gap-2 font-black text-[#124A2E] text-base font-display">
           <i data-lucide="credit-card" class="w-5 h-5 text-[#D34E1B]"></i>
           <span>2. Select Payment Method</span>

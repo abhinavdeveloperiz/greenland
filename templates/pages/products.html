@@ -106,70 +106,70 @@
       {% endif %}
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
       
       <!-- Tab 1: All Brands -->
       <a
         href="{% url 'store:products' %}?{% if selected_category != 'all' %}category={{ selected_category }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}brand=all"
-        class="relative p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group {% if selected_brand == 'all' %}bg-white border-[#124A2E] ring-2 ring-[#124A2E]/20 shadow-md{% else %}bg-white/80 hover:bg-white border-stone-200 hover:border-stone-300 shadow-xs{% endif %}"
+        class="relative p-2.5 xs:p-3 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group {% if selected_brand == 'all' %}bg-white border-[#124A2E] ring-2 ring-[#124A2E]/20 shadow-md{% else %}bg-white/80 hover:bg-white border-stone-200 hover:border-stone-300 shadow-xs{% endif %}"
       >
-        <div class="flex items-center justify-between gap-2 mb-2">
-          <h4 class="font-display font-black text-xs sm:text-sm text-[#1D261E] group-hover:text-[#124A2E] transition-colors">
+        <div class="flex items-center justify-between gap-1.5 mb-1.5 sm:mb-2">
+          <h4 class="font-display font-black text-xs xs:text-[13px] sm:text-sm text-[#1D261E] group-hover:text-[#124A2E] transition-colors truncate">
             All Brands
           </h4>
-          <span class="px-2 py-0.5 rounded-full text-[10.5px] font-black whitespace-nowrap {% if selected_brand == 'all' %}bg-[#124A2E] text-white{% else %}bg-stone-100 text-stone-600{% endif %}">
+          <span class="px-1.5 xs:px-2 py-0.5 rounded-full text-[9.5px] xs:text-[10.5px] font-black whitespace-nowrap {% if selected_brand == 'all' %}bg-[#124A2E] text-white{% else %}bg-stone-100 text-stone-600{% endif %}">
             {{ brand_counts.all }}
           </span>
         </div>
-        <p class="text-[10.5px] text-stone-500 line-clamp-1">Complete Inventory</p>
+        <p class="text-[10px] sm:text-[10.5px] text-stone-500 line-clamp-1">Complete Inventory</p>
       </a>
 
       <!-- Tab 2: GreenLand Food Stuff -->
       <a
         href="{% url 'store:products' %}?{% if selected_category != 'all' %}category={{ selected_category }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}brand=greenland"
-        class="relative p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group {% if selected_brand == 'greenland' %}bg-gradient-to-br from-[#FAF6EE] to-white border-[#124A2E] ring-2 ring-[#124A2E]/30 shadow-md{% else %}bg-white/80 hover:bg-white border-stone-200 hover:border-emerald-300 shadow-xs{% endif %}"
+        class="relative p-2.5 xs:p-3 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group {% if selected_brand == 'greenland' %}bg-gradient-to-br from-[#FAF6EE] to-white border-[#124A2E] ring-2 ring-[#124A2E]/30 shadow-md{% else %}bg-white/80 hover:bg-white border-stone-200 hover:border-emerald-300 shadow-xs{% endif %}"
       >
-        <div class="flex items-center justify-between gap-2 mb-2">
-          <h4 class="font-display font-black text-xs sm:text-sm text-[#124A2E]">
+        <div class="flex items-center justify-between gap-1.5 mb-1.5 sm:mb-2">
+          <h4 class="font-display font-black text-xs xs:text-[13px] sm:text-sm text-[#124A2E] truncate">
             GreenLand
           </h4>
-          <span class="px-2 py-0.5 rounded-full text-[10.5px] font-black whitespace-nowrap {% if selected_brand == 'greenland' %}bg-[#124A2E] text-[#FAB82A]{% else %}bg-emerald-50 text-[#124A2E] border border-emerald-100{% endif %}">
-            {{ brand_counts.greenland }} items
+          <span class="px-1.5 xs:px-2 py-0.5 rounded-full text-[9.5px] xs:text-[10.5px] font-black whitespace-nowrap {% if selected_brand == 'greenland' %}bg-[#124A2E] text-[#FAB82A]{% else %}bg-emerald-50 text-[#124A2E] border border-emerald-100{% endif %}">
+            {{ brand_counts.greenland }}
           </span>
         </div>
-        <p class="text-[10.5px] text-stone-500 line-clamp-1">Teas, Pulses, Dairy &amp; Spices</p>
+        <p class="text-[10px] sm:text-[10.5px] text-stone-500 line-clamp-1">Teas, Pulses &amp; Spices</p>
       </a>
 
       <!-- Tab 3: 88 Brand Wholesale -->
       <a
         href="{% url 'store:products' %}?{% if selected_category != 'all' %}category={{ selected_category }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}brand=88"
-        class="relative p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group {% if selected_brand == '88' %}bg-gradient-to-br from-amber-50/40 to-white border-[#D34E1B] ring-2 ring-[#D34E1B]/30 shadow-md{% else %}bg-white/80 hover:bg-white border-stone-200 hover:border-amber-300 shadow-xs{% endif %}"
+        class="relative p-2.5 xs:p-3 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group {% if selected_brand == '88' %}bg-gradient-to-br from-amber-50/40 to-white border-[#D34E1B] ring-2 ring-[#D34E1B]/30 shadow-md{% else %}bg-white/80 hover:bg-white border-stone-200 hover:border-amber-300 shadow-xs{% endif %}"
       >
-        <div class="flex items-center justify-between gap-2 mb-2">
-          <h4 class="font-display font-black text-xs sm:text-sm text-[#D34E1B]">
+        <div class="flex items-center justify-between gap-1.5 mb-1.5 sm:mb-2">
+          <h4 class="font-display font-black text-xs xs:text-[13px] sm:text-sm text-[#D34E1B] truncate">
             88 Brand
           </h4>
-          <span class="px-2 py-0.5 rounded-full text-[10.5px] font-black whitespace-nowrap {% if selected_brand == '88' %}bg-[#D34E1B] text-white{% else %}bg-orange-50 text-[#D34E1B] border border-orange-100{% endif %}">
-            {{ brand_counts.88 }} items
+          <span class="px-1.5 xs:px-2 py-0.5 rounded-full text-[9.5px] xs:text-[10.5px] font-black whitespace-nowrap {% if selected_brand == '88' %}bg-[#D34E1B] text-white{% else %}bg-orange-50 text-[#D34E1B] border border-orange-100{% endif %}">
+            {{ brand_counts.88 }}
           </span>
         </div>
-        <p class="text-[10.5px] text-stone-500 line-clamp-1">Lentils, Flours &amp; Grains</p>
+        <p class="text-[10px] sm:text-[10.5px] text-stone-500 line-clamp-1">Lentils &amp; Flours</p>
       </a>
 
       <!-- Tab 4: 777 Brand Heritage -->
       <a
         href="{% url 'store:products' %}?{% if selected_category != 'all' %}category={{ selected_category }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}brand=777"
-        class="relative p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group {% if selected_brand == '777' %}bg-gradient-to-br from-red-50/40 to-white border-[#BA1B1D] ring-2 ring-[#BA1B1D]/30 shadow-md{% else %}bg-white/80 hover:bg-white border-stone-200 hover:border-red-300 shadow-xs{% endif %}"
+        class="relative p-2.5 xs:p-3 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between group {% if selected_brand == '777' %}bg-gradient-to-br from-red-50/40 to-white border-[#BA1B1D] ring-2 ring-[#BA1B1D]/30 shadow-md{% else %}bg-white/80 hover:bg-white border-stone-200 hover:border-red-300 shadow-xs{% endif %}"
       >
-        <div class="flex items-center justify-between gap-2 mb-2">
-          <h4 class="font-display font-black text-xs sm:text-sm text-[#BA1B1D]">
+        <div class="flex items-center justify-between gap-1.5 mb-1.5 sm:mb-2">
+          <h4 class="font-display font-black text-xs xs:text-[13px] sm:text-sm text-[#BA1B1D] truncate">
             777 Brand
           </h4>
-          <span class="px-2 py-0.5 rounded-full text-[10.5px] font-black whitespace-nowrap {% if selected_brand == '777' %}bg-[#BA1B1D] text-white{% else %}bg-red-50 text-[#BA1B1D] border border-red-100{% endif %}">
-            {{ brand_counts.777 }} items
+          <span class="px-1.5 xs:px-2 py-0.5 rounded-full text-[9.5px] xs:text-[10.5px] font-black whitespace-nowrap {% if selected_brand == '777' %}bg-[#BA1B1D] text-white{% else %}bg-red-50 text-[#BA1B1D] border border-red-100{% endif %}">
+            {{ brand_counts.777 }}
           </span>
         </div>
-        <p class="text-[10.5px] text-stone-500 line-clamp-1">Asafoetida &amp; Gingelly Oils</p>
+        <p class="text-[10px] sm:text-[10.5px] text-stone-500 line-clamp-1">Asafoetida &amp; Oils</p>
       </a>
 
     </div>
@@ -224,7 +224,7 @@
       <span class="text-[11px] text-stone-400 font-medium">Click any chip to filter</span>
     </div>
 
-    <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin no-scrollbar">
+    <div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar touch-pan-x">
       <!-- Chip: All -->
       <a
         href="{% url 'store:products' %}?{% if selected_brand != 'all' %}brand={{ selected_brand }}&{% endif %}{% if search_query %}search={{ search_query }}{% endif %}"
@@ -447,8 +447,8 @@
       {% if products %}
       <div
         :class="viewMode === 'grid'
-          ? 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6'
-          : 'flex flex-col gap-4'"
+          ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5'
+          : 'flex flex-col gap-3 sm:gap-4'"
       >
         {% for product in products %}
           {% include 'components/product_card.html' with product=product %}
