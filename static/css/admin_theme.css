@@ -18,7 +18,18 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-:root {
+:root,
+html[data-theme="dark"],
+html[data-theme="light"],
+html[data-theme="auto"] {
+  color-scheme: light !important;
+  --body-fg: #1D261E !important;
+  --body-bg: #F8F5EE !important;
+  --body-loud-color: #072415 !important;
+  --body-medium-color: #374151 !important;
+  --body-quiet-color: #6A7369 !important;
+  --primary: #124A2E !important;
+  --primary-fg: #FFFFFF !important;
   --gl-primary-deep: #072415;
   --gl-primary: #124A2E;
   --gl-primary-dark: #0B351F;
@@ -39,6 +50,19 @@
   --gl-shadow-lg: 0 12px 36px rgba(7, 36, 21, 0.15);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root,
+  html,
+  body {
+    color-scheme: light !important;
+    --body-fg: #1D261E !important;
+    --body-bg: #F8F5EE !important;
+    --body-loud-color: #072415 !important;
+    --body-medium-color: #374151 !important;
+    --body-quiet-color: #6A7369 !important;
+  }
+}
+
 /* =========================================================================
    1. GLOBAL RESET & TYPOGRAPHY
    ========================================================================= */
@@ -48,12 +72,13 @@
 
 body, input, select, textarea, button {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  color: var(--gl-stone);
+  color: #1D261E !important;
   -webkit-font-smoothing: antialiased;
 }
 
 body {
   background-color: #F8F5EE !important;
+  color: #1D261E !important;
   margin: 0;
   line-height: 1.5;
 }
@@ -748,19 +773,26 @@ fieldset h2 {
 }
 
 input[type=text], input[type=password], input[type=email], input[type=url], 
-input[type=number], select, textarea {
+input[type=number], input[type=tel], input:not([type]), select, textarea, .vTextField {
   border: 1.5px solid var(--gl-border) !important;
   border-radius: var(--gl-radius-sm) !important;
   padding: 10px 14px !important;
-  font-size: 13.5px !important;
-  background: #FAF8F3 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #111827 !important;
+  background: #FFFFFF !important;
+  caret-color: #124A2E !important;
+  color-scheme: light !important;
   transition: all 0.2s ease !important;
 }
 
-input[type=text]:focus, select:focus, textarea:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus,
+input[type=url]:focus, input[type=number]:focus, input[type=tel]:focus,
+input:not([type]):focus, select:focus, textarea:focus, .vTextField:focus {
   border-color: var(--gl-primary) !important;
   background: #FFFFFF !important;
-  box-shadow: 0 0 0 3px rgba(18, 74, 46, 0.15) !important;
+  color: #072415 !important;
+  box-shadow: 0 0 0 3px rgba(18, 74, 46, 0.18) !important;
   outline: none !important;
 }
 
@@ -853,46 +885,219 @@ input[type=text]:focus, select:focus, textarea:focus {
    8. ADMIN LOGIN PAGE ENHANCEMENT
    ========================================================================= */
 body.login {
-  background: linear-gradient(135deg, var(--gl-primary-deep) 0%, var(--gl-primary) 50%, #0A321E 100%) !important;
+  background: radial-gradient(circle at 50% 20%, #165636 0%, var(--gl-primary-deep) 65%, #051A10 100%) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   min-height: 100vh !important;
+  color-scheme: light !important;
 }
 
 body.login #container {
   background: #FFFFFF !important;
-  border-radius: 20px !important;
+  border-radius: 24px !important;
   border: 2px solid var(--gl-accent) !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(250, 184, 42, 0.3) !important;
   overflow: hidden !important;
   max-width: 440px !important;
-  width: 90% !important;
-  margin: 40px auto !important;
+  width: 92% !important;
+  margin: 30px auto !important;
 }
 
 body.login #header {
-  background: var(--gl-primary-deep) !important;
+  background: linear-gradient(135deg, var(--gl-primary-deep) 0%, #0F4328 100%) !important;
   text-align: center !important;
-  padding: 24px !important;
+  padding: 24px 20px !important;
+  justify-content: center !important;
+  border-bottom: 3px solid var(--gl-accent) !important;
+}
+
+body.login #header #site-name a {
   justify-content: center !important;
 }
 
 body.login #content {
-  padding: 28px !important;
+  padding: 28px 24px 32px 24px !important;
+  background: #FFFFFF !important;
 }
 
+body.login .form-row {
+  margin-bottom: 20px !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+body.login .form-row label {
+  display: block !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  color: #072415 !important;
+  margin-bottom: 8px !important;
+  letter-spacing: 0.02em !important;
+}
+
+body.login .form-row label.required::after {
+  content: " *" !important;
+  color: #D34E1B !important;
+}
+
+/* HIGH-CONTRAST VISIBLE INPUTS */
+body.login .form-row input[type=text],
+body.login .form-row input[type=password],
+body.login #id_username,
+body.login #id_password {
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  background: #FFFFFF !important;
+  border: 2px solid #D1C7B7 !important;
+  border-radius: 12px !important;
+  padding: 13px 16px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #082114 !important; /* Deep, bold, ultra-readable dark text */
+  letter-spacing: normal !important;
+  caret-color: #124A2E !important;
+  color-scheme: light !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) inset !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Specific visibility enhancement for password dots */
+body.login .form-row input[type=password],
+body.login #id_password {
+  font-size: 17px !important;
+  letter-spacing: 0.12em !important;
+  color: #082114 !important;
+}
+
+/* Clear focus state */
+body.login .form-row input[type=text]:focus,
+body.login .form-row input[type=password]:focus,
+body.login #id_username:focus,
+body.login #id_password:focus {
+  background: #FFFFFF !important;
+  border-color: #124A2E !important;
+  color: #04140B !important;
+  box-shadow: 0 0 0 4px rgba(18, 74, 46, 0.18), 0 2px 6px rgba(18, 74, 46, 0.08) !important;
+  outline: none !important;
+}
+
+/* Hover state */
+body.login .form-row input[type=text]:hover:not(:focus),
+body.login .form-row input[type=password]:hover:not(:focus) {
+  border-color: #FAB82A !important;
+  background: #FFFFFF !important;
+}
+
+/* Crisp placeholder */
+body.login input::placeholder {
+  color: #7A8578 !important;
+  font-weight: 500 !important;
+  font-size: 13.5px !important;
+  opacity: 1 !important;
+}
+
+/* Fix browser autofill washing out colors or turning text white */
+body.login input:-webkit-autofill,
+body.login input:-webkit-autofill:hover, 
+body.login input:-webkit-autofill:focus, 
+body.login input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 40px #FFFFFF inset !important;
+  -webkit-text-fill-color: #082114 !important;
+  caret-color: #124A2E !important;
+}
+
+/* Error notes on login */
+body.login .errornote {
+  background: #FEE2E2 !important;
+  border: 1.5px solid #EF4444 !important;
+  color: #991B1B !important;
+  border-radius: 12px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 12px 16px !important;
+  margin-bottom: 20px !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15) !important;
+}
+
+body.login .errorlist {
+  padding: 0 !important;
+  margin: 0 0 8px 0 !important;
+  list-style: none !important;
+  color: #DC2626 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+/* Password wrapper and toggle button */
+.gl-password-field-container {
+  position: relative !important;
+  width: 100% !important;
+}
+
+.gl-password-field-container input {
+  padding-right: 48px !important;
+}
+
+.gl-toggle-password-btn {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 6px !important;
+  cursor: pointer !important;
+  color: #6A7369 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.gl-toggle-password-btn:hover {
+  color: #124A2E !important;
+  background: #FAF6EE !important;
+}
+
+/* Submit button */
 body.login .submit-row {
   border: none !important;
   box-shadow: none !important;
-  padding: 10px 0 0 0 !important;
+  padding: 12px 0 0 0 !important;
   justify-content: center !important;
 }
 
 body.login .submit-row input[type=submit] {
   width: 100% !important;
-  padding: 13px 24px !important;
+  padding: 14px 24px !important;
+  font-family: 'Outfit', sans-serif !important;
   font-size: 14px !important;
-  letter-spacing: 0.08em !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #FFFFFF !important;
+  background: linear-gradient(135deg, #124A2E 0%, #0B351F 100%) !important;
+  border: 1px solid rgba(250, 184, 42, 0.4) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 6px 20px rgba(18, 74, 46, 0.35) !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+}
+
+body.login .submit-row input[type=submit]:hover {
+  background: linear-gradient(135deg, #FAB82A 0%, #E5A41F 100%) !important;
+  color: #072415 !important;
+  border-color: #FAB82A !important;
+  box-shadow: 0 8px 25px rgba(250, 184, 42, 0.45) !important;
+  transform: translateY(-2px) !important;
+}
+
+body.login .submit-row input[type=submit]:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 4px 12px rgba(18, 74, 46, 0.3) !important;
 }
