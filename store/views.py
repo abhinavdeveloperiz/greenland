@@ -25,12 +25,6 @@ def products_view(request):
     selected_category = request.GET.get('category', 'all')
     selected_brand = request.GET.get('brand', 'all')
     sort_by = request.GET.get('sort', 'featured')
-    
-    try:
-        max_price = float(request.GET.get('max_price', 15))
-    except (ValueError, TypeError):
-        max_price = 15.0
-
     availability = request.GET.get('availability', 'all')
 
     qs = Product.objects.filter(is_active=True).select_related('category').prefetch_related('gallery_images')
@@ -48,8 +42,6 @@ def products_view(request):
 
     if selected_brand != 'all':
         qs = qs.filter(brand_code=selected_brand)
-
-    qs = qs.filter(price__lte=max_price)
 
     if availability != 'all':
         qs = qs.filter(availability=availability)
@@ -92,7 +84,6 @@ def products_view(request):
         'categories_with_counts': categories_with_counts,
         'brands': Brand.objects.filter(is_active=True).order_by('order'),
         'sort_by': sort_by,
-        'max_price': max_price,
         'availability': availability,
         'total_count': qs.count(),
     }

@@ -288,37 +288,15 @@
         {% endif %}
       </form>
 
-      <!-- Price & Availability Form -->
+      <!-- Availability Form -->
       <form action="{% url 'store:products' %}" method="GET" class="space-y-4 pt-1">
         <input type="hidden" name="category" value="{{ selected_category }}">
         <input type="hidden" name="brand" value="{{ selected_brand }}">
         {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
         <input type="hidden" name="sort" value="{{ sort_by }}">
 
-        <!-- Price Range Slider -->
-        <div class="space-y-2">
-          <div class="flex justify-between text-xs font-bold text-[#1D261E]">
-            <span class="text-stone-600">Max Budget:</span>
-            <span class="text-[#BA1B1D] font-black">KD {{ max_price|floatformat:3 }}</span>
-          </div>
-          <input
-            type="range"
-            name="max_price"
-            min="0.5"
-            max="15"
-            step="0.25"
-            value="{{ max_price }}"
-            oninput="this.form.submit()"
-            class="w-full accent-[#124A2E] cursor-pointer"
-          />
-          <div class="flex justify-between text-[10px] text-stone-400">
-            <span>KD 0.500</span>
-            <span>KD 15.000</span>
-          </div>
-        </div>
-
         <!-- Availability Toggle -->
-        <div class="pt-3 border-t border-stone-100 space-y-2">
+        <div class="space-y-2">
           <h4 class="text-xs font-bold text-[#1D261E] uppercase tracking-wider">Availability</h4>
           <div class="space-y-1.5 text-xs text-[#1D261E]/80">
             <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded-lg hover:bg-[#FAF6EE] transition-colors">
@@ -382,7 +360,7 @@
           </a>
           {% endif %}
 
-          {% if selected_category != 'all' or selected_brand != 'all' or search_query or availability != 'all' or max_price < 15 %}
+          {% if selected_category != 'all' or selected_brand != 'all' or search_query or availability != 'all' %}
           <a
             href="{% url 'store:products' %}"
             class="text-[11px] font-bold text-[#BA1B1D] hover:underline ml-1"
@@ -400,7 +378,6 @@
             <input type="hidden" name="category" value="{{ selected_category }}">
             <input type="hidden" name="brand" value="{{ selected_brand }}">
             {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
-            <input type="hidden" name="max_price" value="{{ max_price }}">
             <input type="hidden" name="availability" value="{{ availability }}">
 
             <label class="text-xs text-stone-500 font-medium hidden sm:inline">Sort:</label>
@@ -464,7 +441,7 @@
         <div class="space-y-1">
           <h3 class="text-lg font-bold text-[#124A2E]">No foodstuff items matched your filter</h3>
           <p class="text-xs text-stone-500 max-w-md mx-auto">
-            Try adjusting your search keyword, budget range, or selecting another brand/category from above.
+            Try adjusting your search keyword, availability, or selecting another brand/category from above.
           </p>
         </div>
         <div class="pt-2">
@@ -610,27 +587,11 @@
           </div>
         </div>
 
-        <!-- Price Range & Availability -->
+        <!-- Availability & Sort -->
         <form action="{% url 'store:products' %}" method="GET" class="space-y-5 pt-4 border-t border-stone-100">
           <input type="hidden" name="category" value="{{ selected_category }}">
           <input type="hidden" name="brand" value="{{ selected_brand }}">
           {% if search_query %}<input type="hidden" name="search" value="{{ search_query }}">{% endif %}
-
-          <div>
-            <div class="flex justify-between text-xs font-bold text-[#1D261E] mb-2">
-              <span>Max Budget:</span>
-              <span class="text-[#BA1B1D] font-black">KD {{ max_price|floatformat:3 }}</span>
-            </div>
-            <input
-              type="range"
-              name="max_price"
-              min="0.5"
-              max="15"
-              step="0.25"
-              value="{{ max_price }}"
-              class="w-full accent-[#124A2E] cursor-pointer"
-            />
-          </div>
 
           <div>
             <h4 class="text-xs font-bold text-[#1D261E] uppercase tracking-wider mb-2">Availability</h4>
