@@ -516,68 +516,137 @@
       </div>
       {% endif %}
 
-      <!-- Products Section with Interactive Brand Filter Tabs -->
-      <div x-data="{ activeBrand: 'all' }" class="space-y-6">
+      <!-- Featured Foodstuffs & Grain Staples (Arranged Separately by Brand) -->
+      <div class="space-y-12 sm:space-y-14">
         
-        <!-- Header & Brand Filter Tabs -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-stone-200">
+        <!-- Section Header -->
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b-2 border-[#124A2E]/15">
           <div>
-            <h3 class="font-display font-extrabold text-lg sm:text-xl text-[#124A2E]">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#124A2E]/10 text-[#124A2E] text-[11px] font-extrabold uppercase tracking-wider mb-1.5">
+              <span>★ Handpicked Quality</span>
+            </div>
+            <h3 class="font-display font-extrabold text-xl sm:text-2xl md:text-3xl text-[#124A2E] tracking-tight">
               Featured Foodstuffs &amp; Grain Staples
             </h3>
-            <p class="text-xs text-stone-500 mt-0.5">Filter by brand or browse all pantry items</p>
+            <p class="text-xs sm:text-sm text-stone-500 mt-0.5">
+              Signature staples arranged separately across GreenLand, 88 Brand Wholesale, and 777 Brand
+            </p>
+          </div>
+          <a
+            href="{% url 'store:products' %}"
+            class="text-xs sm:text-sm font-extrabold text-[#124A2E] hover:text-[#D34E1B] inline-flex items-center gap-1.5 transition-colors group"
+          >
+            <span>Explore Full Catalog</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+        </div>
+
+        <!-- 1. GREENLAND PRODUCTS -->
+        <div class="space-y-5">
+          <!-- Brand Header Banner -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-[#124A2E]/10 via-[#FAF6EE] to-transparent border-l-4 border-[#124A2E]">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🌿</span>
+              <div>
+                <h4 class="font-display font-black text-base sm:text-lg text-[#124A2E]">
+                  GreenLand Food Stuff Products
+                </h4>
+                <p class="text-[11px] sm:text-xs text-stone-600">
+                  Pure Ceylon &amp; Assam Teas, Aged Basmati Sella Rice, Retail Pulses &amp; Daily Dairy Essentials
+                </p>
+              </div>
+            </div>
+            <a
+              href="{% url 'store:products' %}?brand=greenland"
+              class="text-xs font-bold text-[#124A2E] hover:text-[#D34E1B] inline-flex items-center gap-1 self-start sm:self-auto transition-colors"
+            >
+              <span>View All GreenLand</span>
+              <span>→</span>
+            </a>
           </div>
 
-          <!-- Interactive Brand Filter Pills -->
-          <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-stone-200 shadow-xs overflow-x-auto">
-            <button
-              type="button"
-              @click="activeBrand = 'all'"
-              :class="activeBrand === 'all' ? 'bg-[#124A2E] text-white shadow-xs font-bold' : 'text-stone-600 hover:text-[#124A2E] font-medium'"
-              class="px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap"
-            >
-              All Items
-            </button>
-            <button
-              type="button"
-              @click="activeBrand = 'greenland'"
-              :class="activeBrand === 'greenland' ? 'bg-[#124A2E] text-[#FAB82A] shadow-xs font-bold' : 'text-stone-600 hover:text-[#124A2E] font-medium'"
-              class="px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap flex items-center gap-1"
-            >
-              <span>🌿</span> GreenLand
-            </button>
-            <button
-              type="button"
-              @click="activeBrand = '88'"
-              :class="activeBrand === '88' ? 'bg-[#D34E1B] text-white shadow-xs font-bold' : 'text-stone-600 hover:text-[#D34E1B] font-medium'"
-              class="px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap flex items-center gap-1"
-            >
-              <span>🌾</span> 88 Brand
-            </button>
-            <button
-              type="button"
-              @click="activeBrand = '777'"
-              :class="activeBrand === '777' ? 'bg-[#BA1B1D] text-white shadow-xs font-bold' : 'text-stone-600 hover:text-[#BA1B1D] font-medium'"
-              class="px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap flex items-center gap-1"
-            >
-              <span>⭐</span> 777 Brand
-            </button>
+          <!-- GreenLand Products Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            {% for product in featured_products %}
+              {% if product.brand_code == 'greenland' %}
+              <div class="h-full">
+                {% include 'components/product_card.html' with product=product %}
+              </div>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
 
-        <!-- Products Grid with Instant Reactive Filtering: 2-col on mobile, 2-col on tablet, 4-col on desktop -->
-        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-          {% for product in featured_products %}
-          <div
-            x-show="activeBrand === 'all' || activeBrand === '{{ product.brand_code }}'"
-            x-transition:enter="transition ease-out duration-300 transform"
-            x-transition:enter-start="opacity-0 scale-95"
-            x-transition:enter-end="opacity-100 scale-100"
-            class="h-full"
-          >
-            {% include 'components/product_card.html' with product=product %}
+        <!-- 2. 88 BRAND WHOLESALE PRODUCTS -->
+        <div class="space-y-5">
+          <!-- Brand Header Banner -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-[#D34E1B]/10 via-[#FFF7F2] to-transparent border-l-4 border-[#D34E1B]">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🌾</span>
+              <div>
+                <h4 class="font-display font-black text-base sm:text-lg text-[#D34E1B]">
+                  88 Brand Wholesale Products
+                </h4>
+                <p class="text-[11px] sm:text-xs text-stone-600">
+                  Commercial Bulk Chickpeas, Green Moong, Whole Red Lentils &amp; Premium Ajwain Seeds
+                </p>
+              </div>
+            </div>
+            <a
+              href="{% url 'store:products' %}?brand=88"
+              class="text-xs font-bold text-[#D34E1B] hover:text-[#FAB82A] inline-flex items-center gap-1 self-start sm:self-auto transition-colors"
+            >
+              <span>View All 88 Brand</span>
+              <span>→</span>
+            </a>
           </div>
-          {% endfor %}
+
+          <!-- 88 Brand Products Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            {% for product in featured_products %}
+              {% if product.brand_code == '88' %}
+              <div class="h-full">
+                {% include 'components/product_card.html' with product=product %}
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- 3. 777 BRAND HERITAGE PRODUCTS -->
+        <div class="space-y-5">
+          <!-- Brand Header Banner -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-[#BA1B1D]/10 via-[#FDF2F2] to-transparent border-l-4 border-[#BA1B1D]">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">⭐</span>
+              <div>
+                <h4 class="font-display font-black text-base sm:text-lg text-[#BA1B1D]">
+                  777 Brand Heritage Products
+                </h4>
+                <p class="text-[11px] sm:text-xs text-stone-600">
+                  Compounded Asafoetida, Cold-Pressed Gingelly Sesame Oils &amp; Authentic Culinary Essentials
+                </p>
+              </div>
+            </div>
+            <a
+              href="{% url 'store:products' %}?brand=777"
+              class="text-xs font-bold text-[#BA1B1D] hover:text-[#FAB82A] inline-flex items-center gap-1 self-start sm:self-auto transition-colors"
+            >
+              <span>View All 777 Brand</span>
+              <span>→</span>
+            </a>
+          </div>
+
+          <!-- 777 Brand Products Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            {% for product in featured_products %}
+              {% if product.brand_code == '777' %}
+              <div class="h-full">
+                {% include 'components/product_card.html' with product=product %}
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
         </div>
 
       </div>
