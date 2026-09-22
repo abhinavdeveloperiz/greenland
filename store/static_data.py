@@ -14,9 +14,9 @@ CATEGORIES = [
     'id': 'canned-products',
     'name': 'Canned Products',
     'slug': 'canned-products',
-    'description': 'Pure double concentrated tomato paste and culinary canned essentials in commercial 3 KG tins (Box of 4).',
+    'description': 'Pure double concentrated tomato paste, analogue evaporated milk, and culinary canned essentials in commercial tins.',
     'image': '/static/images/products/tomato-paste-3kg.png',
-    'itemCount': '1 Product',
+    'itemCount': '2 Products',
     'featured': True
   },
   {
@@ -33,7 +33,7 @@ CATEGORIES = [
     'name': 'Indian Premium Tea',
     'slug': 'tea',
     'description': 'GreenLand Indian premium CTC tea blends in aroma-sealed glass jars and heavy-duty 5 KG master carry pouches.',
-    'image': '/static/images/products/greenland-tea-pouch.png?v=clean2',
+    'image': '/static/images/products/greenland-tea-pouch.png?v=5kg',
     'itemCount': '2 Products',
     'featured': True
   },
@@ -70,6 +70,36 @@ PRODUCTS = [
   # =========================================================================
   # 1. GREENLAND CULINARY ESSENTIALS (Canned Products)
   # =========================================================================
+  {
+    'id': 'prod-gl-evaporated-milk-410g',
+    'name': 'GreenLand Analogue Evaporated Milk (410g)',
+    'category': 'canned-products',
+    'categoryName': 'Canned Products',
+    'brand': 'GreenLand Food Stuff',
+    'price': 0.350,
+    'originalPrice': 0.450,
+    'weight': '410g',
+    'unit': 'tin',
+    'stock': 0,
+    'availability': 'coming_soon',
+    'isFeatured': True,
+    'isPopular': True,
+    'isNew': True,
+    'description': 'COMING SOON — GreenLand Analogue Evaporated Milk. Rich, Smooth & Delicious. شبيه حليب مبخر. Replaced Milk Fat with Vegetable Oil. Net Weight: 410g.',
+    'specs': {
+      'Brand': 'GreenLand Food Stuff',
+      'Product': 'Analogue Evaporated Milk',
+      'Arabic Name': 'شبيه حليب مبخر',
+      'Formulation': 'Replaced Milk Fat with Vegetable Oil',
+      'Attributes': 'Rich, Smooth & Delicious',
+      'Net Weight': '410g',
+      'Status': 'Coming Soon'
+    },
+    'images': [
+      '/static/images/greenland-evaporated-milk-ad.jpg',
+      '/static/images/products/greenland-evaporated-milk-410g.jpg'
+    ]
+  },
   {
     'id': 'prod-gl-tomato-paste',
     'name': 'GreenLand Double Concentrated Tomato Paste (3 KG)',
@@ -365,7 +395,7 @@ PRODUCTS = [
       'Aroma': 'Brisk, Kadak Golden Liquor'
     },
     'images': [
-      '/static/images/products/greenland-tea-pouch.png?v=clean2'
+      '/static/images/products/greenland-tea-pouch.png?v=5kg'
     ]
   },
   {

@@ -12,7 +12,7 @@
     <span>/</span>
     <a href="{% url 'store:products' %}" class="hover:text-[#124A2E]">Products</a>
     <span>/</span>
-    <a href="{% url 'store:category' product.category %}" class="hover:text-[#124A2E]">{{ product.categoryName }}</a>
+    <a href="{% url 'store:category' product.category.slug %}" class="hover:text-[#124A2E]">{{ product.categoryName }}</a>
     <span>/</span>
     <span class="text-[#292D27] font-bold truncate">{{ product.name }}</span>
   </div>
@@ -81,6 +81,10 @@
         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#4F8B3A]/15 text-[#124A2E] text-xs font-bold">
           <span class="w-2 h-2 rounded-full bg-[#4F8B3A]"></span> In Stock (Fresh Batch)
         </span>
+        {% elif product.availability == 'coming_soon' %}
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FAB82A]/25 text-[#124A2E] border border-[#FAB82A]/60 text-xs font-black shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-[#FAB82A] animate-ping"></span> Coming Soon • New Arrival
+        </span>
         {% else %}
         <span class="px-3 py-1 rounded-full bg-[#BA1B1D]/10 text-[#BA1B1D] text-xs font-bold">
           Out of Stock
@@ -110,6 +114,39 @@
 
       <!-- Quantity & Buy Action -->
       <div class="space-y-3 pt-2">
+        {% if product.availability == 'coming_soon' %}
+        <!-- Coming Soon / Inquire Box -->
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-[#0B351F] to-[#124A2E] text-white border-2 border-[#FAB82A]/50 shadow-lg space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAB82A]/20 text-xs font-bold text-[#FAB82A] border border-[#FAB82A]/50">
+            <span class="w-2 h-2 rounded-full bg-[#FAB82A] animate-ping"></span>
+            <span class="uppercase tracking-wider">Coming Soon</span>
+          </div>
+          <div>
+            <h4 class="font-display font-black text-lg text-white">GreenLand Analogue Evaporated Milk (410g)</h4>
+            <p class="text-xs text-white/80 leading-relaxed mt-1">
+              Rich, Smooth &amp; Delicious • شبيه حليب مبخر • Replaced Milk Fat with Vegetable Oil
+            </p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3 pt-1">
+            <a
+              href="https://wa.me/96599999999?text=Hello%20Greenland%20Foodstuff%2C%20I%20am%20inquiring%20about%20the%20new%20GreenLand%20Analogue%20Evaporated%20Milk%20(410g)."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-shine flex-1 py-3 px-4 rounded-xl bg-[#FAB82A] hover:bg-[#FAB82A]/90 text-[#124A2E] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+            >
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Inquire via WhatsApp</span>
+            </a>
+            <a
+              href="{% url 'store:contact' %}"
+              class="py-3 px-5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs flex items-center justify-center gap-2 border border-white/20 transition-colors"
+            >
+              <i data-lucide="phone-call" class="w-4 h-4"></i>
+              <span>Contact Us</span>
+            </a>
+          </div>
+        </div>
+        {% else %}
         <div class="flex items-center gap-2 sm:gap-4">
           <!-- Quantity Control -->
           <div class="flex items-center border border-stone-300 rounded-xl bg-white p-1 flex-shrink-0">
@@ -155,6 +192,7 @@
         >
           Instant Checkout
         </a>
+        {% endif %}
       </div>
 
     </div>

@@ -1,88 +1,192 @@
 {% load static %}
-<div class="bg-white rounded-2xl border border-stone-200/90 hover:border-[#FAB82A] transition-all duration-300 ease-out shadow-sm hover:shadow-[0_16px_36px_rgba(18,74,46,0.12),0_6px_20px_rgba(250,184,42,0.18)] hover:-translate-y-1.5 flex flex-col h-full overflow-hidden group">
-  <!-- Image Container -->
-  <div class="relative w-full aspect-square bg-gradient-to-b from-stone-50/60 to-white group-hover:from-amber-50/30 group-hover:to-white transition-colors duration-500 overflow-hidden flex items-center justify-center p-3.5 border-b border-stone-100">
+<div
+  x-data="{ added: false }"
+  :class="(typeof viewMode !== 'undefined' && viewMode === 'list')
+    ? 'flex flex-col sm:flex-row items-stretch gap-4 p-4 bg-white rounded-2xl border border-stone-200/90 hover:border-[#FAB82A] transition-all duration-300 shadow-xs hover:shadow-md'
+    : 'bg-white rounded-2xl border border-stone-200/90 hover:border-[#FAB82A] transition-all duration-300 ease-out shadow-xs hover:shadow-[0_16px_36px_rgba(18,74,46,0.10),0_6px_20px_rgba(250,184,42,0.15)] hover:-translate-y-1.5 flex flex-col h-full overflow-hidden group'"
+  class="relative"
+>
+
+  <!-- ======================================================================= -->
+  <!-- 1. IMAGE CONTAINER                                                      -->
+  <!-- ======================================================================= -->
+  <div
+    :class="(typeof viewMode !== 'undefined' && viewMode === 'list')
+      ? 'w-full sm:w-44 sm:min-w-[176px] aspect-square rounded-xl bg-gradient-to-b from-stone-50/80 to-white flex items-center justify-center p-3 relative border border-stone-100 flex-shrink-0'
+      : 'relative w-full aspect-square bg-gradient-to-b from-stone-50/60 to-white group-hover:from-amber-50/30 group-hover:to-white transition-colors duration-500 overflow-hidden flex items-center justify-center p-4 border-b border-stone-100'"
+  >
     <a href="{% url 'store:product_detail' product.id %}" class="w-full h-full flex items-center justify-center">
       <img
         src="{{ product.images.0 }}"
         alt="{{ product.name }}"
-        class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
+        class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out drop-shadow-sm"
         loading="lazy"
       />
     </a>
 
-    <!-- Wishlist Button with Micro-Bounce & Ruby Glow -->
+    <!-- Wishlist Button -->
     <button
       @click="$store.wishlist.toggle({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' })"
-      class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm border border-stone-200/80 flex items-center justify-center text-stone-400 hover:text-[#BA1B1D] hover:bg-white hover:border-[#BA1B1D]/40 transition-all duration-200 shadow-sm z-10 hover:scale-110 active:scale-90"
+      class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-white/95 backdrop-blur-xs border border-stone-200 flex items-center justify-center text-stone-400 hover:text-[#BA1B1D] hover:bg-white hover:border-[#BA1B1D]/40 transition-all duration-200 shadow-xs z-10 hover:scale-110 active:scale-90"
       title="Save to wishlist"
     >
-      <i data-lucide="heart" class="w-4 h-4" :class="$store.wishlist.has('{{ product.id }}') ? 'text-[#BA1B1D] fill-[#BA1B1D]' : ''"></i>
+      <i data-lucide="heart" class="w-3.5 h-3.5" :class="$store.wishlist.has('{{ product.id }}') ? 'text-[#BA1B1D] fill-[#BA1B1D]' : ''"></i>
     </button>
 
-    <!-- Discount Offer Badge (Ceramic Cup Red #BA1B1D) -->
-    {% if product.originalPrice and product.originalPrice > product.price %}
-    <div class="absolute top-3 left-3 bg-gradient-to-r from-[#BA1B1D] to-[#D34E1B] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-xs border border-white/20 group-hover:shadow-[0_2px_10px_rgba(186,27,29,0.35)] transition-shadow">
-      SPECIAL OFFER
+    <!-- Badges (Coming Soon / Special Offer / New Arrival) -->
+    {% if product.availability == 'coming_soon' %}
+    <div class="absolute top-2.5 left-2.5 bg-gradient-to-r from-[#0B351F] to-[#124A2E] text-[#FAB82A] text-[9.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded shadow-xs border border-[#FAB82A]/70 flex items-center gap-1">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#FAB82A] animate-ping"></span>
+      <span>Soon</span>
+    </div>
+    {% elif product.originalPrice and product.originalPrice > product.price %}
+    <div class="absolute top-2.5 left-2.5 bg-gradient-to-r from-[#BA1B1D] to-[#D34E1B] text-white text-[9.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded shadow-xs border border-white/20">
+      Sale
+    </div>
+    {% elif product.isNew %}
+    <div class="absolute top-2.5 left-2.5 bg-[#FAB82A] text-[#124A2E] text-[9.5px] font-black uppercase tracking-wider px-2 py-0.5 rounded shadow-xs border border-[#124A2E]/20">
+      New
     </div>
     {% endif %}
 
     {% if product.availability == 'out_of_stock' %}
-    <div class="absolute inset-0 bg-[#1D261E]/50 backdrop-blur-[1px] flex items-center justify-center">
-      <span class="bg-white text-[#1D261E] text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-lg shadow">
+    <div class="absolute inset-0 bg-[#1D261E]/55 backdrop-blur-[1px] flex items-center justify-center rounded-inherit">
+      <span class="bg-white text-[#1D261E] text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow">
         Out of Stock
       </span>
     </div>
     {% endif %}
   </div>
 
-  <!-- Details Content -->
-  <div class="p-4 flex flex-col flex-1 justify-between gap-3">
-    <div class="space-y-1">
-      <div class="flex items-center justify-between text-[11px] text-stone-500 font-medium">
-        <span class="text-[#124A2E] font-bold tracking-wider uppercase text-[10px] group-hover:text-[#4F8B3A] transition-colors">{{ product.categoryName }}</span>
-        <span class="bg-[#FAF6EE] px-2 py-0.5 rounded text-[#1D261E] font-semibold border border-stone-200/60 text-[10.5px] group-hover:border-[#FAB82A]/40 transition-colors">{{ product.weight }}</span>
+  <!-- ======================================================================= -->
+  <!-- 2. DETAILS & CONTENT                                                    -->
+  <!-- ======================================================================= -->
+  <div
+    :class="(typeof viewMode !== 'undefined' && viewMode === 'list')
+      ? 'flex-1 flex flex-col justify-between gap-3 py-1'
+      : 'p-4 flex flex-col flex-1 justify-between gap-3'"
+  >
+    <div class="space-y-1.5">
+      <!-- Top Row: Brand Badge + Category + Weight -->
+      <div class="flex items-center flex-wrap gap-1.5 justify-between">
+        <!-- Brand Badge -->
+        {% if product.brand_code == '777' %}
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black bg-[#BA1B1D]/10 text-[#BA1B1D] border border-[#BA1B1D]/25">
+          <span>⭐</span> 777 Brand
+        </span>
+        {% elif product.brand_code == '88' %}
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black bg-[#D34E1B]/10 text-[#D34E1B] border border-[#D34E1B]/25">
+          <span>🌾</span> 88 Brand
+        </span>
+        {% else %}
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black bg-[#124A2E]/10 text-[#124A2E] border border-[#124A2E]/25">
+          <span>🌿</span> GreenLand
+        </span>
+        {% endif %}
+
+        <!-- Weight Badge -->
+        <span class="bg-[#FAF6EE] text-[#1D261E] px-2 py-0.5 rounded text-[10.5px] font-bold border border-stone-200/80">
+          {{ product.weight }}
+        </span>
       </div>
 
-      <a href="{% url 'store:product_detail' product.id %}" class="block">
-        <h4 class="font-display font-bold text-[#124A2E] text-sm leading-snug group-hover:text-[#D34E1B] transition-colors duration-200 line-clamp-2">
+      <!-- Title -->
+      <a href="{% url 'store:product_detail' product.id %}" class="block group/title">
+        <h4 class="font-display font-bold text-[#124A2E] text-[13.5px] sm:text-[14px] leading-snug group-hover/title:text-[#D34E1B] transition-colors duration-200 line-clamp-2">
           {{ product.name }}
         </h4>
       </a>
+
+      <!-- Category Label & Stock Dot -->
+      <div class="flex items-center gap-2 text-[11px] text-stone-500">
+        <span class="text-stone-400 font-medium">{{ product.categoryName }}</span>
+        <span class="text-stone-300">•</span>
+        {% if product.availability == 'in_stock' %}
+        <span class="inline-flex items-center gap-1 text-[10.5px] font-bold text-emerald-700">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> In Stock
+        </span>
+        {% elif product.availability == 'coming_soon' %}
+        <span class="inline-flex items-center gap-1 text-[10.5px] font-bold text-[#D34E1B]">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#FAB82A]"></span> Coming Soon
+        </span>
+        {% else %}
+        <span class="inline-flex items-center gap-1 text-[10.5px] font-bold text-stone-400">
+          <span class="w-1.5 h-1.5 rounded-full bg-stone-300"></span> Out of Stock
+        </span>
+        {% endif %}
+      </div>
       
-      <p class="text-xs text-[#1D261E]/70 line-clamp-1 leading-relaxed">
+      <!-- Description Snippet -->
+      <p
+        :class="(typeof viewMode !== 'undefined' && viewMode === 'list') ? 'line-clamp-2 text-xs text-[#1D261E]/70 pt-1' : 'line-clamp-1 text-xs text-[#1D261E]/70'"
+      >
         {{ product.description }}
       </p>
     </div>
 
-    <!-- Pricing & Add to Cart -->
-    <div class="pt-2.5 border-t border-stone-100 flex items-center justify-between gap-2 mt-auto">
+    <!-- ===================================================================== -->
+    <!-- 3. PRICING & ACTION BAR                                               -->
+    <!-- ===================================================================== -->
+    <div
+      :class="(typeof viewMode !== 'undefined' && viewMode === 'list')
+        ? 'pt-3 border-t border-stone-100 flex flex-wrap items-center justify-between gap-3'
+        : 'pt-2.5 border-t border-stone-100 flex items-center justify-between gap-2 mt-auto'"
+    >
       <div>
         <div class="flex items-baseline gap-1.5">
-          <span class="font-display font-black text-[#BA1B1D] text-base">KD {{ product.price|floatformat:3 }}</span>
-          {% if product.originalPrice %}
-          <span class="text-xs text-stone-400 line-through">KD {{ product.originalPrice|floatformat:3 }}</span>
+          <span class="font-display font-black text-[#BA1B1D] text-base sm:text-lg">KD {{ product.price|floatformat:3 }}</span>
+          {% if product.originalPrice and product.originalPrice > product.price %}
+          <span class="text-xs text-stone-400 line-through font-medium">KD {{ product.originalPrice|floatformat:3 }}</span>
           {% endif %}
         </div>
-        <span class="text-[10px] text-[#4F8B3A] font-bold block">{{ product.brand|default:"100% Authentic Staple" }}</span>
+        <span class="text-[9.5px] text-stone-500 font-semibold block uppercase tracking-wider">Per {{ product.unit|default:"Unit" }}</span>
       </div>
 
-      {% if product.availability == 'out_of_stock' %}
-      <button
-        disabled
-        class="px-3 py-2 rounded-xl bg-stone-100 text-stone-400 text-xs font-bold cursor-not-allowed flex-shrink-0"
-      >
-        Sold Out
-      </button>
-      {% else %}
-      <button
-        @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' })"
-        class="group/btn px-3.5 py-2 rounded-xl bg-[#124A2E] hover:bg-gradient-to-r hover:from-[#D34E1B] hover:to-[#BA1B1D] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm hover:shadow-[0_4px_14px_rgba(211,78,27,0.35)] transition-all duration-200 active:scale-95 flex-shrink-0 border border-transparent hover:border-[#FAB82A]/30"
-      >
-        <i data-lucide="shopping-bag" class="w-3.5 h-3.5 group-hover/btn:scale-115 group-hover/btn:-rotate-6 transition-transform duration-200"></i>
-        <span>Add</span>
-      </button>
-      {% endif %}
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-1.5">
+        {% if product.availability == 'out_of_stock' %}
+        <button
+          disabled
+          class="px-3.5 py-2 rounded-xl bg-stone-100 text-stone-400 text-xs font-bold cursor-not-allowed flex-shrink-0"
+        >
+          Sold Out
+        </button>
+        {% elif product.availability == 'coming_soon' %}
+        <a
+          href="https://wa.me/96599999999?text=Hello%20Greenland,%20I%20am%20interested%20in%20pre-ordering%20{{ product.name|urlencode }}."
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-3.5 py-2 rounded-xl bg-[#FAB82A] hover:bg-[#FAB82A]/90 text-[#124A2E] text-xs font-black flex items-center gap-1.5 shadow-xs transition-all duration-200 active:scale-95 flex-shrink-0 border border-[#124A2E]/20"
+        >
+          <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+          <span>Inquire</span>
+        </a>
+        {% else %}
+        <button
+          @click="
+            $store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' });
+            added = true;
+            setTimeout(() => added = false, 1200);
+          "
+          :class="added ? 'bg-emerald-600 text-white' : 'bg-[#124A2E] hover:bg-gradient-to-r hover:from-[#D34E1B] hover:to-[#BA1B1D] text-white'"
+          class="px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-xs transition-all duration-200 active:scale-95 flex-shrink-0"
+        >
+          <template x-if="!added">
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+              <span>Add</span>
+            </span>
+          </template>
+          <template x-if="added">
+            <span class="flex items-center gap-1 font-black">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+              <span>Added!</span>
+            </span>
+          </template>
+        </button>
+        {% endif %}
+      </div>
     </div>
+
   </div>
 </div>

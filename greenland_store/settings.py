@@ -91,6 +91,10 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Media files configuration for uploaded category/product images
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # WhiteNoise storage for serving static files efficiently in production
 STORAGES = {
     "default": {

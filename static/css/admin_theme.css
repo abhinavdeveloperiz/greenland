@@ -1,0 +1,898 @@
+/* =========================================================================
+   GREENLAND FOODSTUFF - LUXURY CUSTOM ADMIN PANEL THEME
+   Brand Palette:
+     - Forest Green Deep: #072415
+     - Forest Green Primary: #124A2E
+     - Emerald Secondary: #0B351F
+     - Sunlit Amber Gold: #FAB82A
+     - Amber Gold Hover: #E5A41F
+     - Sunset Terracotta: #D34E1B
+     - Crimson Red: #BA1B1D
+     - Warm Cream: #FAF6EE
+     - Warm Cream Dark: #F3EFE6
+     - Stone Dark: #1D261E
+     - Stone Light: #6A7369
+     - Border Line: #E4DFD5
+   Fonts: Outfit (Headings), Plus Jakarta Sans (Body)
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --gl-primary-deep: #072415;
+  --gl-primary: #124A2E;
+  --gl-primary-dark: #0B351F;
+  --gl-accent: #FAB82A;
+  --gl-accent-hover: #E5A41F;
+  --gl-terracotta: #D34E1B;
+  --gl-crimson: #BA1B1D;
+  --gl-cream: #FAF6EE;
+  --gl-cream-dark: #F3EFE6;
+  --gl-stone: #1D261E;
+  --gl-stone-light: #6A7369;
+  --gl-border: #E4DFD5;
+  --gl-radius: 14px;
+  --gl-radius-sm: 8px;
+  --gl-radius-pill: 9999px;
+  --gl-shadow-sm: 0 2px 8px rgba(18, 74, 46, 0.06);
+  --gl-shadow: 0 6px 24px rgba(18, 74, 46, 0.08);
+  --gl-shadow-lg: 0 12px 36px rgba(7, 36, 21, 0.15);
+}
+
+/* =========================================================================
+   1. GLOBAL RESET & TYPOGRAPHY
+   ========================================================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, input, select, textarea, button {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  color: var(--gl-stone);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: #F8F5EE !important;
+  margin: 0;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, #site-name, .font-display {
+  font-family: 'Outfit', sans-serif !important;
+  letter-spacing: -0.02em;
+}
+
+/* =========================================================================
+   2. HEADER & BRAND BAR
+   ========================================================================= */
+#header {
+  background: linear-gradient(135deg, var(--gl-primary-deep) 0%, var(--gl-primary) 55%, #0F4328 100%) !important;
+  color: #FFFFFF !important;
+  padding: 14px 28px !important;
+  border-bottom: 3px solid var(--gl-accent) !important;
+  box-shadow: 0 8px 25px rgba(7, 36, 21, 0.22) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+#header #branding {
+  float: none !important;
+}
+
+#header #branding h1 {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#header #branding h1 a:link, #header #branding h1 a:visited {
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  text-decoration: none !important;
+}
+
+.gl-admin-logo {
+  height: 42px;
+  width: auto;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));
+  transition: transform 0.3s ease;
+}
+
+.gl-admin-logo:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.gl-brand-title {
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+.gl-brand-title span {
+  color: var(--gl-accent);
+}
+
+/* User tools in header */
+#user-tools {
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+#user-tools a {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  text-decoration: none !important;
+  padding: 6px 12px !important;
+  border-radius: var(--gl-radius-pill) !important;
+  transition: all 0.2s ease !important;
+  font-size: 12px !important;
+}
+
+#user-tools a:hover {
+  background: var(--gl-accent) !important;
+  color: var(--gl-primary-deep) !important;
+  border-color: var(--gl-accent) !important;
+  transform: translateY(-1px) !important;
+}
+
+.gl-view-store-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  background: linear-gradient(135deg, var(--gl-accent) 0%, var(--gl-accent-hover) 100%) !important;
+  color: var(--gl-primary-deep) !important;
+  padding: 7px 16px !important;
+  border-radius: var(--gl-radius-pill) !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  box-shadow: 0 4px 14px rgba(250, 184, 42, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+
+.gl-view-store-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(250, 184, 42, 0.5) !important;
+  color: var(--gl-primary-deep) !important;
+}
+
+/* =========================================================================
+   3. BREADCRUMBS BAR
+   ========================================================================= */
+div.breadcrumbs {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid var(--gl-border) !important;
+  padding: 12px 30px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--gl-stone-light) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
+}
+
+div.breadcrumbs a {
+  color: var(--gl-primary) !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  transition: all 0.15s ease !important;
+}
+
+div.breadcrumbs a:hover {
+  background: var(--gl-cream) !important;
+  color: var(--gl-terracotta) !important;
+}
+
+/* =========================================================================
+   4. DASHBOARD HERO & STATS METRICS
+   ========================================================================= */
+.gl-dashboard-hero {
+  background: linear-gradient(135deg, var(--gl-primary-deep) 0%, var(--gl-primary) 60%, #0D3E24 100%);
+  border-radius: var(--gl-radius);
+  border: 2px solid rgba(250, 184, 42, 0.4);
+  box-shadow: 0 16px 36px rgba(7, 36, 21, 0.2);
+  color: #FFFFFF;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gl-dashboard-hero::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(250, 184, 42, 0.18) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events-none;
+}
+
+/* Quick Action Buttons on Dashboard */
+.gl-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--gl-radius-pill);
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+
+.gl-action-btn-gold {
+  background: linear-gradient(135deg, var(--gl-accent) 0%, #E8A61D 100%);
+  color: var(--gl-primary-deep) !important;
+  box-shadow: 0 4px 14px rgba(250, 184, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.gl-action-btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(250, 184, 42, 0.55);
+}
+
+.gl-action-btn-emerald {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  backdrop-blur: 4px;
+}
+
+.gl-action-btn-emerald:hover {
+  background: rgba(255, 255, 255, 0.28);
+  border-color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.gl-action-btn-outline {
+  background: rgba(0, 0, 0, 0.2);
+  color: #FFFFFF !important;
+  border: 1px solid rgba(250, 184, 42, 0.5);
+}
+
+.gl-action-btn-outline:hover {
+  background: rgba(250, 184, 42, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Stats Metrics Cards Grid */
+.gl-dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.gl-stat-card {
+  background: #FFFFFF;
+  border-radius: var(--gl-radius);
+  border: 1.5px solid var(--gl-border);
+  padding: 18px 22px;
+  box-shadow: var(--gl-shadow-sm);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none !important;
+}
+
+.gl-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gl-accent);
+  box-shadow: 0 10px 24px rgba(18, 74, 46, 0.1);
+}
+
+.gl-stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.gl-stat-val {
+  font-family: 'Outfit', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--gl-primary);
+  line-height: 1;
+}
+
+.gl-stat-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gl-stone-light);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* =========================================================================
+   5. ALL BUTTONS ENHANCEMENTS (PRIMARY, SECONDARY, DANGER, TOOLBARS)
+   ========================================================================= */
+
+/* Primary Save Button (Amber Gold with 3D feel & Shimmer) */
+.submit-row input.default,
+input[type=submit].default,
+.button.default {
+  background: linear-gradient(135deg, #FAB82A 0%, #E8A61D 100%) !important;
+  color: var(--gl-primary-deep) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  padding: 11px 24px !important;
+  border-radius: var(--gl-radius-pill) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 6px 18px rgba(250, 184, 42, 0.4) !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+}
+
+.submit-row input.default:hover,
+input[type=submit].default:hover {
+  background: linear-gradient(135deg, #FFC64A 0%, #FAB82A 100%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(250, 184, 42, 0.55) !important;
+}
+
+.submit-row input.default:active,
+input[type=submit].default:active {
+  transform: translateY(0px) !important;
+  box-shadow: 0 2px 8px rgba(250, 184, 42, 0.3) !important;
+}
+
+/* Secondary Action Buttons (Save & Add Another, Save & Continue) */
+.submit-row input,
+.button,
+input[type=submit],
+input[type=button] {
+  background: var(--gl-primary) !important;
+  color: #FFFFFF !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 12.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  padding: 10px 20px !important;
+  border-radius: var(--gl-radius-pill) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(18, 74, 46, 0.2) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin-right: 8px !important;
+}
+
+.submit-row input:hover,
+.button:hover,
+input[type=submit]:hover {
+  background: var(--gl-terracotta) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(211, 78, 27, 0.35) !important;
+}
+
+/* Top Object Tools Buttons (+ Add Product, History, View on Site) */
+.object-tools {
+  margin-bottom: 20px !important;
+}
+
+.object-tools li {
+  margin-left: 8px !important;
+}
+
+.object-tools a {
+  background: linear-gradient(135deg, var(--gl-primary) 0%, var(--gl-primary-dark) 100%) !important;
+  color: #FFFFFF !important;
+  border: 1.5px solid rgba(250, 184, 42, 0.5) !important;
+  border-radius: var(--gl-radius-pill) !important;
+  padding: 9px 18px !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  box-shadow: 0 4px 14px rgba(18, 74, 46, 0.2) !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.object-tools a:hover {
+  background: var(--gl-accent) !important;
+  color: var(--gl-primary-deep) !important;
+  border-color: var(--gl-accent) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(250, 184, 42, 0.4) !important;
+}
+
+/* Addlink Variant in Tools */
+.object-tools a.addlink::before {
+  content: '＋';
+  font-size: 14px;
+  font-weight: 900;
+  margin-right: 2px;
+}
+
+/* Delete Button in Submit Row */
+.submit-row a.deletelink {
+  background: rgba(186, 27, 29, 0.08) !important;
+  color: var(--gl-crimson) !important;
+  border: 1.5px solid rgba(186, 27, 29, 0.35) !important;
+  border-radius: var(--gl-radius-pill) !important;
+  padding: 10px 20px !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.submit-row a.deletelink:hover {
+  background: var(--gl-crimson) !important;
+  color: #FFFFFF !important;
+  border-color: var(--gl-crimson) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(186, 27, 29, 0.3) !important;
+}
+
+/* Submit Row Floating Bar Container */
+.submit-row {
+  background: #FFFFFF !important;
+  border: 1px solid var(--gl-border) !important;
+  border-radius: var(--gl-radius) !important;
+  box-shadow: var(--gl-shadow) !important;
+  padding: 16px 20px !important;
+  margin-top: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+
+/* Changelist Action Bar & "Go" Button */
+.actions {
+  background: var(--gl-cream) !important;
+  border: 1px solid var(--gl-border) !important;
+  border-radius: var(--gl-radius) !important;
+  padding: 12px 18px !important;
+  margin-bottom: 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.actions select {
+  border-radius: 8px !important;
+  border: 1.5px solid var(--gl-border) !important;
+  padding: 7px 14px !important;
+  font-size: 12.5px !important;
+  background: #FFFFFF !important;
+}
+
+.actions .button {
+  background: var(--gl-accent) !important;
+  color: var(--gl-primary-deep) !important;
+  font-weight: 900 !important;
+  border: none !important;
+  padding: 8px 18px !important;
+  border-radius: var(--gl-radius-pill) !important;
+  box-shadow: 0 3px 10px rgba(250, 184, 42, 0.3) !important;
+}
+
+.actions .button:hover {
+  background: var(--gl-accent-hover) !important;
+  transform: translateY(-1px) !important;
+}
+
+.actions span.action-counter {
+  font-size: 12px !important;
+  color: var(--gl-stone-light) !important;
+  font-weight: 600 !important;
+}
+
+/* Search Bar & Button */
+#changelist-search {
+  margin-bottom: 18px !important;
+}
+
+#changelist-search input[type=text] {
+  padding: 10px 16px !important;
+  border-radius: var(--gl-radius-pill) !important;
+  border: 1.5px solid var(--gl-border) !important;
+  font-size: 13px !important;
+  min-width: 280px !important;
+  background: #FFFFFF !important;
+}
+
+#changelist-search input[type=text]:focus {
+  border-color: var(--gl-primary) !important;
+  box-shadow: 0 0 0 3px rgba(18, 74, 46, 0.12) !important;
+}
+
+#changelist-search input[type=submit] {
+  background: var(--gl-primary) !important;
+  color: #FFFFFF !important;
+  border-radius: var(--gl-radius-pill) !important;
+  padding: 10px 20px !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  margin-left: 8px !important;
+}
+
+/* Inline Add Row Button */
+.add-row a {
+  background: rgba(18, 74, 46, 0.06) !important;
+  color: var(--gl-primary) !important;
+  border: 1.5px dashed var(--gl-primary) !important;
+  border-radius: var(--gl-radius) !important;
+  padding: 10px 18px !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.add-row a:hover {
+  background: var(--gl-primary) !important;
+  color: #FFFFFF !important;
+  border-style: solid !important;
+}
+
+/* =========================================================================
+   6. CHANGELIST TABLE & PHOTO THUMBNAILS
+   ========================================================================= */
+#changelist {
+  background: #FFFFFF !important;
+  border-radius: var(--gl-radius) !important;
+  border: 1px solid var(--gl-border) !important;
+  box-shadow: var(--gl-shadow) !important;
+  overflow: hidden !important;
+}
+
+#changelist table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+#changelist thead th {
+  background: var(--gl-cream) !important;
+  color: var(--gl-primary) !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 11.5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  padding: 14px 16px !important;
+  border-bottom: 2px solid var(--gl-border) !important;
+}
+
+#changelist thead th a {
+  color: var(--gl-primary) !important;
+  text-decoration: none !important;
+}
+
+#changelist tbody tr {
+  transition: background 0.15s ease !important;
+}
+
+#changelist tbody tr:nth-child(even) {
+  background: #FCFAF6 !important;
+}
+
+#changelist tbody tr:hover {
+  background: #F8F3E8 !important;
+}
+
+#changelist tbody td, #changelist tbody th {
+  padding: 14px 16px !important;
+  font-size: 13px !important;
+  border-bottom: 1px solid #ECE7DE !important;
+  vertical-align: middle !important;
+}
+
+/* Photo Thumbnail in Table */
+.gl-thumb-container {
+  width: 58px;
+  height: 58px;
+  border-radius: 10px;
+  border: 1.5px solid var(--gl-border);
+  background: #FFFFFF;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.gl-thumb-container:hover {
+  transform: scale(1.1);
+  border-color: var(--gl-accent);
+}
+
+.gl-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Availability Badges */
+.gl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--gl-radius-pill);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.gl-badge-in-stock {
+  background: rgba(79, 139, 58, 0.15);
+  color: #124A2E;
+  border: 1.5px solid rgba(79, 139, 58, 0.4);
+}
+
+.gl-badge-coming-soon {
+  background: rgba(250, 184, 42, 0.22);
+  color: #7D5700;
+  border: 1.5px solid rgba(250, 184, 42, 0.6);
+}
+
+.gl-badge-out-of-stock {
+  background: rgba(186, 27, 29, 0.15);
+  color: #BA1B1D;
+  border: 1.5px solid rgba(186, 27, 29, 0.4);
+}
+
+/* Paginator */
+.paginator {
+  background: var(--gl-cream) !important;
+  border-top: 1px solid var(--gl-border) !important;
+  padding: 12px 18px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: var(--gl-stone-light) !important;
+}
+
+.paginator a:link, .paginator a:visited {
+  background: #FFFFFF !important;
+  border: 1px solid var(--gl-border) !important;
+  color: var(--gl-primary) !important;
+  padding: 5px 10px !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  margin: 0 2px !important;
+}
+
+.paginator .this-page {
+  background: var(--gl-primary) !important;
+  color: #FFFFFF !important;
+  border-radius: 6px !important;
+  padding: 5px 10px !important;
+}
+
+/* =========================================================================
+   7. FORM CONTROLS & FIELDSETS
+   ========================================================================= */
+fieldset {
+  background: #FFFFFF !important;
+  border: 1px solid var(--gl-border) !important;
+  border-radius: var(--gl-radius) !important;
+  box-shadow: var(--gl-shadow-sm) !important;
+  margin-bottom: 24px !important;
+  padding: 24px !important;
+}
+
+fieldset h2 {
+  background: transparent !important;
+  color: var(--gl-primary) !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  border-bottom: 2px solid var(--gl-border) !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 18px !important;
+}
+
+.form-row {
+  border-bottom: 1px solid #F0ECE2 !important;
+  padding: 14px 0 !important;
+}
+
+.form-row:last-child {
+  border-bottom: none !important;
+}
+
+.form-row label {
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  color: var(--gl-primary) !important;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=url], 
+input[type=number], select, textarea {
+  border: 1.5px solid var(--gl-border) !important;
+  border-radius: var(--gl-radius-sm) !important;
+  padding: 10px 14px !important;
+  font-size: 13.5px !important;
+  background: #FAF8F3 !important;
+  transition: all 0.2s ease !important;
+}
+
+input[type=text]:focus, select:focus, textarea:focus {
+  border-color: var(--gl-primary) !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 0 0 3px rgba(18, 74, 46, 0.15) !important;
+  outline: none !important;
+}
+
+/* File Upload Field with Photo Preview Card */
+.form-row input[type=file] {
+  padding: 10px 14px !important;
+  background: var(--gl-cream) !important;
+  border: 2px dashed var(--gl-accent) !important;
+  border-radius: var(--gl-radius-sm) !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.gl-form-preview {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: var(--gl-cream);
+  border-radius: var(--gl-radius-sm);
+  border: 1.5px solid var(--gl-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.gl-form-preview img {
+  max-height: 85px;
+  max-width: 130px;
+  object-fit: contain;
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 6px;
+  border: 1.5px solid var(--gl-border);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* App Modules on Index */
+.app-store.module, .module {
+  background: #FFFFFF !important;
+  border-radius: var(--gl-radius) !important;
+  border: 1.5px solid var(--gl-border) !important;
+  box-shadow: var(--gl-shadow-sm) !important;
+  margin-bottom: 24px !important;
+  overflow: hidden !important;
+}
+
+.module caption, .module h2 {
+  background: linear-gradient(135deg, var(--gl-primary-deep) 0%, var(--gl-primary) 100%) !important;
+  color: #FFFFFF !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  padding: 14px 20px !important;
+  letter-spacing: 0.03em !important;
+  border-bottom: 2px solid var(--gl-accent) !important;
+}
+
+.module tr th a {
+  color: var(--gl-primary) !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+}
+
+.module tr th a:hover {
+  color: var(--gl-terracotta) !important;
+}
+
+.module td a.addlink, .module td a.changelink {
+  color: var(--gl-primary) !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  background: var(--gl-cream) !important;
+  border: 1px solid var(--gl-border) !important;
+  transition: all 0.15s ease !important;
+}
+
+.module td a.addlink:hover {
+  background: var(--gl-accent) !important;
+  color: var(--gl-primary-deep) !important;
+}
+
+.module td a.changelink:hover {
+  background: var(--gl-primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* =========================================================================
+   8. ADMIN LOGIN PAGE ENHANCEMENT
+   ========================================================================= */
+body.login {
+  background: linear-gradient(135deg, var(--gl-primary-deep) 0%, var(--gl-primary) 50%, #0A321E 100%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100vh !important;
+}
+
+body.login #container {
+  background: #FFFFFF !important;
+  border-radius: 20px !important;
+  border: 2px solid var(--gl-accent) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35) !important;
+  overflow: hidden !important;
+  max-width: 440px !important;
+  width: 90% !important;
+  margin: 40px auto !important;
+}
+
+body.login #header {
+  background: var(--gl-primary-deep) !important;
+  text-align: center !important;
+  padding: 24px !important;
+  justify-content: center !important;
+}
+
+body.login #content {
+  padding: 28px !important;
+}
+
+body.login .submit-row {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 10px 0 0 0 !important;
+  justify-content: center !important;
+}
+
+body.login .submit-row input[type=submit] {
+  width: 100% !important;
+  padding: 13px 24px !important;
+  font-size: 14px !important;
+  letter-spacing: 0.08em !important;
+}

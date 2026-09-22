@@ -1,0 +1,180 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+
+{% block content %}
+<!-- Top Greenland Dashboard Hero Banner -->
+<div class="gl-dashboard-hero">
+  <div style="max-width: 650px;">
+    <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(250, 184, 42, 0.2); border: 1px solid rgba(250, 184, 42, 0.4); border-radius: 20px; font-size: 11px; font-weight: 800; color: #FAB82A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">
+      <span>✨ Greenland Foodstuff Management System</span>
+    </div>
+    <h2 style="font-size: 26px; font-weight: 900; margin: 0; color: #FFFFFF; font-family: 'Outfit', sans-serif; line-height: 1.2;">
+      Welcome to <span style="color: #FAB82A;">GreenLand</span> Administration
+    </h2>
+    <p style="margin: 8px 0 0 0; font-size: 13.5px; color: rgba(255,255,255,0.85); font-weight: 400; line-height: 1.5;">
+      Manage products separately across your 3 flagship brands: <strong>GreenLand Food Stuff</strong>, <strong>88 Brand</strong>, and <strong>777 Brand</strong>.
+    </p>
+  </div>
+  <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+    <a href="{% url 'admin:store_category_add' %}" class="gl-action-btn gl-action-btn-gold" title="Upload a new category photo">
+      <span style="font-size: 14px;">📁</span>
+      <span>Add Category</span>
+    </a>
+    <a href="{% url 'admin:store_greenlandproduct_add' %}" class="gl-action-btn gl-action-btn-emerald" title="Add GreenLand product">
+      <span>🌿 + GreenLand</span>
+    </a>
+    <a href="{% url 'admin:store_brand88product_add' %}" class="gl-action-btn gl-action-btn-emerald" title="Add 88 Brand product">
+      <span>🌾 + 88 Brand</span>
+    </a>
+    <a href="{% url 'admin:store_brand777product_add' %}" class="gl-action-btn gl-action-btn-emerald" title="Add 777 Brand product">
+      <span>⭐ + 777 Brand</span>
+    </a>
+  </div>
+</div>
+
+<!-- Dedicated 3 Brand Product Management Cards -->
+<div style="margin-bottom: 28px;">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+    <h3 style="font-size: 18px; font-weight: 800; color: #124A2E; margin: 0; display: flex; align-items: center; gap: 8px;">
+      <span>🏷️ Brand Product Portals (Manage Separately)</span>
+    </h3>
+    <span style="font-size: 12px; font-weight: 600; color: #6A7369;">Add, Edit &amp; Delete products by brand</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px;">
+    
+    <!-- 1. GreenLand Brand Card -->
+    <div style="background: #FFFFFF; border-radius: 14px; border: 2px solid #124A2E; padding: 20px; box-shadow: 0 4px 14px rgba(18, 74, 46, 0.08); display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(18, 74, 46, 0.12); display: flex; align-items: center; justify-content: center; font-size: 22px;">🌿</div>
+            <div>
+              <h4 style="font-size: 17px; font-weight: 800; color: #124A2E; margin: 0;">GreenLand</h4>
+              <span style="font-size: 11px; font-weight: 600; color: #6A7369;">Food Stuff Staples</span>
+            </div>
+          </div>
+          <span style="font-size: 18px; font-weight: 900; color: #124A2E; background: #FAF6EE; padding: 4px 10px; border-radius: 20px; border: 1px solid #E2DDD3;">
+            {{ greenland_count|default:"10" }}
+          </span>
+        </div>
+        <p style="font-size: 12px; color: #4A5249; margin: 0 0 16px 0; line-height: 1.4;">
+          Aged rice sacks, retail pulses (Toor/Urad), premium tea pouches &amp; evaporated milk.
+        </p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <a href="{% url 'admin:store_greenlandproduct_changelist' %}" class="button" style="flex: 1; text-align: center; background: #124A2E !important; color: #FFFFFF !important; font-size: 11px !important; padding: 8px 12px !important; border-radius: 20px !important;">
+          View / Edit ({{ greenland_count|default:"10" }})
+        </a>
+        <a href="{% url 'admin:store_greenlandproduct_add' %}" class="button" style="background: #FAB82A !important; color: #072415 !important; font-weight: 800 !important; font-size: 11px !important; padding: 8px 14px !important; border-radius: 20px !important;">
+          + Add
+        </a>
+      </div>
+    </div>
+
+    <!-- 2. 88 Brand Card -->
+    <div style="background: #FFFFFF; border-radius: 14px; border: 2px solid #D34E1B; padding: 20px; box-shadow: 0 4px 14px rgba(211, 78, 27, 0.08); display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(211, 78, 27, 0.12); display: flex; align-items: center; justify-content: center; font-size: 22px;">🌾</div>
+            <div>
+              <h4 style="font-size: 17px; font-weight: 800; color: #D34E1B; margin: 0;">88 Brand</h4>
+              <span style="font-size: 11px; font-weight: 600; color: #6A7369;">Wholesale Commercial Grains</span>
+            </div>
+          </div>
+          <span style="font-size: 18px; font-weight: 900; color: #D34E1B; background: #FFF7F2; padding: 4px 10px; border-radius: 20px; border: 1px solid #FCDFD1;">
+            {{ brand88_count|default:"6" }}
+          </span>
+        </div>
+        <p style="font-size: 12px; color: #4A5249; margin: 0 0 16px 0; line-height: 1.4;">
+          Commercial heavy-duty bulk sacks of chickpeas, green moong, whole lentils &amp; ajwain seeds.
+        </p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <a href="{% url 'admin:store_brand88product_changelist' %}" class="button" style="flex: 1; text-align: center; background: #D34E1B !important; color: #FFFFFF !important; font-size: 11px !important; padding: 8px 12px !important; border-radius: 20px !important;">
+          View / Edit ({{ brand88_count|default:"6" }})
+        </a>
+        <a href="{% url 'admin:store_brand88product_add' %}" class="button" style="background: #FAB82A !important; color: #072415 !important; font-weight: 800 !important; font-size: 11px !important; padding: 8px 14px !important; border-radius: 20px !important;">
+          + Add
+        </a>
+      </div>
+    </div>
+
+    <!-- 3. 777 Brand Card -->
+    <div style="background: #FFFFFF; border-radius: 14px; border: 2px solid #BA1B1D; padding: 20px; box-shadow: 0 4px 14px rgba(186, 27, 29, 0.08); display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(186, 27, 29, 0.12); display: flex; align-items: center; justify-content: center; font-size: 22px;">⭐</div>
+            <div>
+              <h4 style="font-size: 17px; font-weight: 800; color: #BA1B1D; margin: 0;">777 Brand</h4>
+              <span style="font-size: 11px; font-weight: 600; color: #6A7369;">Authentic Culinary Heritage</span>
+            </div>
+          </div>
+          <span style="font-size: 18px; font-weight: 900; color: #BA1B1D; background: #FDF2F2; padding: 4px 10px; border-radius: 20px; border: 1px solid #F8D7D7;">
+            {{ brand777_count|default:"2" }}
+          </span>
+        </div>
+        <p style="font-size: 12px; color: #4A5249; margin: 0 0 16px 0; line-height: 1.4;">
+          Authentic compounded asafoetida, cold-pressed gingelly oils &amp; traditional South Indian foodstuffs.
+        </p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <a href="{% url 'admin:store_brand777product_changelist' %}" class="button" style="flex: 1; text-align: center; background: #BA1B1D !important; color: #FFFFFF !important; font-size: 11px !important; padding: 8px 12px !important; border-radius: 20px !important;">
+          View / Edit ({{ brand777_count|default:"2" }})
+        </a>
+        <a href="{% url 'admin:store_brand777product_add' %}" class="button" style="background: #FAB82A !important; color: #072415 !important; font-weight: 800 !important; font-size: 11px !important; padding: 8px 14px !important; border-radius: 20px !important;">
+          + Add
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Real-time Catalog Metrics Grid -->
+<div class="gl-dashboard-stats">
+  <a href="{% url 'admin:store_category_changelist' %}" class="gl-stat-card">
+    <div class="gl-stat-icon" style="background: rgba(18, 74, 46, 0.1); color: #124A2E;">📁</div>
+    <div>
+      <div class="gl-stat-val">{{ total_categories|default:"7" }}</div>
+      <div class="gl-stat-label">Categories</div>
+    </div>
+  </a>
+
+  <a href="{% url 'admin:store_product_changelist' %}" class="gl-stat-card">
+    <div class="gl-stat-icon" style="background: rgba(211, 78, 27, 0.12); color: #D34E1B;">📦</div>
+    <div>
+      <div class="gl-stat-val">{{ total_products|default:"18" }}</div>
+      <div class="gl-stat-label">Total Products</div>
+    </div>
+  </a>
+
+  <a href="{% url 'admin:store_product_changelist' %}?availability__exact=in_stock" class="gl-stat-card">
+    <div class="gl-stat-icon" style="background: rgba(79, 139, 58, 0.15); color: #4F8B3A;">✅</div>
+    <div>
+      <div class="gl-stat-val">{{ in_stock_products|default:"17" }}</div>
+      <div class="gl-stat-label">In-Stock</div>
+    </div>
+  </a>
+
+  <a href="{% url 'admin:store_product_changelist' %}?availability__exact=coming_soon" class="gl-stat-card">
+    <div class="gl-stat-icon" style="background: rgba(250, 184, 42, 0.2); color: #8A6000;">✨</div>
+    <div>
+      <div class="gl-stat-val">{{ coming_soon_products|default:"1" }}</div>
+      <div class="gl-stat-label">Coming Soon</div>
+    </div>
+  </a>
+
+  <a href="{% url 'admin:store_advertisementbanner_changelist' %}" class="gl-stat-card">
+    <div class="gl-stat-icon" style="background: rgba(186, 27, 29, 0.12); color: #BA1B1D;">📢</div>
+    <div>
+      <div class="gl-stat-val">{{ active_banners|default:"1" }}</div>
+      <div class="gl-stat-label">Spotlight Banners</div>
+    </div>
+  </a>
+</div>
+
+{{ block.super }}
+{% endblock %}

@@ -13,7 +13,7 @@
 
     <!-- Background Hero Image: Perfectly framed panoramic showcase (Tea Pouch headroom, cans & jar, reflective floor) -->
     <div class="absolute inset-0 bg-cover bg-no-repeat bg-scroll pointer-events-none"
-         style="background-image: url('{% static 'images/greenland-hero-products.jpg' %}?v=8'); background-position: right bottom; background-size: cover;">
+         style="background-image: url('{% static 'images/greenland-hero-products.jpg' %}?v=10'); background-position: right bottom; background-size: cover;">
       
       <!-- Contrast Overlay: Deep contrast on mobile for ultra-crisp typography, seamlessly fading on desktop (sm:) to leave right 55% products 100% vibrant -->
       <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-[#0B351F]/75 to-black/90 sm:bg-gradient-to-r sm:from-black/75 sm:via-black/20 sm:via-42% sm:to-transparent"></div>
@@ -120,23 +120,49 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 reveal-on-scroll">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
-        <!-- Left Column: Visual Staggered Showcase -->
-        <div class="lg:col-span-5 relative max-w-sm sm:max-w-md mx-auto lg:mx-0 w-full pb-10 sm:pb-8 pr-8 sm:pr-10">
+        <!-- Left Column: Visual Showcase (Transparent floating products, both fully visible with animations) -->
+        <div class="lg:col-span-5 relative max-w-lg mx-auto lg:mx-0 w-full py-4 sm:py-6 px-1 sm:px-3">
+          
+          <!-- Ambient Luxury Aura Glow Backdrop (Transparent organic glow, zero solid box) -->
+          <div class="absolute inset-0 bg-gradient-to-tr from-[#FAB82A]/18 via-[#124A2E]/8 to-[#BA1B1D]/12 rounded-full blur-3xl -z-10 scale-95 pointer-events-none transform -translate-y-2"></div>
 
-          <!-- Primary Product Image (Top Left) -->
-          <div
-            class="relative z-10 w-[80%] rounded-[28px] sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5] bg-white flex items-center justify-center p-3 group/img">
-            <img src="{% static 'images/products/toor-dal-1kg.png' %}"
-              alt="Greenland Toor Dal 100% Natural"
-              class="w-full h-full object-contain group-hover/img:scale-105 transition-transform duration-700" />
+          <!-- Floating Authentic Quality Badge -->
+          <div class="absolute -top-2 left-1 sm:left-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#124A2E]/20 shadow-md text-[10.5px] sm:text-xs font-black text-[#124A2E] tracking-wide hover:scale-105 transition-transform select-none">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FAB82A]"></i>
+            <span>100% Authentic Quality</span>
           </div>
 
-          <!-- Secondary Product Image (Bottom Right Overlap) -->
-          <div
-            class="absolute right-2 sm:right-0 bottom-0 w-[65%] rounded-[24px] sm:rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[1/1] z-20 bg-white flex items-center justify-center p-3 group/img">
-            <img src="{% static 'images/products/tomato-paste-3kg.png' %}"
-              alt="Greenland Food Stuff Tomato Paste"
-              class="w-full h-full object-contain group-hover/img:scale-105 transition-transform duration-700" />
+          <!-- Floating Sealed Freshness Badge -->
+          <div class="absolute -bottom-3 right-1 sm:right-3 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#D34E1B]/25 shadow-md text-[10.5px] sm:text-xs font-black text-[#BA1B1D] tracking-wide hover:scale-105 transition-transform select-none">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#FAB82A]"></i>
+            <span>Sealed Freshness</span>
+          </div>
+
+          <!-- Product Pair Container: Side-by-side with staggered base, neither blocking the other -->
+          <div class="grid grid-cols-2 gap-3 sm:gap-6 items-end relative z-10 pt-7 pb-3">
+            
+            <!-- 1. Greenland Toor Dal 1kg (Fully Visible, Transparent Background with Floating Animation) -->
+            <div class="relative group flex flex-col items-center">
+              <div class="w-full flex items-center justify-center animate-float-slow transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-translate-y-2 cursor-pointer">
+                <img src="{% static 'images/products/toor-dal-1kg.png' %}?v=trans1"
+                  alt="Greenland Toor Dal 100% Natural 1kg"
+                  class="w-full max-w-[210px] sm:max-w-[240px] h-auto object-contain drop-shadow-[0_20px_25px_rgba(18,74,46,0.22)] group-hover:drop-shadow-[0_28px_32px_rgba(18,74,46,0.32)] transition-all duration-500" />
+              </div>
+              <!-- Floating Ground Contact Shadow -->
+              <div class="w-3/4 h-3 bg-[#124A2E]/18 rounded-full blur-md mt-1 animate-shadow-pulse"></div>
+            </div>
+
+            <!-- 2. Greenland Tomato Paste 3kg (Fully Visible, Transparent Background with Counter-Float Animation) -->
+            <div class="relative group flex flex-col items-center">
+              <div class="w-full flex items-center justify-center animate-float-delayed transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-translate-y-2 cursor-pointer">
+                <img src="{% static 'images/products/tomato-paste-3kg.png' %}?v=trans1"
+                  alt="Greenland Food Stuff Tomato Paste 3kg"
+                  class="w-full max-w-[200px] sm:max-w-[230px] h-auto object-contain drop-shadow-[0_20px_25px_rgba(186,27,29,0.22)] group-hover:drop-shadow-[0_28px_32px_rgba(186,27,29,0.32)] transition-all duration-500" />
+              </div>
+              <!-- Floating Ground Contact Shadow -->
+              <div class="w-3/4 h-3 bg-[#BA1B1D]/18 rounded-full blur-md mt-1 animate-shadow-delayed"></div>
+            </div>
+
           </div>
         </div>
 
@@ -231,7 +257,7 @@
           class="foodstuff-card-glow group bg-white rounded-[22px] overflow-hidden border border-stone-200/90 shadow-sm transition-all duration-300 flex flex-col hover:border-[#FAB82A]">
           <!-- Category Image Container -->
           <div class="relative aspect-[4/3] w-full overflow-hidden bg-white group-hover:bg-amber-50/20 flex items-center justify-center p-4 border-b border-stone-100 transition-colors duration-300">
-            <img src="{{ cat.image }}" alt="{{ cat.name }}"
+            <img src="{{ cat.image_url }}" alt="{{ cat.name }}"
               class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500 ease-out" />
             <div class="absolute bottom-2.5 left-2.5">
               <span class="text-[10.5px] font-bold text-[#124A2E] bg-[#FAF6EE] border border-stone-200/80 group-hover:bg-[#124A2E] group-hover:text-[#FAB82A] group-hover:border-[#124A2E] px-2.5 py-0.5 rounded-md shadow-xs transition-colors duration-300">
@@ -262,6 +288,106 @@
         {% endfor %}
       </div>
 
+      <!-- ===================================================================== -->
+      <!-- BRAND SHOWCASE GATEWAY CARDS (GREENLAND, 88 BRAND, 777 BRAND)         -->
+      <!-- ===================================================================== -->
+      <div class="mt-14 pt-12 border-t border-stone-200/80">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#124A2E]/20 text-[#124A2E] text-[11px] font-bold uppercase tracking-wider mb-1.5 shadow-xs">
+              <i data-lucide="award" class="w-3.5 h-3.5 text-[#FAB82A]"></i>
+              <span>Brand Portfolios</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black text-[#124A2E] tracking-tight">
+              Explore by Brand
+            </h3>
+          </div>
+          <span class="text-xs text-stone-500 font-medium">Authentic, Lab-Tested Packaging Lines</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          
+          <!-- 1. GreenLand Food Stuff -->
+          <a
+            href="{% url 'store:products' %}?brand=greenland"
+            class="group relative rounded-2xl p-6 bg-gradient-to-br from-[#0B351F] to-[#124A2E] text-white border-2 border-[#FAB82A]/40 shadow-lg hover:shadow-2xl hover:border-[#FAB82A] transition-all duration-300 flex flex-col justify-between overflow-hidden"
+          >
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-[#FAB82A]/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="space-y-2 relative z-10">
+              <div class="flex items-center justify-between">
+                <span class="text-2xl">🌿</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-black bg-[#FAB82A] text-[#124A2E]">
+                  11 Products
+                </span>
+              </div>
+              <h4 class="text-xl font-black font-display text-white group-hover:text-[#FAB82A] transition-colors">
+                GreenLand Food Stuff
+              </h4>
+              <p class="text-xs text-white/80 leading-relaxed">
+                Indian Premium Teas, 100% natural pulses, aged rice bags, tomato paste &amp; evaporated milk.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-white/15 flex items-center justify-between text-xs font-bold text-[#FAB82A] relative z-10">
+              <span>Browse GreenLand Catalog</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200"></i>
+            </div>
+          </a>
+
+          <!-- 2. 88 Brand Wholesale -->
+          <a
+            href="{% url 'store:products' %}?brand=88"
+            class="group relative rounded-2xl p-6 bg-gradient-to-br from-[#4A1A08] to-[#D34E1B] text-white border-2 border-orange-300/30 shadow-lg hover:shadow-2xl hover:border-orange-300 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+          >
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="space-y-2 relative z-10">
+              <div class="flex items-center justify-between">
+                <span class="text-2xl">🌾</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-black bg-white text-[#D34E1B]">
+                  6 Products
+                </span>
+              </div>
+              <h4 class="text-xl font-black font-display text-white group-hover:text-orange-200 transition-colors">
+                88 Brand Wholesale
+              </h4>
+              <p class="text-xs text-white/80 leading-relaxed">
+                Commercial and retail-grade chick peas, split moong, whole lentils &amp; ajwain seeds.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-white/15 flex items-center justify-between text-xs font-bold text-white relative z-10">
+              <span>Browse 88 Brand Catalog</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200"></i>
+            </div>
+          </a>
+
+          <!-- 3. 777 Brand Heritage -->
+          <a
+            href="{% url 'store:products' %}?brand=777"
+            class="group relative rounded-2xl p-6 bg-gradient-to-br from-[#3B0709] to-[#BA1B1D] text-white border-2 border-amber-300/30 shadow-lg hover:shadow-2xl hover:border-amber-300 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+          >
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="space-y-2 relative z-10">
+              <div class="flex items-center justify-between">
+                <span class="text-2xl">⭐</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-black bg-[#FAB82A] text-[#BA1B1D]">
+                  2 Products
+                </span>
+              </div>
+              <h4 class="text-xl font-black font-display text-white group-hover:text-[#FAB82A] transition-colors">
+                777 Brand Heritage
+              </h4>
+              <p class="text-xs text-white/80 leading-relaxed">
+                Time-honored compounded asafoetida powder &amp; cold-pressed pure gingelly sesame oil.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-white/15 flex items-center justify-between text-xs font-bold text-[#FAB82A] relative z-10">
+              <span>Browse 777 Brand Catalog</span>
+              <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-200"></i>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -290,11 +416,170 @@
         </a>
       </div>
 
-      <!-- Products Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {% for product in featured_products %}
-        {% include 'components/product_card.html' with product=product %}
-        {% endfor %}
+      <!-- ========================================================================= -->
+      <!-- NEW ARRIVAL ADVERTISEMENT SPOTLIGHT BANNER (DYNAMIC & EXTRACTED FROM IMAGE) -->
+      <!-- ========================================================================= -->
+      {% if advertisement_banner %}
+      <div class="mb-14 rounded-3xl overflow-hidden bg-gradient-to-br from-[#072415] via-[#124A2E] to-[#0A341E] border-2 border-[#FAB82A]/50 shadow-[0_25px_60px_-15px_rgba(18,74,46,0.35)] relative">
+        
+        <!-- Ambient Background Glow -->
+        <div class="absolute -top-32 -right-32 w-80 h-80 bg-[#FAB82A]/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-[#4F8B3A]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center p-6 sm:p-8 lg:p-12 relative z-10">
+          
+          <!-- LEFT: CLEAN ADVERTISEMENT IMAGE (NO ARTIFICIAL OVERLAYS) -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="w-full max-w-[460px] rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-black/20">
+              <img
+                src="{{ advertisement_banner.image_url }}"
+                alt="{{ advertisement_banner.title }}"
+                class="w-full h-auto object-cover block"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <!-- RIGHT: DETAILS EXTRACTED DIRECTLY FROM THE IMAGE -->
+          <div class="lg:col-span-7 space-y-6 text-white">
+            
+            <!-- Coming Soon Badge (Matching Starburst from Image) -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FAB82A]/20 border border-[#FAB82A]/60 text-[#FAB82A] text-xs font-black uppercase tracking-wider">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FAB82A]"></i>
+              <span>{{ advertisement_banner.badge_text }}</span>
+            </div>
+
+            <!-- Product Title & Descriptor (From Image) -->
+            <div class="space-y-2">
+              <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black font-display tracking-tight text-white leading-tight">
+                {{ advertisement_banner.title }}
+              </h3>
+              {% if advertisement_banner.subtitle %}
+              <p class="text-xl sm:text-2xl font-bold text-[#FAB82A] tracking-wide">
+                {{ advertisement_banner.subtitle }}
+              </p>
+              {% endif %}
+            </div>
+
+            <!-- Details From Tin Label: Arabic Name & Formulation -->
+            <div class="space-y-1.5 text-white/90">
+              {% if advertisement_banner.arabic_title %}
+              <p class="text-lg sm:text-xl font-bold text-white tracking-wide">
+                {{ advertisement_banner.arabic_title }}
+              </p>
+              {% endif %}
+              {% if advertisement_banner.formulation %}
+              <p class="text-sm sm:text-base text-white/80 font-medium">
+                {{ advertisement_banner.formulation }}
+              </p>
+              {% endif %}
+            </div>
+
+            <!-- Key Specs Extracted From Image -->
+            <div class="grid grid-cols-2 gap-4 max-w-md pt-1">
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <span class="text-[11px] text-[#FAB82A] font-bold uppercase tracking-wider block">Net Weight</span>
+                <span class="text-2xl font-black text-white mt-0.5 block font-display">{{ advertisement_banner.net_weight }}</span>
+              </div>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <span class="text-[11px] text-[#FAB82A] font-bold uppercase tracking-wider block">Brand</span>
+                <span class="text-lg font-black text-white mt-1 block leading-tight">{{ advertisement_banner.brand }}</span>
+              </div>
+            </div>
+
+            <!-- Clean Action Buttons -->
+            <div class="pt-2 flex flex-wrap items-center gap-3.5">
+              <a
+                href="https://wa.me/96599999999?text={{ advertisement_banner.whatsapp_text|urlencode }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-shine inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#FAB82A] hover:bg-[#FAB82A]/90 text-[#124A2E] font-black text-xs uppercase tracking-wider shadow-lg shadow-[#FAB82A]/25 transition-all hover:scale-105 active:scale-95"
+              >
+                <i data-lucide="message-circle" class="w-4 h-4 text-[#124A2E]"></i>
+                <span>Inquire Now</span>
+              </a>
+
+              {% if advertisement_banner.linked_product %}
+              <a
+                href="{% url 'store:product_detail' advertisement_banner.linked_product.id %}"
+                class="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-white/12 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition-all hover:border-white/40"
+              >
+                <span>Product Details</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </a>
+              {% endif %}
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Products Section with Interactive Brand Filter Tabs -->
+      <div x-data="{ activeBrand: 'all' }" class="space-y-6">
+        
+        <!-- Header & Brand Filter Tabs -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-stone-200">
+          <div>
+            <h3 class="font-display font-extrabold text-lg sm:text-xl text-[#124A2E]">
+              Featured Foodstuffs &amp; Grain Staples
+            </h3>
+            <p class="text-xs text-stone-500 mt-0.5">Filter by brand or browse all pantry items</p>
+          </div>
+
+          <!-- Interactive Brand Filter Pills -->
+          <div class="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-stone-200 shadow-xs overflow-x-auto">
+            <button
+              type="button"
+              @click="activeBrand = 'all'"
+              :class="activeBrand === 'all' ? 'bg-[#124A2E] text-white shadow-xs font-bold' : 'text-stone-600 hover:text-[#124A2E] font-medium'"
+              class="px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap"
+            >
+              All Items
+            </button>
+            <button
+              type="button"
+              @click="activeBrand = 'greenland'"
+              :class="activeBrand === 'greenland' ? 'bg-[#124A2E] text-[#FAB82A] shadow-xs font-bold' : 'text-stone-600 hover:text-[#124A2E] font-medium'"
+              class="px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap flex items-center gap-1"
+            >
+              <span>🌿</span> GreenLand
+            </button>
+            <button
+              type="button"
+              @click="activeBrand = '88'"
+              :class="activeBrand === '88' ? 'bg-[#D34E1B] text-white shadow-xs font-bold' : 'text-stone-600 hover:text-[#D34E1B] font-medium'"
+              class="px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap flex items-center gap-1"
+            >
+              <span>🌾</span> 88 Brand
+            </button>
+            <button
+              type="button"
+              @click="activeBrand = '777'"
+              :class="activeBrand === '777' ? 'bg-[#BA1B1D] text-white shadow-xs font-bold' : 'text-stone-600 hover:text-[#BA1B1D] font-medium'"
+              class="px-3.5 py-1.5 rounded-lg text-xs transition-all whitespace-nowrap flex items-center gap-1"
+            >
+              <span>⭐</span> 777 Brand
+            </button>
+          </div>
+        </div>
+
+        <!-- Products Grid with Instant Reactive Filtering -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {% for product in featured_products %}
+          <div
+            x-show="activeBrand === 'all' || activeBrand === '{{ product.brand_code }}'"
+            x-transition:enter="transition ease-out duration-300 transform"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            class="h-full"
+          >
+            {% include 'components/product_card.html' with product=product %}
+          </div>
+          {% endfor %}
+        </div>
+
       </div>
 
     </div>
