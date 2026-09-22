@@ -94,12 +94,22 @@ h1, h2, h3, h4, h5, #site-name, .font-display {
 #header {
   background: linear-gradient(135deg, var(--gl-primary-deep) 0%, var(--gl-primary) 55%, #0F4328 100%) !important;
   color: #FFFFFF !important;
-  padding: 14px 28px !important;
+  padding: 14px calc((100% - 1380px) / 2 + 24px) !important;
   border-bottom: 3px solid var(--gl-accent) !important;
   box-shadow: 0 8px 25px rgba(7, 36, 21, 0.22) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 20 !important;
+}
+
+@media (max-width: 1440px) {
+  #header {
+    padding: 14px 24px !important;
+  }
 }
 
 #header #branding {
@@ -140,7 +150,8 @@ h1, h2, h3, h4, h5, #site-name, .font-display {
 }
 
 /* User tools in header */
-#user-tools {
+#user-tools,
+.gl-user-tools-enhanced {
   float: none !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -152,39 +163,84 @@ h1, h2, h3, h4, h5, #site-name, .font-display {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 
-#user-tools a {
-  color: #FFFFFF !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  text-decoration: none !important;
-  padding: 6px 12px !important;
+/* Administrator status badge */
+.gl-admin-user-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: rgba(0, 0, 0, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  padding: 6px 13px !important;
   border-radius: var(--gl-radius-pill) !important;
-  transition: all 0.2s ease !important;
+  font-size: 12px !important;
+  margin-right: 4px !important;
+}
+
+.gl-user-status-dot {
+  width: 7px !important;
+  height: 7px !important;
+  background: #4ADE80 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 8px #4ADE80 !important;
+  display: inline-block !important;
+}
+
+.gl-user-role {
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+}
+
+.gl-user-name {
+  color: var(--gl-accent) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
   font-size: 12px !important;
 }
 
+/* Header Action Buttons */
+.gl-header-btn-subtle,
+#user-tools a {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  text-decoration: none !important;
+  padding: 7px 14px !important;
+  border-radius: var(--gl-radius-pill) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  line-height: 1 !important;
+}
+
+.gl-header-btn-subtle:hover,
 #user-tools a:hover {
-  background: var(--gl-accent) !important;
-  color: var(--gl-primary-deep) !important;
-  border-color: var(--gl-accent) !important;
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
   transform: translateY(-1px) !important;
 }
 
 .gl-view-store-btn {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 7px !important;
+  gap: 6px !important;
   background: linear-gradient(135deg, var(--gl-accent) 0%, var(--gl-accent-hover) 100%) !important;
   color: var(--gl-primary-deep) !important;
-  padding: 7px 16px !important;
+  padding: 8px 16px !important;
   border-radius: var(--gl-radius-pill) !important;
   font-weight: 800 !important;
   font-size: 12px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   box-shadow: 0 4px 14px rgba(250, 184, 42, 0.35) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  transition: all 0.2s ease !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  line-height: 1 !important;
 }
 
 .gl-view-store-btn:hover {
@@ -194,16 +250,86 @@ h1, h2, h3, h4, h5, #site-name, .font-display {
 }
 
 /* =========================================================================
+   ENHANCED HIGH-IMPACT LOGOUT BUTTON
+   ========================================================================= */
+.gl-logout-form-wrapper,
+#user-tools #logout-form,
+#user-tools form {
+  display: inline-flex !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  align-items: center !important;
+}
+
+.gl-logout-btn-enhanced,
+#user-tools #logout-form button,
+#user-tools form button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  background: linear-gradient(135deg, #D34E1B 0%, #BA1B1D 100%) !important;
+  color: #FFFFFF !important;
+  padding: 8px 18px !important;
+  border-radius: var(--gl-radius-pill) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  box-shadow: 0 4px 14px rgba(211, 78, 27, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.25) inset !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+  cursor: pointer !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  line-height: 1 !important;
+}
+
+.gl-logout-btn-enhanced svg,
+#user-tools #logout-form button svg {
+  transition: transform 0.25s ease !important;
+}
+
+.gl-logout-btn-enhanced:hover,
+#user-tools #logout-form button:hover,
+#user-tools form button:hover {
+  background: linear-gradient(135deg, #E65A22 0%, #DC2626 100%) !important;
+  box-shadow: 0 6px 20px rgba(186, 27, 29, 0.65), 0 0 12px rgba(250, 184, 42, 0.35) !important;
+  border-color: var(--gl-accent) !important;
+  transform: translateY(-2px) scale(1.03) !important;
+  color: #FFFFFF !important;
+}
+
+.gl-logout-btn-enhanced:hover svg,
+#user-tools #logout-form button:hover svg {
+  transform: translateX(2px) !important;
+}
+
+.gl-logout-btn-enhanced:active,
+#user-tools #logout-form button:active,
+#user-tools form button:active {
+  transform: translateY(0) scale(0.98) !important;
+  box-shadow: 0 2px 8px rgba(186, 27, 29, 0.4) !important;
+}
+
+/* =========================================================================
    3. BREADCRUMBS BAR
    ========================================================================= */
 div.breadcrumbs {
   background: #FFFFFF !important;
   border-bottom: 1px solid var(--gl-border) !important;
-  padding: 12px 30px !important;
+  padding: 12px calc((100% - 1380px) / 2 + 24px) !important;
   font-size: 12px !important;
   font-weight: 600 !important;
   color: var(--gl-stone-light) !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 1440px) {
+  div.breadcrumbs {
+    padding: 12px 24px !important;
+  }
 }
 
 div.breadcrumbs a {
@@ -218,6 +344,116 @@ div.breadcrumbs a {
 div.breadcrumbs a:hover {
   background: var(--gl-cream) !important;
   color: var(--gl-terracotta) !important;
+}
+
+/* =========================================================================
+   3.5 CENTERED LUXURY ADMIN SITE LAYOUT SYSTEM
+   ========================================================================= */
+body:not(.login) {
+  background-color: #F8F5EE !important;
+}
+
+body:not(.login) #container {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  background: #F8F5EE !important;
+}
+
+body:not(.login) #container > .main,
+body:not(.login) .main,
+body:not(.login) #main {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  flex: 1 0 auto !important;
+  background: transparent !important;
+}
+
+body:not(.login) .main > .content,
+body:not(.login) main#content-start {
+  width: 100% !important;
+  max-width: 1380px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  flex: 1 1 100% !important;
+}
+
+#content,
+.dashboard #content {
+  width: 100% !important;
+  max-width: 1380px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 24px calc((100% - 1380px) / 2 + 24px) 48px calc((100% - 1380px) / 2 + 24px) !important;
+  box-sizing: border-box !important;
+  float: none !important;
+}
+
+@media (max-width: 1440px) {
+  #content,
+  .dashboard #content {
+    padding: 24px 24px 48px 24px !important;
+  }
+}
+
+/* Page titles */
+#content > h1:first-child,
+.dashboard #content > h1:first-child,
+#content_title h1 {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  color: var(--gl-primary-deep) !important;
+  margin: 0 0 22px 0 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Modern Flexbox Dashboard Layout replacing archaic float hacks */
+#content.colMS,
+.colMS {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 28px !important;
+  align-items: flex-start !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+}
+
+#content.colMS #content-main,
+#content-main {
+  flex: 1 1 0% !important;
+  width: 100% !important;
+  float: none !important;
+  min-width: 0 !important;
+}
+
+#content.colMS #content-related,
+#content-related {
+  flex: 0 0 320px !important;
+  width: 320px !important;
+  float: none !important;
+  margin: 0 !important;
+  position: static !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid var(--gl-border) !important;
+  border-radius: var(--gl-radius) !important;
+  box-shadow: var(--gl-shadow) !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 1100px) {
+  #content.colMS {
+    flex-direction: column !important;
+  }
+  #content.colMS #content-related,
+  #content-related {
+    width: 100% !important;
+    flex: 1 1 100% !important;
+  }
 }
 
 /* =========================================================================
