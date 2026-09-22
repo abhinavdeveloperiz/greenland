@@ -35,22 +35,63 @@
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
       
-      <!-- Visual Staggered Photos -->
-      <div class="lg:col-span-6 relative pb-10 sm:pb-12 lg:pb-0">
-        <div class="w-[85%] rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3] bg-white flex items-center justify-center p-4">
-          <img
-            src="{% static 'images/products/88-ajwain-seeds-10kg.png' %}"
-            alt="88 Brand Wholesale Ajwain Seeds"
-            class="w-full h-full object-contain hover:scale-105 transition-transform duration-700"
-          />
+      <!-- Visual Product Showcase: Side-by-side with zero overlap and luxury floating animations -->
+      <div class="lg:col-span-6 relative max-w-lg mx-auto lg:mx-0 w-full py-4 sm:py-6 px-1 sm:px-3">
+        
+        <!-- Ambient Luxury Aura Glow Backdrop (Transparent organic glow) -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#FAB82A]/18 via-[#124A2E]/10 to-[#D34E1B]/15 rounded-full blur-3xl -z-10 scale-95 pointer-events-none transform -translate-y-2"></div>
+
+        <!-- Floating Heritage Brand Badge Top Left -->
+        <div class="absolute -top-3 left-1 sm:left-3 z-20 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#124A2E]/20 shadow-md text-[11px] sm:text-xs font-black text-[#124A2E] tracking-wide hover:scale-105 transition-transform select-none">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FAB82A]"></i>
+          <span>100% Farm-Direct Staples</span>
         </div>
-        <div class="absolute right-0 -bottom-8 w-[65%] rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3] bg-white flex items-center justify-center p-3">
-          <img
-            src="{% static 'images/products/greenland-tea-jar.png' %}"
-            alt="Greenland Indian Premium Tea Gold"
-            class="w-full h-full object-contain hover:scale-105 transition-transform duration-700"
-          />
+
+        <!-- Floating Quality Sealed Badge Bottom Right -->
+        <div class="absolute -bottom-3 right-1 sm:right-3 z-20 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-[#D34E1B]/25 shadow-md text-[11px] sm:text-xs font-black text-[#BA1B1D] tracking-wide hover:scale-105 transition-transform select-none">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#FAB82A]"></i>
+          <span>Certified Freshness</span>
         </div>
+
+        <!-- Two Products Side-by-Side (Neither covers the other, staggered base, both 100% visible) -->
+        <div class="grid grid-cols-2 gap-4 sm:gap-6 items-end relative z-10 pt-7 pb-3">
+          
+          <!-- 1. 88 Brand Wholesale Bag (Fully Visible, Transparent Background with Floating Animation) -->
+          <div class="relative group flex flex-col items-center">
+            <div class="w-full flex items-center justify-center animate-float-slow transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-translate-y-2 cursor-pointer">
+              <img
+                src="{% static 'images/products/88-ajwain-seeds-10kg-trans.png' %}"
+                alt="88 Brand Wholesale Ajwain Seeds 10kg"
+                class="w-full max-w-[210px] sm:max-w-[240px] h-auto object-contain drop-shadow-[0_20px_25px_rgba(211,78,27,0.22)] group-hover:drop-shadow-[0_28px_32px_rgba(211,78,27,0.32)] transition-all duration-500"
+              />
+            </div>
+            <!-- Floating Ground Contact Shadow -->
+            <div class="w-3/4 h-3 bg-[#D34E1B]/18 rounded-full blur-md mt-1 animate-shadow-pulse"></div>
+            <!-- Brand Tag -->
+            <span class="mt-2 text-[10.5px] font-black uppercase tracking-wider text-[#D34E1B] bg-orange-50/90 border border-orange-200 px-2.5 py-0.5 rounded-full shadow-2xs">
+              88 Brand Wholesale
+            </span>
+          </div>
+
+          <!-- 2. GreenLand Indian Premium Tea Gold Jar (Fully Visible, Transparent Background with Counter-Float Animation) -->
+          <div class="relative group flex flex-col items-center">
+            <div class="w-full flex items-center justify-center animate-float-delayed transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-translate-y-2 cursor-pointer">
+              <img
+                src="{% static 'images/products/greenland-tea-jar-trans.png' %}"
+                alt="GreenLand Indian Premium Tea Gold 250g"
+                class="w-full max-w-[200px] sm:max-w-[230px] h-auto object-contain drop-shadow-[0_20px_25px_rgba(18,74,46,0.22)] group-hover:drop-shadow-[0_28px_32px_rgba(18,74,46,0.32)] transition-all duration-500"
+              />
+            </div>
+            <!-- Floating Ground Contact Shadow -->
+            <div class="w-3/4 h-3 bg-[#124A2E]/18 rounded-full blur-md mt-1 animate-shadow-delayed"></div>
+            <!-- Brand Tag -->
+            <span class="mt-2 text-[10.5px] font-black uppercase tracking-wider text-[#124A2E] bg-emerald-50/90 border border-emerald-200 px-2.5 py-0.5 rounded-full shadow-2xs">
+              GreenLand Gold Tea
+            </span>
+          </div>
+
+        </div>
+
       </div>
 
       <!-- Content -->
