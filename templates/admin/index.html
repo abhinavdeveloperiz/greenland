@@ -1,8 +1,10 @@
 {% extends "admin/index.html" %}
 {% load i18n static %}
 
+{% block coltype %}colM{% endblock %}
+
 {% block content %}
-<!-- Top Greenland Dashboard Hero Banner -->
+<!-- 1. Top Greenland Dashboard Hero Banner -->
 <div class="gl-dashboard-hero">
   <div style="max-width: 650px;">
     <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: rgba(250, 184, 42, 0.2); border: 1px solid rgba(250, 184, 42, 0.4); border-radius: 20px; font-size: 11px; font-weight: 800; color: #FAB82A; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">
@@ -32,16 +34,16 @@
   </div>
 </div>
 
-<!-- Dedicated 3 Brand Product Management Cards -->
+<!-- 2. Dedicated 3 Brand Product Management Cards -->
 <div style="margin-bottom: 28px;">
-  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+  <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
     <h3 style="font-size: 18px; font-weight: 800; color: #124A2E; margin: 0; display: flex; align-items: center; gap: 8px;">
       <span>🏷️ Brand Product Portals (Manage Separately)</span>
     </h3>
     <span style="font-size: 12px; font-weight: 600; color: #6A7369;">Add, Edit &amp; Delete products by brand</span>
   </div>
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px;">
     
     <!-- 1. GreenLand Brand Card -->
     <div style="background: #FFFFFF; border-radius: 14px; border: 2px solid #124A2E; padding: 20px; box-shadow: 0 4px 14px rgba(18, 74, 46, 0.08); display: flex; flex-direction: column; justify-content: space-between;">
@@ -133,7 +135,7 @@
   </div>
 </div>
 
-<!-- Real-time Catalog Metrics Grid -->
+<!-- 3. Real-time Catalog Metrics Grid -->
 <div class="gl-dashboard-stats">
   <a href="{% url 'admin:store_category_changelist' %}" class="gl-stat-card">
     <div class="gl-stat-icon" style="background: rgba(18, 74, 46, 0.1); color: #124A2E;">📁</div>
@@ -146,7 +148,7 @@
   <a href="{% url 'admin:store_product_changelist' %}" class="gl-stat-card">
     <div class="gl-stat-icon" style="background: rgba(211, 78, 27, 0.12); color: #D34E1B;">📦</div>
     <div>
-      <div class="gl-stat-val">{{ total_products|default:"18" }}</div>
+      <div class="gl-stat-val">{{ total_products|default:"19" }}</div>
       <div class="gl-stat-label">Total Products</div>
     </div>
   </a>
@@ -154,7 +156,7 @@
   <a href="{% url 'admin:store_product_changelist' %}?availability__exact=in_stock" class="gl-stat-card">
     <div class="gl-stat-icon" style="background: rgba(79, 139, 58, 0.15); color: #4F8B3A;">✅</div>
     <div>
-      <div class="gl-stat-val">{{ in_stock_products|default:"17" }}</div>
+      <div class="gl-stat-val">{{ in_stock_products|default:"18" }}</div>
       <div class="gl-stat-label">In-Stock</div>
     </div>
   </a>
@@ -176,5 +178,50 @@
   </a>
 </div>
 
-{{ block.super }}
+<!-- 4. Lower Dashboard Grid: Database App Tables + Recent Actions Sidebar -->
+<div class="gl-dashboard-lower-layout">
+  <div class="gl-dashboard-main-col">
+    {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+  </div>
+
+  <div class="gl-dashboard-side-col">
+    <div class="module" id="recent-actions-module" style="background: #FFFFFF; border-radius: var(--gl-radius); border: 1.5px solid var(--gl-border); box-shadow: var(--gl-shadow-sm); overflow: hidden;">
+      <h2 style="background: linear-gradient(135deg, var(--gl-primary-deep) 0%, var(--gl-primary) 100%); color: #FFFFFF; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 800; padding: 14px 20px; letter-spacing: 0.03em; border-bottom: 2px solid var(--gl-accent); margin: 0;">
+        {% translate 'Recent actions' %}
+      </h2>
+      <h3 style="padding: 12px 20px 0 20px; margin: 0; font-size: 12px; font-weight: 700; color: #6A7369; text-transform: uppercase; letter-spacing: 0.05em;">
+        {% translate 'My actions' %}
+      </h3>
+      {% load log %}
+      {% get_admin_log 10 as admin_log for_user user %}
+      {% if not admin_log %}
+        <p style="padding: 12px 20px 20px 20px; margin: 0; color: #8A9488; font-size: 13px; font-style: italic;">
+          {% translate 'None available' %}
+        </p>
+      {% else %}
+        <ul class="actionlist" style="padding: 10px 20px 18px 20px; margin: 0; list-style: none;">
+          {% for entry in admin_log %}
+          <li style="margin-bottom: 10px; font-size: 13px; line-height: 1.4;">
+            <span class="visually-hidden">{% if entry.is_addition %}{% translate 'Added:' %}{% elif entry.is_change %}{% translate 'Changed:' %}{% elif entry.is_deletion %}{% translate 'Deleted:' %}{% endif %}</span>
+            {% if entry.is_deletion or not entry.get_admin_url %}
+              <strong>{{ entry.object_repr }}</strong>
+            {% else %}
+              <a href="{{ entry.get_admin_url }}" style="font-weight: 700; color: #124A2E; text-decoration: none;">{{ entry.object_repr }}</a>
+            {% endif %}
+            <br>
+            {% if entry.content_type %}
+              <span class="mini quiet" style="font-size: 11px; color: #8A9488;">{% filter capfirst %}{{ entry.content_type.name }}{% endfilter %}</span>
+            {% else %}
+              <span class="mini quiet" style="font-size: 11px; color: #8A9488;">{% translate 'Unknown content' %}</span>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% endblock %}
+
+{% block sidebar %}{% endblock %}

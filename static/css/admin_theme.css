@@ -375,31 +375,28 @@ body:not(.login) #main {
 body:not(.login) .main > .content,
 body:not(.login) main#content-start {
   width: 100% !important;
-  max-width: 1380px !important;
+  max-width: 1360px !important;
   margin: 0 auto !important;
   box-sizing: border-box !important;
   flex: 1 1 100% !important;
 }
 
+/* ALL admin content pages (Dashboard, Lists, Change Forms) centered with 100% vertical flow */
 #content,
-.dashboard #content {
+.dashboard #content,
+#content.colM,
+#content.colMS {
+  display: block !important;
   width: 100% !important;
-  max-width: 1380px !important;
+  max-width: 1360px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  padding: 24px calc((100% - 1380px) / 2 + 24px) 48px calc((100% - 1380px) / 2 + 24px) !important;
+  padding: 24px 24px 60px 24px !important;
   box-sizing: border-box !important;
   float: none !important;
 }
 
-@media (max-width: 1440px) {
-  #content,
-  .dashboard #content {
-    padding: 24px 24px 48px 24px !important;
-  }
-}
-
-/* Page titles */
+/* Dashboard Page Main Heading */
 #content > h1:first-child,
 .dashboard #content > h1:first-child,
 #content_title h1 {
@@ -407,53 +404,55 @@ body:not(.login) main#content-start {
   font-size: 24px !important;
   font-weight: 800 !important;
   color: var(--gl-primary-deep) !important;
-  margin: 0 0 22px 0 !important;
+  margin: 0 0 20px 0 !important;
   letter-spacing: -0.02em !important;
+  display: block !important;
+  width: 100% !important;
 }
 
-/* Modern Flexbox Dashboard Layout replacing archaic float hacks */
-#content.colMS,
-.colMS {
+/* Lower Dashboard Grid (App Tables + Recent Actions) */
+.gl-dashboard-lower-layout {
   display: flex !important;
   flex-direction: row !important;
-  gap: 28px !important;
+  gap: 24px !important;
   align-items: flex-start !important;
-  margin-right: 0 !important;
   width: 100% !important;
+  box-sizing: border-box !important;
+  margin-top: 8px !important;
 }
 
-#content.colMS #content-main,
-#content-main {
+.gl-dashboard-main-col {
   flex: 1 1 0% !important;
-  width: 100% !important;
-  float: none !important;
   min-width: 0 !important;
+  width: 100% !important;
 }
 
-#content.colMS #content-related,
-#content-related {
+.gl-dashboard-side-col {
   flex: 0 0 320px !important;
   width: 320px !important;
-  float: none !important;
-  margin: 0 !important;
-  position: static !important;
-  background: #FFFFFF !important;
-  border: 1.5px solid var(--gl-border) !important;
-  border-radius: var(--gl-radius) !important;
-  box-shadow: var(--gl-shadow) !important;
-  padding: 20px !important;
-  box-sizing: border-box !important;
 }
 
-@media (max-width: 1100px) {
-  #content.colMS {
+@media (max-width: 1080px) {
+  .gl-dashboard-lower-layout {
     flex-direction: column !important;
   }
-  #content.colMS #content-related,
-  #content-related {
+  .gl-dashboard-side-col {
     width: 100% !important;
     flex: 1 1 100% !important;
   }
+}
+
+/* Default Django #content-main and #content-related fallbacks */
+#content-main {
+  float: none !important;
+  width: 100% !important;
+}
+
+#content-related {
+  float: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  position: static !important;
 }
 
 /* =========================================================================
