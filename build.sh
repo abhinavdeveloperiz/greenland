@@ -10,3 +10,6 @@ python manage.py collectstatic --no-input
 
 # Run database migrations
 python manage.py migrate
+
+# Seed catalog data (categories, products, brands, superuser)
+python manage.py seed_catalog

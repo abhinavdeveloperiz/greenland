@@ -159,4 +159,94 @@ class Command(BaseCommand):
         b_status = "Created" if b_created else "Updated"
         self.stdout.write(self.style.SUCCESS(f"Advertisement Banner [{b_status}]: {banner.title}"))
 
+        # 4. SEED BRANDS
+        from store.models import Brand, Brand777Product
+        b_gl, _ = Brand.objects.get_or_create(
+            code='greenland',
+            defaults={
+                'name': 'GreenLand Food Stuff',
+                'tagline': 'Premium Indian Tea, 100% Natural Pulses, Grains & Spices',
+                'description': 'Greenland Food Stuff is our flagship brand offering pure, sortex-cleaned pantry staples, aromatic spices, and natural pulses.',
+                'order': 1,
+                'is_active': True,
+            }
+        )
+        b_88, _ = Brand.objects.get_or_create(
+            code='88',
+            defaults={
+                'name': '88 Brand',
+                'tagline': 'Wholesale Lentils, Grains & Specialty Flours',
+                'description': '88 Brand Wholesale offers high-grade commercial and retail pulses, whole lentils, and traditional flours for catering and family kitchens.',
+                'order': 2,
+                'is_active': True,
+            }
+        )
+        b_777, _ = Brand.objects.get_or_create(
+            code='777',
+            defaults={
+                'name': '777 Brand',
+                'tagline': 'Authentic Traditional Compounded Asafoetida & Pure Oils',
+                'description': '777 Brand represents heritage South Indian culinary excellence, celebrated for pure compounded asafoetida and cold-pressed gingelly sesame oils.',
+                'order': 3,
+                'is_active': True,
+            }
+        )
+        self.stdout.write(self.style.SUCCESS("Brands seeded: greenland, 88, 777"))
+
+        # 5. SEED 777 STARTER PRODUCTS IF NEEDED
+        spices_cat = Category.objects.filter(slug='spices-and-seeds').first()
+        oil_cat = Category.objects.filter(slug='canned-products').first()
+
+        Brand777Product.objects.get_or_create(
+            id='prod-777-asafoetida-100g',
+            defaults={
+                'name': '777 Compounded Asafoetida Powder (100g)',
+                'category': spices_cat,
+                'brand': '777 Brand',
+                'brand_code': '777',
+                'price': 0.850,
+                'original_price': 1.100,
+                'weight': '100g Jar',
+                'unit': 'jar',
+                'stock': 85,
+                'availability': 'in_stock',
+                'is_featured': True,
+                'is_new': True,
+                'is_active': True,
+                'description': 'Authentic South Indian compounded Hing (Asafoetida) powder by legendary 777 Brand. Aromatic culinary enhancer for sambar, rasam, and traditional curries.',
+                'specs': {'Brand': '777 Brand', 'Origin': 'India', 'Packaging': '100g Sealed Bottle', 'Purity': 'Compounded Pure Asafoetida'},
+                'static_image_path': '/static/images/products/greenland-tea-pouch.png',
+            }
+        )
+
+        Brand777Product.objects.get_or_create(
+            id='prod-777-pure-gingelly-oil-1l',
+            defaults={
+                'name': '777 Pure Cold-Pressed Gingelly (Sesame) Oil (1L)',
+                'category': oil_cat,
+                'brand': '777 Brand',
+                'brand_code': '777',
+                'price': 2.450,
+                'original_price': 2.900,
+                'weight': '1 Litre Bottle',
+                'unit': 'bottle',
+                'stock': 60,
+                'availability': 'in_stock',
+                'is_featured': True,
+                'is_new': True,
+                'is_active': True,
+                'description': 'Traditional 777 pure cold-pressed sesame / gingelly oil. Unrefined and nutrient-rich, ideal for authentic culinary dishes and pickle preparations.',
+                'specs': {'Brand': '777 Brand', 'Type': 'Cold Pressed Gingelly Oil', 'Volume': '1 Litre Pet Bottle'},
+                'static_image_path': '/static/images/products/tomato-paste-3kg.png',
+            }
+        )
+        self.stdout.write(self.style.SUCCESS("777 Starter products verified"))
+
+        # 6. SEED DEFAULT ADMIN USER IF NONE EXISTS
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser('admin', 'admin@greenland.com', 'admin')
+            self.stdout.write(self.style.SUCCESS("Superuser 'admin' created with password 'admin'"))
+
         self.stdout.write(self.style.SUCCESS("\nGreenland catalog seeding successfully completed!"))
