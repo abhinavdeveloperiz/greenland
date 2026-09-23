@@ -115,7 +115,7 @@
   <!-- ========================================================================= -->
   <!-- 2. ABOUT US (Warm Cream Section with Forest Green Blend)                   -->
   <!-- ========================================================================= -->
-  <section id="about" class="pt-16 sm:pt-24 pb-16 md:pb-24 bg-[#FAF6EE] relative overflow-hidden dot-pattern-bg">
+  <section id="about" class="pt-12 sm:pt-16 pb-12 sm:pb-16 bg-[#FAF6EE] relative overflow-hidden dot-pattern-bg">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 reveal-on-scroll">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -233,15 +233,14 @@
     </div>
   </section>
 
-
   <!-- ========================================================================= -->
   <!-- 5. NEW ARRIVALS (Product Card Grid)                                       -->
   <!-- ========================================================================= -->
-  <section id="shop" class="py-16 md:py-20 bg-[#FAF6EE] border-t border-stone-200">
+  <section id="shop" class="py-12 sm:py-16 bg-[#FAF6EE] border-t border-stone-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
 
       <!-- Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-4 border-b border-stone-200">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6 pb-4 border-b border-stone-200">
         <div>
           <div
             class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#124A2E]/20 text-[#124A2E] text-[11px] font-bold uppercase tracking-wider mb-2 shadow-xs">
@@ -263,7 +262,7 @@
       <!-- NEW ARRIVAL ADVERTISEMENT SPOTLIGHT BANNER (DYNAMIC & EXTRACTED FROM IMAGE) -->
       <!-- ========================================================================= -->
       {% if advertisement_banner %}
-      <div class="mb-14 rounded-3xl overflow-hidden bg-gradient-to-br from-[#072415] via-[#124A2E] to-[#0A341E] border-2 border-[#FAB82A]/50 shadow-[0_25px_60px_-15px_rgba(18,74,46,0.35)] relative">
+      <div class="mb-8 rounded-3xl overflow-hidden bg-gradient-to-br from-[#072415] via-[#124A2E] to-[#0A341E] border-2 border-[#FAB82A]/50 shadow-[0_25px_60px_-15px_rgba(18,74,46,0.35)] relative">
         
         <!-- Ambient Background Glow -->
         <div class="absolute -top-32 -right-32 w-80 h-80 bg-[#FAB82A]/15 rounded-full blur-3xl pointer-events-none"></div>
@@ -360,7 +359,7 @@
       {% endif %}
 
       <!-- GreenLand Featured Products -->
-      <div class="space-y-5">
+      <div class="space-y-4">
 
         <!-- Section Header -->
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-3 border-b-2 border-[#124A2E]/15">
@@ -396,7 +395,7 @@
         </div>
 
         <!-- CTA to full products page -->
-        <div class="pt-4 text-center">
+        <div class="pt-6 text-center">
           <a href="{% url 'store:products' %}"
             class="btn-shine inline-flex items-center gap-2 px-8 py-3.5 bg-[#124A2E] hover:bg-[#D34E1B] text-white font-bold text-xs rounded-full shadow-lg transition-all hover:scale-105">
             <span>Explore All Brands &amp; Products</span>
