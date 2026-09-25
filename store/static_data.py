@@ -32,7 +32,7 @@ CATEGORIES = [
     'id': 'tea',
     'name': 'Indian Premium Tea',
     'slug': 'tea',
-    'description': 'GreenLand Indian premium CTC tea blends in aroma-sealed glass jars and heavy-duty 5 KG master carry pouches.',
+    'description': 'GreenLand Indian premium tea blends in aroma-sealed 250g packs and heavy-duty 5 KG master carry pouches.',
     'image': '/static/images/products/greenland-tea-pouch.png?v=5kg',
     'itemCount': '2 Products',
     'featured': True
@@ -85,12 +85,11 @@ PRODUCTS = [
     'isFeatured': True,
     'isPopular': True,
     'isNew': True,
-    'description': 'COMING SOON — GreenLand Analogue Evaporated Milk. Rich, Smooth & Delicious. شبيه حليب مبخر. Replaced Milk Fat with Vegetable Oil. Net Weight: 410g.',
+    'description': 'COMING SOON — GreenLand Analogue Evaporated Milk. Rich, Smooth & Delicious. شبيه حليب مبخر. Net Weight: 410g.',
     'specs': {
       'Brand': 'GreenLand Food Stuff',
       'Product': 'Analogue Evaporated Milk',
       'Arabic Name': 'شبيه حليب مبخر',
-      'Formulation': 'Replaced Milk Fat with Vegetable Oil',
       'Attributes': 'Rich, Smooth & Delicious',
       'Net Weight': '410g',
       'Status': 'Coming Soon'
@@ -386,12 +385,12 @@ PRODUCTS = [
     'availability': 'in_stock',
     'isFeatured': True,
     'isPopular': True,
-    'description': 'GreenLand Indian Premium CTC Tea. High-grown estate tea blend with brisk aroma and rich reddish liquor, packed in durable 5 KG carry-handle master pouch.',
+    'description': 'GreenLand Indian Premium Tea. Selected estate tea blend with brisk aroma and rich reddish liquor, packed in durable 5 KG carry-handle master pouch.',
     'specs': {
       'Brand': 'GreenLand Food Stuff',
       'Pack Size': '5 KG Master Pouch with Handle',
       'Origin': 'Indian Premium Estates',
-      'Grade': 'CTC Premium Tea Blend',
+      'Grade': 'Premium Tea Blend',
       'Aroma': 'Brisk, Kadak Golden Liquor'
     },
     'images': [
@@ -400,23 +399,23 @@ PRODUCTS = [
   },
   {
     'id': 'prod-gl-tea-gold-jar',
-    'name': 'GreenLand Indian Premium Tea Gold (250g Glass Jar)',
+    'name': 'GreenLand Indian Premium Tea Gold (250g)',
     'category': 'tea',
     'categoryName': 'Indian Premium Tea',
     'brand': 'GreenLand Food Stuff',
     'price': 1.850,
     'originalPrice': 2.200,
-    'weight': '250g Jar',
-    'unit': 'aroma seal jar',
+    'weight': '250g',
+    'unit': 'pack',
     'stock': 80,
     'availability': 'in_stock',
     'isFeatured': True,
     'isPopular': True,
-    'description': 'GreenLand Indian Premium Tea Gold edition. Premium CTC leaf granules packed in a sealed square glass jar with red airtight cap to lock in freshness, strength, and aroma.',
+    'description': 'GreenLand Indian Premium Tea Gold edition. Selected premium tea blend packed to preserve maximum freshness, strength, and rich aroma.',
     'specs': {
       'Brand': 'GreenLand Food Stuff',
       'Net Weight': '250 Grams',
-      'Packaging': 'Square Airtight Aroma Seal Jar',
+      'Packaging': 'Airtight Aroma Seal Pack',
       'Grade': 'Gold Reserve Premium Tea',
       'Aroma': 'Intense Kadak Blend'
     },
@@ -469,7 +468,7 @@ PRODUCTS = [
     'availability': 'in_stock',
     'isFeatured': True,
     'isPopular': True,
-    'description': '100% Natural long grain white rice by GreenLand Food Stuff. Milled to perfection with non-sticky grains, bright pearl white texture, and uniform length. Ideal for mandy, biryani, and daily meals. Net Weight: 19 KG sack.',
+    'description': '100% Natural long grain white rice by GreenLand Food Stuff. Milled to perfection with non-sticky grains, bright pearl white texture, and uniform length. Ideal for mandi, biryani, and daily meals. Net Weight: 19 KG sack.',
     'specs': {
       'Brand': 'GreenLand Food Stuff',
       'Net Weight': '19 KG Wholesale Sack',

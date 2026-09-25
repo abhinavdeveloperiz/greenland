@@ -99,6 +99,24 @@ class Command(BaseCommand):
                 }
             )
 
+            if not created:
+                product.name = p_name
+                product.category = category
+                product.brand = prod_data.get('brand', product.brand)
+                product.price = prod_data.get('price', product.price)
+                product.original_price = prod_data.get('originalPrice', product.original_price)
+                product.weight = prod_data.get('weight', product.weight)
+                product.unit = prod_data.get('unit', product.unit)
+                product.stock = prod_data.get('stock', product.stock)
+                product.availability = prod_data.get('availability', product.availability)
+                product.is_featured = prod_data.get('isFeatured', product.is_featured)
+                product.is_popular = prod_data.get('isPopular', product.is_popular)
+                product.is_new = prod_data.get('isNew', product.is_new)
+                product.description = prod_data.get('description', product.description)
+                product.specs = prod_data.get('specs', product.specs)
+                product.static_image_path = primary_static
+                product.save()
+
             # Copy primary image to media if exists
             if primary_static and primary_static.startswith('/static/'):
                 rel_path = primary_static.replace('/static/', '')
@@ -145,7 +163,7 @@ class Command(BaseCommand):
             defaults={
                 'subtitle': 'Rich, Smooth & Delicious',
                 'arabic_title': 'شبيه حليب مبخر',
-                'formulation': 'Replaced Milk Fat with Vegetable Oil',
+                'formulation': '',
                 'badge_text': 'Coming Soon',
                 'net_weight': '410g',
                 'brand': 'GreenLand Food Stuff',
@@ -156,6 +174,15 @@ class Command(BaseCommand):
                 'is_active': True,
             }
         )
+        if not b_created:
+            banner.subtitle = 'Rich, Smooth & Delicious'
+            banner.arabic_title = 'شبيه حليب مبخر'
+            banner.formulation = ''
+            banner.badge_text = 'Coming Soon'
+            banner.net_weight = '410g'
+            banner.brand = 'GreenLand Food Stuff'
+            banner.linked_product = linked_p
+            banner.save()
         b_status = "Created" if b_created else "Updated"
         self.stdout.write(self.style.SUCCESS(f"Advertisement Banner [{b_status}]: {banner.title}"))
 
@@ -206,8 +233,8 @@ class Command(BaseCommand):
                 'brand_code': '777',
                 'price': 0.850,
                 'original_price': 1.100,
-                'weight': '100g Jar',
-                'unit': 'jar',
+                'weight': '100g',
+                'unit': 'pack',
                 'stock': 85,
                 'availability': 'in_stock',
                 'is_featured': True,

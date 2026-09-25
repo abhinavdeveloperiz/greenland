@@ -244,7 +244,7 @@ class AdvertisementBanner(models.Model):
     title = models.CharField(max_length=255, default='GreenLand Analogue Evaporated Milk')
     subtitle = models.CharField(max_length=255, default='Rich, Smooth & Delicious')
     arabic_title = models.CharField(max_length=255, default='شبيه حليب مبخر', blank=True)
-    formulation = models.CharField(max_length=255, default='Replaced Milk Fat with Vegetable Oil', blank=True)
+    formulation = models.CharField(max_length=255, default='', blank=True)
     badge_text = models.CharField(max_length=100, default='Coming Soon')
     net_weight = models.CharField(max_length=100, default='410g')
     brand = models.CharField(max_length=150, default='GreenLand Food Stuff')
