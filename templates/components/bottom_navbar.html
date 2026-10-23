@@ -1,0 +1,80 @@
+{% load static %}
+<!-- Mobile Fixed Bottom Aligned Navigation Bar -->
+<nav
+  class="fixed bottom-2 rounded-2xl border border-black inset-x-0 z-50 bg-white/80 backdrop-blur-md shadow-[0_-4px_25px_rgba(0,0,0,0.07)] lg:hidden transition-all duration-300 mx-4 mobile-navbar-shine"
+  aria-label="Mobile Navigation">
+  <!-- Glowing Golden Top Accent Beam -->
+  <div class="absolute top-0 inset-x-0 h-[2px] overflow-hidden rounded-t-2xl pointer-events-none z-10" aria-hidden="true">
+    <div class="navbar-shining-beam"></div>
+  </div>
+  <div class="grid grid-cols-5 h-16 max-w-md mx-auto px-1 items-center relative z-10">
+
+    <!-- 1. Home -->
+    <a href="{% url 'store:home' %}"
+      class="group flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all duration-200 active:scale-95 {% if request.resolver_match.url_name == 'home' %}text-[#124A2E] font-extrabold{% else %}text-gray-500 hover:text-[#124A2E]{% endif %}">
+      <div
+        class="relative p-1 rounded-full transition-transform group-hover:-translate-y-0.5 {% if request.resolver_match.url_name == 'home' %}bg-[#124A2E]/10{% endif %}">
+        <i data-lucide="home" class="w-5 h-5 stroke-[2.2]"></i>
+      </div>
+      <span class="text-[10px] tracking-tight mt-0.5">Home</span>
+      {% if request.resolver_match.url_name == 'home' %}
+      <span class="w-1.5 h-1.5 rounded-full bg-[#124A2E] mt-0.5 animate-pulse"></span>
+      {% endif %}
+    </a>
+
+    <!-- 2. Products / Shop Catalog -->
+    <a href="{% url 'store:products' %}"
+      class="group flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all duration-200 active:scale-95 {% if request.resolver_match.url_name == 'products' %}text-[#124A2E] font-extrabold{% else %}text-gray-500 hover:text-[#124A2E]{% endif %}">
+      <div
+        class="relative p-1 rounded-full transition-transform group-hover:-translate-y-0.5 {% if request.resolver_match.url_name == 'products' %}bg-[#124A2E]/10{% endif %}">
+        <i data-lucide="layout-grid" class="w-5 h-5 stroke-[2.2]"></i>
+      </div>
+      <span class="text-[10px] tracking-tight mt-0.5">Products</span>
+      {% if request.resolver_match.url_name == 'products' %}
+      <span class="w-1.5 h-1.5 rounded-full bg-[#124A2E] mt-0.5 animate-pulse"></span>
+      {% endif %}
+    </a>
+
+    <!-- 3. Brands -->
+    <a href="{% url 'store:home' %}#brands"
+      class="group flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all duration-200 active:scale-95 text-gray-500 hover:text-[#124A2E]">
+      <div class="relative p-1 rounded-full transition-transform group-hover:-translate-y-0.5">
+        <i data-lucide="award" class="w-5 h-5 stroke-[2.2]"></i>
+      </div>
+      <span class="text-[10px] tracking-tight mt-0.5">Brands</span>
+    </a>
+
+    <!-- 4. Wishlist with Live Counter -->
+    <a href="{% url 'store:wishlist' %}"
+      class="group flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all duration-200 active:scale-95 {% if request.resolver_match.url_name == 'wishlist' %}text-[#124A2E] font-extrabold{% else %}text-gray-500 hover:text-[#124A2E]{% endif %}">
+      <div
+        class="relative p-1 rounded-full transition-transform group-hover:-translate-y-0.5 {% if request.resolver_match.url_name == 'wishlist' %}bg-[#124A2E]/10{% endif %}">
+        <i data-lucide="heart" class="w-5 h-5 stroke-[2.2]"></i>
+        <span x-show="$store.wishlist && $store.wishlist.count > 0" style="display: none;"
+          class="absolute -top-1 -right-2 bg-rose-600 text-white text-[9px] font-black rounded-full min-w-[17px] h-[17px] px-1 flex items-center justify-center shadow-sm border-2 border-white"
+          x-text="$store.wishlist.count"></span>
+      </div>
+      <span class="text-[10px] tracking-tight mt-0.5">Wishlist</span>
+      {% if request.resolver_match.url_name == 'wishlist' %}
+      <span class="w-1.5 h-1.5 rounded-full bg-[#124A2E] mt-0.5 animate-pulse"></span>
+      {% endif %}
+    </a>
+
+    <!-- 5. Cart with Live Counter -->
+    <a href="{% url 'store:cart' %}"
+      class="group flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all duration-200 active:scale-95 {% if request.resolver_match.url_name == 'cart' %}text-[#124A2E] font-extrabold{% else %}text-gray-500 hover:text-[#124A2E]{% endif %}">
+      <div
+        class="relative p-1 rounded-full transition-transform group-hover:-translate-y-0.5 {% if request.resolver_match.url_name == 'cart' %}bg-[#124A2E]/10{% endif %}">
+        <i data-lucide="shopping-cart" class="w-5 h-5 stroke-[2.2]"></i>
+        <span x-show="$store.cart && $store.cart.totalCount > 0" style="display: none;"
+          class="absolute -top-1 -right-2 bg-[#124A2E] text-white text-[9px] font-black rounded-full min-w-[17px] h-[17px] px-1 flex items-center justify-center shadow-sm border-2 border-white animate-pulse"
+          x-text="$store.cart.totalCount"></span>
+      </div>
+      <span class="text-[10px] tracking-tight mt-0.5">Cart</span>
+      {% if request.resolver_match.url_name == 'cart' %}
+      <span class="w-1.5 h-1.5 rounded-full bg-[#124A2E] mt-0.5 animate-pulse"></span>
+      {% endif %}
+    </a>
+
+  </div>
+</nav>

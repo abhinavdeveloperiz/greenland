@@ -1,0 +1,435 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-white text-gray-900 antialiased selection:bg-[#124A2E] selection:text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{% block title %}Greenland Foodstuff — Pure Foodstuff, Whole Grains & Pantry Essentials{% endblock %}</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{% static 'images/greenland-transparent-logo.png' %}?v=3">
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN with Indian Premium Tea packaging brand palette -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              DEFAULT: '#124A2E',
+              dark: '#0B351F',
+              light: '#1A613D',
+            },
+            leaf: '#4F8B3A',
+            fresh: {
+              DEFAULT: '#4F8B3A',
+              hover: '#3D722A',
+              light: '#70B629',
+            },
+            terracotta: {
+              DEFAULT: '#D34E1B',
+              dark: '#B43912',
+              light: '#E25822',
+            },
+            amberGold: {
+              DEFAULT: '#FAB82A',
+              light: '#FDD835',
+              dark: '#E68A1D',
+            },
+            gold: {
+              DEFAULT: '#FAB82A',
+              light: '#FDD835',
+              dark: '#E68A1D',
+            },
+            teaRed: {
+              DEFAULT: '#BA1B1D',
+              dark: '#8E0E10',
+              light: '#D32F2F',
+            },
+            cream: {
+              DEFAULT: '#FAF6EE',
+              50: '#FDFBF7',
+              100: '#FAF6EE',
+              200: '#F5EEDC',
+            },
+            darkText: '#1D261E',
+            brand: {
+              50: '#F2F9ED',
+              100: '#E1F3D6',
+              200: '#C5E8B0',
+              300: '#9FD97F',
+              400: '#4F8B3A',
+              500: '#3D722A',
+              600: '#2A5A1B',
+              700: '#1E4714',
+              800: '#124A2E',
+              900: '#0B351F',
+              950: '#062012',
+            },
+            logoGreen: {
+              DEFAULT: '#124A2E',
+              light: '#4F8B3A',
+              dark: '#0B351F',
+            },
+            logoGold: '#FAB82A',
+            b2bRed: '#BA1B1D',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Alpine.js Store Script & Alpine Core -->
+  <script src="{% static 'js/store.js' %}?v=empty_cart_v3"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Outfit', sans-serif; }
+
+    /* No Scrollbar Utility */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Mobile Momentum Touch Scrolling */
+    .touch-pan-x {
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Primary CTA Button Light-Sweep Shimmer */
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shine::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 35%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.32) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(25deg);
+      pointer-events: none;
+      transition: none;
+    }
+    .btn-shine:hover::after {
+      left: 130%;
+      transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Navbar Link Animated Golden-Amber Underline */
+    .nav-link-anim {
+      position: relative;
+    }
+    .nav-link-anim::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #FAB82A;
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link-anim:hover::after,
+    .nav-link-anim.active-nav::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Foodstuff Signature Glow Card */
+    .foodstuff-card-glow {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+    }
+    .foodstuff-card-glow:hover {
+      transform: translateY(-6px);
+      border-color: #FAB82A;
+      box-shadow: 0 18px 36px -4px rgba(18, 74, 46, 0.12),
+                  0 6px 18px -2px rgba(250, 184, 42, 0.2);
+    }
+
+    /* Product Floating Animations for Showcase */
+    @keyframes floatSlow {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-11px) rotate(0.8deg);
+      }
+    }
+    @keyframes floatDelayed {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-9px) rotate(-0.8deg);
+      }
+    }
+    @keyframes shadowPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.26;
+      }
+      50% {
+        transform: scale(0.84);
+        opacity: 0.14;
+      }
+    }
+    .animate-float-slow {
+      animation: floatSlow 5.2s ease-in-out infinite;
+    }
+    .animate-float-delayed {
+      animation: floatDelayed 6.4s ease-in-out 1.2s infinite;
+    }
+    .animate-shadow-pulse {
+      animation: shadowPulse 5.2s ease-in-out infinite;
+    }
+    .animate-shadow-delayed {
+      animation: shadowPulse 6.4s ease-in-out 1.2s infinite;
+    }
+    /* ========================================================================= */
+    /* NAVBAR SHINING & LUMINOUS BEAM ANIMATIONS                                 */
+    /* ========================================================================= */
+    @keyframes navbar-border-beam {
+      0% {
+        left: -35%;
+      }
+      50%, 100% {
+        left: 125%;
+      }
+    }
+
+    @keyframes navbar-surface-sweep {
+      0% {
+        transform: translateX(-120%) skewX(-25deg);
+      }
+      40%, 100% {
+        transform: translateX(450%) skewX(-25deg);
+      }
+    }
+
+    .navbar-shine-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient Surface Light Ray sweeping across green header */
+    .navbar-shine-surface {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 25%;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(250, 184, 42, 0.05) 30%,
+        rgba(255, 255, 255, 0.18) 50%,
+        rgba(250, 184, 42, 0.1) 70%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      filter: blur(6px);
+      pointer-events: none;
+      animation: navbar-surface-sweep 5s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    /* Radiant Golden Bottom Accent Beam on Header */
+    .navbar-shining-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(250, 184, 42, 0.25);
+      overflow: hidden;
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .navbar-shining-beam {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 30%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(250, 184, 42, 0.5) 20%,
+        #FAB82A 50%,
+        #FFFFFF 65%,
+        #FAB82A 80%,
+        rgba(250, 184, 42, 0.5) 90%,
+        transparent 100%
+      );
+      box-shadow: 0 0 14px 3px rgba(250, 184, 42, 0.9), 0 0 28px 6px rgba(250, 184, 42, 0.5);
+      animation: navbar-border-beam 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    /* Mobile Bottom Floating Navbar Shining Overlay */
+    .mobile-navbar-shine {
+      position: relative;
+      overflow: hidden;
+    }
+    .mobile-navbar-shine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 35%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(250, 184, 42, 0.35) 50%,
+        rgba(255, 255, 255, 0.5) 65%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      pointer-events: none;
+      animation: navbar-surface-sweep 4.5s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    /* ========================================================================= */
+    /* CONTINUOUS RIGHT-TO-LEFT SLOGAN TICKER                                    */
+    /* ========================================================================= */
+    @keyframes marquee-rtl {
+      0% {
+        transform: translate3d(0%, 0, 0);
+      }
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    @keyframes marquee-ltr {
+      0% {
+        transform: translate3d(-50%, 0, 0);
+      }
+      100% {
+        transform: translate3d(0%, 0, 0);
+      }
+    }
+
+    .ticker-container {
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-track-rtl {
+      display: flex;
+      width: max-content;
+      animation: marquee-rtl 28s linear infinite;
+      will-change: transform;
+    }
+
+    .ticker-track-ltr {
+      display: flex;
+      width: max-content;
+      animation: marquee-ltr 28s linear infinite;
+      will-change: transform;
+    }
+
+    .ticker-container:hover .ticker-track-rtl,
+    .ticker-container:hover .ticker-track-ltr {
+      animation-play-state: paused;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 1.5rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: rgba(255, 255, 255, 0.92);
+      flex-shrink: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-float-slow,
+      .animate-float-delayed,
+      .animate-shadow-pulse,
+      .animate-shadow-delayed,
+      .navbar-shine-surface,
+      .navbar-shining-beam,
+      .mobile-navbar-shine::before,
+      .ticker-track-ltr {
+        animation: none !important;
+      }
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="flex flex-col min-h-screen bg-white text-gray-900" x-data>
+
+  <!-- Main Navigation (Deep Forest Green Header) -->
+  {% include 'components/navbar.html' %}
+
+  <!-- Page Content: Responsive container with mobile bottom-padding for fixed navbar -->
+  <main class="flex-grow overflow-x-hidden pb-20 lg:pb-0">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  {% include 'components/footer.html' %}
+
+  <!-- Mobile Fixed Bottom Navigation Bar -->
+  {% include 'components/bottom_navbar.html' %}
+
+  <!-- Global Toast Notification -->
+  <div id="global-toast" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 hidden items-center gap-3 bg-[#124A2E] text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl shadow-2xl border border-[#FAB82A]/50 text-xs font-semibold animate-bounce">
+    Notification
+  </div>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+    document.addEventListener('alpine:initialized', () => {
+      lucide.createIcons();
+    });
+  </script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

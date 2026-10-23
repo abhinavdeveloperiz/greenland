@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign In with Email &amp; OTP — Greenland Foodstuff{% endblock %}
+
+{% block content %}
+<div
+  class="max-w-md mx-auto px-4 py-8 sm:py-16"
+  x-data="{
+    step: 'email', // 'email' | 'otp' | 'success'
+    email: '',
+    otpDigits: ['', '', '', '', '', ''],
+    demoOtp: '',
+    isLoading: false,
+    errorMessage: '',
+    successMessage: '',
+    countdown: 30,
+    timer: null,
+    nextUrl: new URLSearchParams(window.location.search).get('next') || '{% url 'store:home' %}',
+
+    init() {
+      // Prefill if stored in session or quick test
+      this.email = localStorage.getItem('greenland_last_email') || '';
+    },
+
+    startCountdown() {
+      this.countdown = 30;
+      if (this.timer) clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--;
+        } else {
+          clearInterval(this.timer);
+        }
+      }, 1000);
+    },
+
+    get fullOtp() {
+      return this.otpDigits.join('');
+    },
+
+    fillDemoOtp() {
+      if (this.demoOtp && this.demoOtp.length === 6) {
+        for (let i = 0; i < 6; i++) {
+          this.otpDigits[i] = this.demoOtp[i];
+        }
+        this.verifyOtp();
+      }
+    },
+
+    handleOtpInput(index, event) {
+      const val = event.target.value;
+      // Handle paste of 6 digits
+      if (val.length > 1) {
+        const clean = val.replace(/\D/g, '').slice(0, 6);
+        for (let i = 0; i < 6; i++) {
+          this.otpDigits[i] = clean[i] || '';
+        }
+        const nextIdx = Math.min(clean.length, 5);
+        document.getElementById('otp-box-' + nextIdx)?.focus();
+        if (clean.length === 6) this.verifyOtp();
+        return;
+      }
+
+      this.otpDigits[index] = val.replace(/\D/g, '');
+      if (val && index < 5) {
+        document.getElementById('otp-box-' + (index + 1))?.focus();
+      }
+      if (this.fullOtp.length === 6) {
+        this.verifyOtp();
+      }
+    },
+
+    handleOtpKeydown(index, event) {
+      if (event.key === 'Backspace' && !this.otpDigits[index] && index > 0) {
+        document.getElementById('otp-box-' + (index - 1))?.focus();
+      }
+    },
+
+    async sendOtp() {
+      if (!this.email || !this.email.includes('@')) {
+        this.errorMessage = 'Please enter a valid email address.';
+        return;
+      }
+
+      this.isLoading = true;
+      this.errorMessage = '';
+      this.successMessage = '';
+
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+      const formData = new FormData();
+      formData.append('email', this.email);
+      formData.append('csrfmiddlewaretoken', csrfToken);
+
+      try {
+        const res = await fetch('{% url 'store:send_otp' %}', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          this.demoOtp = data.demo_otp || '123456';
+          this.step = 'otp';
+          this.startCountdown();
+          localStorage.setItem('greenland_last_email', this.email);
+          this.$nextTick(() => {
+            document.getElementById('otp-box-0')?.focus();
+          });
+        } else {
+          this.errorMessage = data.error || 'Failed to send OTP. Please try again.';
+        }
+      } catch (err) {
+        // Fallback for offline/simulation
+        this.demoOtp = '123456';
+        this.step = 'otp';
+        this.startCountdown();
+        this.$nextTick(() => {
+          document.getElementById('otp-box-0')?.focus();
+        });
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    async verifyOtp() {
+      const otp = this.fullOtp;
+      if (otp.length < 6) {
+        this.errorMessage = 'Please enter all 6 digits of your verification code.';
+        return;
+      }
+
+      this.isLoading = true;
+      this.errorMessage = '';
+
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+      const formData = new FormData();
+      formData.append('email', this.email);
+      formData.append('otp', otp);
+      formData.append('next', this.nextUrl);
+      formData.append('csrfmiddlewaretoken', csrfToken);
+
+      try {
+        const res = await fetch('{% url 'store:verify_otp' %}', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          this.step = 'success';
+          if (window.Alpine && Alpine.store('auth')) {
+            Alpine.store('auth').login(data.email || this.email, data.name || this.email.split('@')[0]);
+          }
+          setTimeout(() => {
+            window.location.href = data.redirect_url || this.nextUrl;
+          }, 900);
+        } else {
+          this.errorMessage = data.error || 'Invalid verification code. Please check and try again.';
+          this.otpDigits = ['', '', '', '', '', ''];
+          document.getElementById('otp-box-0')?.focus();
+        }
+      } catch (err) {
+        // Fallback demo validation
+        if (otp === this.demoOtp || otp === '123456') {
+          this.step = 'success';
+          if (window.Alpine && Alpine.store('auth')) {
+            Alpine.store('auth').login(this.email, this.email.split('@')[0]);
+          }
+          setTimeout(() => {
+            window.location.href = this.nextUrl;
+          }, 900);
+        } else {
+          this.errorMessage = 'Invalid verification code. Please check and try again.';
+        }
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  }"
+>
+  {% csrf_token %}
+
+  <div class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-2xl space-y-6 relative overflow-hidden">
+    
+    <!-- Top Green Gradient Accent Bar -->
+    <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#124A2E] via-[#FAB82A] to-[#124A2E]"></div>
+
+    <!-- Brand Header -->
+    <div class="text-center space-y-2.5 pt-1">
+      <a href="{% url 'store:home' %}" class="inline-block hover:opacity-90 transition-opacity">
+        <img
+          src="{% static 'images/greenland-transparent-logo.png' %}?v=3"
+          alt="GreenLand Food Stuff"
+          class="h-16 sm:h-20 mx-auto object-contain drop-shadow-sm"
+        />
+      </a>
+      
+      <div>
+        <h1 class="text-xl sm:text-2xl font-black text-[#124A2E] font-display tracking-tight" x-show="step === 'email'">
+          Sign In with Email
+        </h1>
+        <h1 class="text-xl sm:text-2xl font-black text-[#124A2E] font-display tracking-tight" x-show="step === 'otp'" style="display: none;">
+          Verification Code
+        </h1>
+        <h1 class="text-xl sm:text-2xl font-black text-[#124A2E] font-display tracking-tight" x-show="step === 'success'" style="display: none;">
+          Welcome to Greenland!
+        </h1>
+
+        <p class="text-xs text-stone-500 mt-1" x-show="step === 'email'">
+          Enter your email to receive a secure login code. No password or registration required!
+        </p>
+        <p class="text-xs text-stone-500 mt-1" x-show="step === 'otp'" style="display: none;">
+          We sent a 6-digit code to <strong class="text-[#124A2E] font-bold" x-text="email"></strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- Error Alert Box -->
+    <div
+      x-show="errorMessage"
+      x-transition
+      class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-start gap-2.5"
+      style="display: none;"
+    >
+      <i data-lucide="alert-circle" class="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5"></i>
+      <span class="flex-1 leading-snug" x-text="errorMessage"></span>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- STEP 1: EMAIL INPUT                                                   -->
+    <!-- ===================================================================== -->
+    <div x-show="step === 'email'" class="space-y-4">
+      <form @submit.prevent="sendOtp()" class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-black text-stone-700 uppercase tracking-wider mb-1.5">
+            Email Address
+          </label>
+          <div class="relative">
+            <i data-lucide="mail" class="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5 pointer-events-none"></i>
+            <input
+              type="email"
+              x-model="email"
+              required
+              placeholder="name@example.com"
+              class="w-full pl-10 pr-4 py-3 rounded-xl bg-stone-50 border border-stone-200 text-xs sm:text-sm text-gray-900 placeholder:text-stone-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#124A2E] focus:border-transparent transition-all font-medium"
+              autofocus
+            />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          :disabled="isLoading"
+          class="w-full py-3.5 px-4 rounded-xl bg-[#124A2E] hover:bg-[#0B351F] text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+        >
+          <span x-show="!isLoading">Send Verification Code</span>
+          <span x-show="isLoading" style="display: none;" class="flex items-center gap-2">
+            <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            <span>Sending Code...</span>
+          </span>
+          <i data-lucide="arrow-right" class="w-4 h-4" x-show="!isLoading"></i>
+        </button>
+      </form>
+
+      <!-- Trust & Zero Registration Banner -->
+      <div class="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 text-xs space-y-1">
+        <div class="flex items-center gap-1.5 font-bold text-[#124A2E]">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+          <span>Password-Free Instant Login</span>
+        </div>
+        <p class="text-[11px] text-emerald-800/80 leading-relaxed">
+          No registration forms or passwords to remember. Your customer account is automatically set up and linked to your email!
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- STEP 2: OTP VERIFICATION                                              -->
+    <!-- ===================================================================== -->
+    <div x-show="step === 'otp'" style="display: none;" class="space-y-4">
+      
+      <!-- Change Email Link Bar -->
+      <div class="flex items-center justify-between text-xs bg-stone-50 p-2.5 rounded-xl border border-stone-200">
+        <div class="flex items-center gap-2 truncate">
+          <i data-lucide="mail-check" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+          <span class="font-bold text-gray-800 truncate" x-text="email"></span>
+        </div>
+        <button
+          type="button"
+          @click="step = 'email'; errorMessage = '';"
+          class="text-[#124A2E] font-bold hover:underline flex-shrink-0 text-[11px]"
+        >
+          Change
+        </button>
+      </div>
+
+      <!-- Demo OTP Pill / Auto-fill Helper for Client & Testers -->
+      <div class="p-3 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-xs flex items-center justify-between gap-2 shadow-xs">
+        <div class="flex items-center gap-1.5">
+          <span class="text-sm">🔑</span>
+          <span>Demo OTP: <strong class="font-mono text-sm font-black text-[#124A2E]" x-text="demoOtp"></strong></span>
+        </div>
+        <button
+          type="button"
+          @click="fillDemoOtp()"
+          class="px-2.5 py-1 rounded-lg bg-[#FAB82A] hover:bg-[#e5a41d] text-[#124A2E] text-[10.5px] font-black uppercase tracking-wider shadow-xs transition-transform active:scale-95"
+        >
+          Auto-Fill
+        </button>
+      </div>
+
+      <!-- 6 Individual Digit Inputs -->
+      <form @submit.prevent="verifyOtp()" class="space-y-5">
+        <div>
+          <label class="block text-[11px] font-black text-stone-700 uppercase tracking-wider mb-2 text-center">
+            Enter 6-Digit Code
+          </label>
+          <div class="flex items-center justify-center gap-2 sm:gap-2.5">
+            <template x-for="(digit, i) in otpDigits" :key="i">
+              <input
+                :id="'otp-box-' + i"
+                type="text"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                maxlength="1"
+                :value="digit"
+                @input="handleOtpInput(i, $event)"
+                @keydown="handleOtpKeydown(i, $event)"
+                class="w-11 h-13 sm:w-12 sm:h-14 text-center text-lg sm:text-xl font-mono font-black text-gray-900 bg-stone-50 border-2 rounded-xl transition-all focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#124A2E] focus:border-[#124A2E]"
+                :class="digit ? 'border-[#124A2E] bg-white' : 'border-stone-200'"
+              />
+            </template>
+          </div>
+        </div>
+
+        <!-- Verify Button -->
+        <button
+          type="submit"
+          :disabled="isLoading || fullOtp.length < 6"
+          class="w-full py-3.5 px-4 rounded-xl bg-[#124A2E] hover:bg-[#0B351F] text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+        >
+          <span x-show="!isLoading">Verify &amp; Sign In</span>
+          <span x-show="isLoading" style="display: none;" class="flex items-center gap-2">
+            <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            <span>Verifying...</span>
+          </span>
+          <i data-lucide="check" class="w-4 h-4" x-show="!isLoading"></i>
+        </button>
+      </form>
+
+      <!-- Resend Timer -->
+      <div class="text-center text-xs text-stone-500 pt-2 border-t border-stone-100">
+        <template x-if="countdown > 0">
+          <span>Didn't receive code? Resend in <strong class="text-[#124A2E] font-mono" x-text="countdown + 's'"></strong></span>
+        </template>
+        <template x-if="countdown === 0">
+          <button
+            type="button"
+            @click="sendOtp()"
+            class="text-[#124A2E] font-bold hover:underline"
+          >
+            Resend Verification Code
+          </button>
+        </template>
+      </div>
+
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- STEP 3: SUCCESS STATE                                                 -->
+    <!-- ===================================================================== -->
+    <div x-show="step === 'success'" style="display: none;" class="py-8 text-center space-y-4">
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner animate-bounce">
+        <i data-lucide="check" class="w-8 h-8 stroke-[3]"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-black text-[#124A2E]">Signed in successfully!</h3>
+        <p class="text-xs text-stone-500 mt-1">Redirecting you to your destination...</p>
+      </div>
+      <div class="w-24 h-1 bg-stone-100 rounded-full mx-auto overflow-hidden">
+        <div class="w-full h-full bg-[#124A2E] rounded-full animate-pulse"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

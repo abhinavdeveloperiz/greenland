@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} — Greenland Foodstuff{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8 sm:space-y-12 pb-24 sm:pb-8" x-data="{ qty: 1, activeImage: '{{ product.images.0 }}' }">
+  
+  <!-- Breadcrumb -->
+  <div class="flex items-center gap-1.5 xs:gap-2 text-xs text-stone-500 overflow-x-auto no-scrollbar">
+    <a href="{% url 'store:home' %}" class="hover:text-[#124A2E] whitespace-nowrap">Home</a>
+    <span>/</span>
+    <a href="{% url 'store:products' %}" class="hover:text-[#124A2E] whitespace-nowrap">Products</a>
+    <span>/</span>
+    <a href="{% url 'store:products' %}?category={{ product.category.slug }}" class="hover:text-[#124A2E] whitespace-nowrap">{{ product.categoryName }}</a>
+    <span>/</span>
+    <span class="text-[#292D27] font-bold truncate max-w-[150px] xs:max-w-none">{{ product.name }}</span>
+  </div>
+
+  <!-- Product Main Showcase -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+    
+    <!-- Image Gallery -->
+    <div class="lg:col-span-6 space-y-4">
+      <div class="aspect-square w-full rounded-3xl overflow-hidden bg-white border border-stone-200 shadow-md flex items-center justify-center p-6">
+        <img
+          :src="activeImage"
+          alt="{{ product.name }}"
+          class="w-full h-full object-contain transition-all duration-300"
+        />
+      </div>
+
+      {% if product.images|length > 1 %}
+      <!-- Gallery Thumbnails -->
+      <div class="flex items-center gap-3 overflow-x-auto pb-1">
+        {% for img in product.images %}
+        <button
+          type="button"
+          @click="activeImage = '{{ img }}'"
+          class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 bg-white transition-all hover:scale-105 flex-shrink-0"
+          :class="activeImage === '{{ img }}' ? 'border-[#D34E1B] ring-2 ring-[#D34E1B]/30 shadow-md' : 'border-stone-200 opacity-70 hover:opacity-100'"
+        >
+          <img src="{{ img }}" alt="{{ product.name }}" class="w-full h-full object-contain p-1" />
+        </button>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Details -->
+    <div class="lg:col-span-6 space-y-6">
+      
+      <div class="space-y-2">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-full bg-[#124A2E]/10 text-[#124A2E] font-bold text-[11px] uppercase tracking-wider">
+            {{ product.categoryName }}
+          </span>
+          <span class="px-2.5 py-1 rounded-full bg-[#FAF6EE] text-[#1D261E] font-semibold text-[11px] border border-stone-200">
+            {{ product.weight }} • {{ product.unit }}
+          </span>
+        </div>
+
+        <h1 class="text-xl xs:text-2xl sm:text-3xl font-black text-[#124A2E] font-display leading-snug">
+          {{ product.name }}
+        </h1>
+      </div>
+
+      <!-- Pricing Box -->
+      <div class="p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-2.5">
+        <div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl sm:text-3xl font-black text-[#BA1B1D] font-display">KD {{ product.price|floatformat:3 }}</span>
+            {% if product.originalPrice %}
+            <span class="text-xs sm:text-sm text-stone-400 line-through">KD {{ product.originalPrice|floatformat:3 }}</span>
+            {% endif %}
+          </div>
+          <p class="text-[10px] sm:text-[11px] text-stone-500 mt-0.5">Wholesale &amp; Retail Certified • Packed in UAE</p>
+        </div>
+
+        {% if product.availability == 'in_stock' %}
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#4F8B3A]/15 text-[#124A2E] text-xs font-bold">
+          <span class="w-2 h-2 rounded-full bg-[#4F8B3A]"></span> In Stock (Fresh Batch)
+        </span>
+        {% elif product.availability == 'coming_soon' %}
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FAB82A]/25 text-[#124A2E] border border-[#FAB82A]/60 text-xs font-black shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-[#FAB82A] animate-ping"></span> Coming Soon • New Arrival
+        </span>
+        {% else %}
+        <span class="px-3 py-1 rounded-full bg-[#BA1B1D]/10 text-[#BA1B1D] text-xs font-bold">
+          Out of Stock
+        </span>
+        {% endif %}
+      </div>
+
+      <!-- Description (Translucent Box) -->
+      <div class="p-3.5 sm:p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-stone-200/80 shadow-xs">
+        <p class="text-xs sm:text-sm text-[#1D261E]/85 leading-relaxed font-normal">
+          {{ product.description }}
+        </p>
+      </div>
+
+      <!-- Specifications Table -->
+      {% if product.specs_list %}
+      <div class="rounded-2xl border border-stone-200 p-4 space-y-2.5 bg-white">
+        <h4 class="font-display font-bold text-xs uppercase tracking-wider text-[#124A2E] border-b border-stone-100 pb-2">
+          Product Specifications
+        </h4>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          {% for item in product.specs_list %}
+          <div>
+            <span class="text-stone-400 block text-[11px]">{{ item.title }}</span>
+            <span class="font-semibold text-[#1D261E]">{{ item.value }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Quantity & Buy Action -->
+      <div class="space-y-3 pt-2">
+        {% if product.availability == 'coming_soon' %}
+        <!-- Coming Soon / Inquire Box -->
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-[#0B351F] to-[#124A2E] text-white border-2 border-[#FAB82A]/50 shadow-lg space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAB82A]/20 text-xs font-bold text-[#FAB82A] border border-[#FAB82A]/50">
+            <span class="w-2 h-2 rounded-full bg-[#FAB82A] animate-ping"></span>
+            <span class="uppercase tracking-wider">Coming Soon</span>
+          </div>
+          <div>
+            <h4 class="font-display font-black text-lg text-white">GreenLand Analogue Evaporated Milk (410g)</h4>
+            <p class="text-xs text-white/80 leading-relaxed mt-1">
+              Rich, Smooth &amp; Delicious • شبيه حليب مبخر
+            </p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3 pt-1">
+            <a
+              href="https://wa.me/96599999999?text=Hello%20Greenland%20Foodstuff%2C%20I%20am%20inquiring%20about%20the%20new%20GreenLand%20Analogue%20Evaporated%20Milk%20(410g)."
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-shine flex-1 py-3 px-4 rounded-xl bg-[#FAB82A] hover:bg-[#FAB82A]/90 text-[#124A2E] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+            >
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>Inquire via WhatsApp</span>
+            </a>
+            <a
+              href="{% url 'store:contact' %}"
+              class="py-3 px-5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-bold text-xs flex items-center justify-center gap-2 border border-white/20 transition-colors"
+            >
+              <i data-lucide="phone-call" class="w-4 h-4"></i>
+              <span>Contact Us</span>
+            </a>
+          </div>
+        </div>
+        {% else %}
+        <div class="flex items-center gap-2 sm:gap-4">
+          <!-- Quantity Control -->
+          <div class="flex items-center border border-stone-300 rounded-xl bg-white p-1 flex-shrink-0">
+            <button
+              @click="qty = Math.max(1, qty - 1)"
+              class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-[#1D261E] hover:bg-[#FAF6EE] font-bold"
+            >
+              -
+            </button>
+            <span class="w-8 sm:w-10 text-center font-bold text-xs sm:text-sm text-[#124A2E]" x-text="qty">1</span>
+            <button
+              @click="qty++"
+              class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-[#1D261E] hover:bg-[#FAF6EE] font-bold"
+            >
+              +
+            </button>
+          </div>
+
+          <!-- Primary Add to Cart Button: #124A2E, hover #0B351F -->
+          <button
+            @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
+            class="flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl bg-[#124A2E] hover:bg-[#0B351F] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+          >
+            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            <span>Add to Cart</span>
+          </button>
+
+          <!-- Wishlist Toggle -->
+          <button
+            @click="$store.wishlist.toggle({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' })"
+            class="p-3 sm:p-3.5 rounded-xl border border-stone-300 hover:bg-white text-stone-600 hover:text-[#BA1B1D] transition-colors flex-shrink-0"
+            title="Wishlist"
+          >
+            <i data-lucide="heart" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+          </button>
+        </div>
+
+        <!-- Secondary Button: Sunset Terracotta #D34E1B, hover #B43912 -->
+        <a
+          href="{% url 'store:cart' %}"
+          @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
+          class="btn-shine block text-center w-full py-3.5 rounded-xl bg-[#D34E1B] hover:bg-[#B43912] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all active:scale-[0.99]"
+        >
+          View in Cart &amp; Order
+        </a>
+        {% endif %}
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Related Products: 2-col on mobile, 4-col on desktop -->
+  {% if related_products %}
+  <div class="pt-8 sm:pt-12 border-t border-stone-200 space-y-6">
+    <h3 class="text-xl sm:text-2xl font-black text-[#124A2E] font-display">
+      Related Foodstuffs from {{ product.categoryName }}
+    </h3>
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+      {% for rel in related_products %}
+        {% include 'components/product_card.html' with product=rel %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Mobile Sticky Bottom Add-to-Cart Bar (Appears on phones < 640px) -->
+  <div class="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-stone-200 p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] flex items-center justify-between gap-3">
+    <div>
+      <div class="flex items-baseline gap-1">
+        <span class="font-display font-black text-[#BA1B1D] text-lg">KD {{ product.price|floatformat:3 }}</span>
+        {% if product.originalPrice %}
+        <span class="text-[11px] text-stone-400 line-through">KD {{ product.originalPrice|floatformat:3 }}</span>
+        {% endif %}
+      </div>
+      <span class="text-[10px] text-stone-500 font-semibold block">{{ product.weight }}</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button
+        @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
+        class="px-5 py-2.5 rounded-xl bg-[#124A2E] text-white font-bold text-xs flex items-center gap-1.5 shadow-md active:scale-95"
+      >
+        <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+        <span>Add to Cart</span>
+      </button>
+
+      <a
+        href="{% url 'store:cart' %}"
+        @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
+        class="px-3.5 py-2.5 rounded-xl bg-[#D34E1B] text-white font-bold text-xs shadow-md"
+      >
+        Buy Now
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

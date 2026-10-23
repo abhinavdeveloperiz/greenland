@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us — Greenland Foodstuff Store{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 space-y-8 sm:space-y-12">
+
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-2 text-xs font-semibold text-stone-500">
+    <a href="{% url 'store:home' %}" class="hover:text-[#124A2E] transition-colors">Home</a>
+    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-stone-400"></i>
+    <span class="text-[#D34E1B] font-bold">Contact Us</span>
+  </nav>
+
+  <!-- Page Header Banner -->
+  <div class="relative bg-gradient-to-r from-[#124A2E] via-[#1A613D] to-[#124A2E] text-white rounded-2xl sm:rounded-3xl p-6 xs:p-8 sm:p-12 md:p-14 overflow-hidden shadow-2xl border border-[#FAB82A]/30">
+    <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+      <i data-lucide="mail" class="w-80 sm:w-96 h-80 sm:h-96"></i>
+    </div>
+    <!-- Radiant Sunburst Atmosphere -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#FAB82A]/20 via-transparent to-transparent pointer-events-none"></div>
+    <!-- Accent Top Line -->
+    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FAB82A] via-[#D34E1B] to-[#FAB82A]"></div>
+    
+    <div class="relative z-10 max-w-2xl space-y-3 sm:space-y-4">
+      <h1 class="text-2xl xs:text-3xl sm:text-5xl font-black font-display tracking-tight leading-tight">
+        Get in Touch With <span class="text-[#FAB82A]">Greenland</span>
+      </h1>
+      <p class="text-xs sm:text-sm md:text-base text-white/90 leading-relaxed font-normal">
+        Whether you are ordering daily household staples or have inquiries about our authentic products, our dedicated team is here to assist you promptly.
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Contact Channels Grid (Balanced 2x2 Showcase) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+
+    <!-- Card 1: Phone Hotline -->
+    <div class="bg-white rounded-2xl sm:rounded-3xl p-5 xs:p-6 sm:p-8 border border-stone-200 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-[#BA1B1D]/15 text-[#BA1B1D] border border-[#BA1B1D]/30 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+            <i data-lucide="phone-call" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-black uppercase tracking-wider text-[#BA1B1D]">Order Hotline &amp; Support</span>
+            <h2 class="text-lg sm:text-xl font-bold text-[#124A2E] font-display mt-0.5">+91 98765 43210</h2>
+          </div>
+        </div>
+
+        <div class="space-y-1 pt-1">
+          <p class="text-xs text-stone-500 font-semibold">Central Dispatch: +91 80 2345 6789</p>
+          <p class="text-xs text-stone-600 leading-relaxed">
+            Speak directly with our ordering desk for urgent deliveries, customized bag orders, and product availability verification.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-stone-100">
+        <a
+          href="tel:+919876543210"
+          class="w-full py-3.5 px-4 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md group-hover:shadow-lg"
+        >
+          <i data-lucide="phone" class="w-4 h-4"></i>
+          <span>Call Order Hotline</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 2: Instant WhatsApp Desk -->
+    <div class="bg-white rounded-2xl sm:rounded-3xl p-5 xs:p-6 sm:p-8 border border-stone-200 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-[#4F8B3A]/15 text-[#4F8B3A] border border-[#4F8B3A]/30 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+            <i data-lucide="message-square" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-black uppercase tracking-wider text-[#4F8B3A]">Instant WhatsApp Desk</span>
+              <span class="px-2 py-0.5 text-[9px] font-extrabold bg-[#4F8B3A]/15 text-[#4F8B3A] rounded-full">Live</span>
+            </div>
+            <h2 class="text-lg sm:text-xl font-bold text-[#124A2E] font-display mt-0.5">+91 98765 43210</h2>
+          </div>
+        </div>
+
+        <div class="space-y-1 pt-1">
+          <p class="text-xs text-stone-500 font-semibold">Active Hours: 8:00 AM – 8:00 PM Daily</p>
+          <p class="text-xs text-stone-600 leading-relaxed">
+            Send your staple grocery list via message, request live milling pictures, or track dispatch updates via WhatsApp.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-stone-100">
+        <a
+          href="https://wa.me/919876543210"
+          target="_blank"
+          class="w-full py-3.5 px-4 rounded-xl bg-[#4F8B3A] hover:bg-[#3D722A] text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md group-hover:shadow-lg"
+        >
+          <i data-lucide="message-square" class="w-4 h-4"></i>
+          <span>Chat on WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: Email Inquiries -->
+    <div class="bg-white rounded-2xl sm:rounded-3xl p-5 xs:p-6 sm:p-8 border border-stone-200 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-[#124A2E]/10 text-[#124A2E] border border-[#124A2E]/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+            <i data-lucide="mail" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-black uppercase tracking-wider text-[#124A2E]">Official Email Desk</span>
+            <h2 class="text-base sm:text-lg font-bold text-[#124A2E] font-display mt-0.5 break-all">orders@greenlandfoodstuff.com</h2>
+          </div>
+        </div>
+
+        <div class="space-y-1 pt-1">
+          <p class="text-xs text-stone-500 font-semibold">Support: customercare@greenlandfoodstuff.com</p>
+          <p class="text-xs text-stone-600 leading-relaxed">
+            Submit order questions, product inquiries, customer feedback, or invoice requests anytime.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-stone-100">
+        <a
+          href="mailto:orders@greenlandfoodstuff.com"
+          class="w-full py-3.5 px-4 rounded-xl bg-[#124A2E] hover:bg-[#D34E1B] text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md group-hover:shadow-lg"
+        >
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          <span>Send Official Email</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 4: Warehouse Facility & Distribution Hub -->
+    <div class="bg-white rounded-2xl sm:rounded-3xl p-5 xs:p-6 sm:p-8 border border-stone-200 shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-[#FAB82A]/20 text-[#124A2E] border border-[#FAB82A]/40 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+            <i data-lucide="map-pin" class="w-6 h-6 text-[#D34E1B]"></i>
+          </div>
+          <div>
+            <span class="text-[11px] font-black uppercase tracking-wider text-[#D34E1B]">Central Distribution Hub</span>
+            <h2 class="text-lg sm:text-xl font-bold text-[#124A2E] font-display mt-0.5">Indiranagar Facility</h2>
+          </div>
+        </div>
+
+        <div class="space-y-1 pt-1">
+          <p class="text-xs text-stone-800 font-semibold leading-relaxed">
+            Greenland Foodstuff Complex, 4th Cross Road, Indiranagar Food Distribution Hub, Bengaluru, Karnataka - 560038
+          </p>
+          <p class="text-xs text-stone-500">
+            Open Monday to Saturday (8:00 AM – 8:30 PM) for scheduled pickups &amp; dispatch.
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-stone-100">
+        <a
+          href="https://maps.google.com/?q=Indiranagar+Bengaluru"
+          target="_blank"
+          class="w-full py-3.5 px-4 rounded-xl bg-[#FAF6EE] hover:bg-[#F5EEDC] border border-stone-300 text-[#124A2E] text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-xs group-hover:border-[#FAB82A]"
+        >
+          <i data-lucide="navigation" class="w-4 h-4 text-[#D34E1B]"></i>
+          <span>Locate on Google Maps</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
