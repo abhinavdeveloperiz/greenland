@@ -58,22 +58,29 @@ document.addEventListener('alpine:init', () => {
     },
 
     addItem(product, qty = 1) {
-      const existing = this.items.find(i => i.id === product.id);
+      const itemKey = product.variantId 
+        ? `${product.id}-v${product.variantId}` 
+        : (product.weight ? `${product.id}-${String(product.weight).replace(/\s+/g, '_')}` : product.id);
+
+      const existing = this.items.find(i => i.id === itemKey || (i.productId === product.id && i.weight === product.weight));
       if (existing) {
         existing.quantity += qty;
       } else {
         this.items.push({
-          id: product.id,
+          id: itemKey,
+          productId: product.id,
+          variantId: product.variantId || null,
           name: product.name,
-          price: product.price,
-          originalPrice: product.originalPrice || product.price,
-          weight: product.weight,
+          price: Number(product.price),
+          originalPrice: Number(product.originalPrice || product.price),
+          weight: product.weight || '',
           image: product.image || (product.images && product.images[0]),
           quantity: qty
         });
       }
       this.save();
-      this.showToast(`Added ${product.name} to your cart!`);
+      const wtLabel = product.weight ? ` (${product.weight})` : '';
+      this.showToast(`Added ${product.name}${wtLabel} to your cart!`);
     },
 
     updateQty(id, qty) {

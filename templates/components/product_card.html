@@ -85,9 +85,16 @@
         {% endif %}
 
         <!-- Weight Badge -->
+        {% if product.has_variants and product.active_variants|length > 1 %}
+        <span class="bg-emerald-50 text-[#124A2E] px-1.5 xs:px-2 py-0.5 rounded text-[9.5px] xs:text-[10.5px] font-bold border border-emerald-200/80 flex items-center gap-1" title="{{ product.active_variants|length }} weight options available">
+          <span>{{ product.weight }}</span>
+          <span class="text-[9px] text-[#FAB82A] font-black">+{{ product.active_variants|length|add:"-1" }}</span>
+        </span>
+        {% else %}
         <span class="bg-gray-100 text-gray-800 px-1.5 xs:px-2 py-0.5 rounded text-[9.5px] xs:text-[10.5px] font-bold border border-gray-200">
           {{ product.weight }}
         </span>
+        {% endif %}
       </div>
 
       <!-- Title -->

@@ -9,7 +9,14 @@ from .models import (
     GreenLandProduct,
     Product,
     ProductImage,
+    ProductVariant,
 )
+
+
+class ProductVariantInline(admin.TabularInline):
+    model = ProductVariant
+    extra = 1
+    fields = ['weight', 'price', 'original_price', 'unit', 'stock', 'is_default', 'order', 'is_active']
 
 
 class ProductImageInline(admin.TabularInline):
@@ -79,7 +86,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['id', 'name', 'description', 'brand', 'spec_1', 'spec_2', 'spec_3', 'spec_4']
     list_editable = ['price', 'stock', 'availability', 'is_featured', 'is_active']
     readonly_fields = ['image_detail_preview']
-    inlines = [ProductImageInline]
+    inlines = [ProductVariantInline, ProductImageInline]
 
     def image_preview(self, obj):
         url = obj.primary_image_url
@@ -155,3 +162,11 @@ class ProductImageAdmin(admin.ModelAdmin):
 class AdvertisementBannerAdmin(admin.ModelAdmin):
     list_display = ['title', 'brand', 'badge_text', 'is_active']
     list_editable = ['is_active']
+
+
+@admin.register(ProductVariant)
+class ProductVariantAdmin(admin.ModelAdmin):
+    list_display = ['product', 'weight', 'price', 'original_price', 'unit', 'stock', 'is_default', 'is_active']
+    list_filter = ['is_active', 'unit', 'product__brand_code', 'product__category']
+    search_fields = ['product__name', 'weight']
+    list_editable = ['weight', 'price', 'original_price', 'stock', 'is_default', 'is_active']

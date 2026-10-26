@@ -1,5 +1,6 @@
 # store/views.py - Database-driven views with full admin panel compatibility
 import random
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, JsonResponse
 from django.db.models import Q
@@ -10,7 +11,7 @@ from .models import Category, Brand, Product, AdvertisementBanner
 
 
 def home_view(request):
-    """Homepage view serving live database catalog and categories."""
+    """Homepage view serving live database categories and brand showcases."""
     all_products = list(Product.objects.filter(is_active=True))
     featured_products = [p for p in all_products if p.is_featured]
     new_arrivals = [p for p in all_products if p.is_new][:4]
@@ -21,7 +22,12 @@ def home_view(request):
     for cat in db_categories:
         count = sum(1 for p in all_products if p.category_id == cat.id or p.category_slug == cat.slug)
         cat.active_count = count
-        cat.itemCount = f"{count} Products" if count != 1 else "1 Product"
+        if cat.item_count_label and 'wholesale' not in cat.item_count_label.lower():
+            cat.itemCount = cat.item_count_label
+        elif count > 0:
+            cat.itemCount = f"{count} Products" if count != 1 else "1 Product"
+        else:
+            cat.itemCount = "Explore Range"
         categories_with_counts.append(cat)
 
     # Brand counts across all active products
@@ -43,6 +49,7 @@ def home_view(request):
         'brand_counts': brand_counts,
         'advertisement_banner': advertisement_banner,
         'total_products_count': len(all_products),
+        'total_categories_count': len(categories_with_counts),
     }
     return render(request, 'pages/home.html', context)
 
@@ -162,7 +169,7 @@ def products_view(request):
 
 
 def product_detail_view(request, product_id):
-    """Product detail view querying directly from the database."""
+    """Product detail view querying directly from the database with weight variant support."""
     product = Product.objects.filter(id=product_id, is_active=True).first()
     if not product:
         product = Product.objects.filter(is_active=True).first()
@@ -174,9 +181,49 @@ def product_detail_view(request, product_id):
         .exclude(id=product.id)[:4]
     )
 
+    variants = list(product.variants.filter(is_active=True).order_by('order', 'price'))
+    
+    # Format variants data for Alpine.js reactive UI
+    variants_data = []
+    default_variant_data = None
+    
+    for v in variants:
+        v_dict = {
+            'id': v.id,
+            'weight': v.weight,
+            'unit': v.unit,
+            'price': float(v.price),
+            'original_price': float(v.original_price) if v.original_price else None,
+            'stock': v.stock,
+            'is_default': v.is_default,
+        }
+        variants_data.append(v_dict)
+        if v.is_default and default_variant_data is None:
+            default_variant_data = v_dict
+
+    # Fallback if no variants configured in DB
+    if not variants_data:
+        fallback_v = {
+            'id': 0,
+            'weight': product.weight,
+            'unit': product.unit,
+            'price': float(product.price),
+            'original_price': float(product.original_price) if product.original_price else None,
+            'stock': product.stock,
+            'is_default': True,
+        }
+        variants_data = [fallback_v]
+        default_variant_data = fallback_v
+    elif default_variant_data is None:
+        default_variant_data = variants_data[0]
+
     context = {
         'product': product,
         'related_products': related_products,
+        'variants': variants,
+        'variants_json': json.dumps(variants_data),
+        'default_variant_json': json.dumps(default_variant_data),
+        'default_variant': default_variant_data,
     }
     return render(request, 'pages/product_detail.html', context)
 

@@ -4,7 +4,21 @@
 {% block title %}{{ product.name }} — Greenland Foodstuff{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8 sm:space-y-12 pb-24 sm:pb-8" x-data="{ qty: 1, activeImage: '{{ product.images.0 }}' }">
+<!-- Embedded JSON data for robust Alpine parsing without HTML attribute collision -->
+<script id="product-variants-data" type="application/json">
+{{ variants_json|safe }}
+</script>
+<script id="product-default-variant" type="application/json">
+{{ default_variant_json|safe }}
+</script>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8 sm:space-y-12 pb-24 sm:pb-8"
+     x-data="{
+       qty: 1,
+       activeImage: '{{ product.images.0 }}',
+       variants: JSON.parse(document.getElementById('product-variants-data').textContent),
+       selectedVariant: JSON.parse(document.getElementById('product-default-variant').textContent)
+     }">
   
   <!-- Breadcrumb -->
   <div class="flex items-center gap-1.5 xs:gap-2 text-xs text-stone-500 overflow-x-auto no-scrollbar">
@@ -20,7 +34,7 @@
   <!-- Product Main Showcase -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
     
-    <!-- Image Gallery -->
+    <!-- Image Gallery (Same high-resolution image across all variants) -->
     <div class="lg:col-span-6 space-y-4">
       <div class="aspect-square w-full rounded-3xl overflow-hidden bg-white border border-stone-200 shadow-md flex items-center justify-center p-6">
         <img
@@ -37,7 +51,7 @@
         <button
           type="button"
           @click="activeImage = '{{ img }}'"
-          class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 bg-white transition-all hover:scale-105 flex-shrink-0"
+          class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 bg-white transition-all hover:scale-105 flex-shrink-0 cursor-pointer"
           :class="activeImage === '{{ img }}' ? 'border-[#D34E1B] ring-2 ring-[#D34E1B]/30 shadow-md' : 'border-stone-200 opacity-70 hover:opacity-100'"
         >
           <img src="{{ img }}" alt="{{ product.name }}" class="w-full h-full object-contain p-1" />
@@ -56,7 +70,8 @@
             {{ product.categoryName }}
           </span>
           <span class="px-2.5 py-1 rounded-full bg-[#FAF6EE] text-[#1D261E] font-semibold text-[11px] border border-stone-200">
-            {{ product.weight }} • {{ product.unit }}
+            <span x-text="selectedVariant ? selectedVariant.weight : '{{ product.weight }}'">{{ product.weight }}</span>
+            <span x-show="selectedVariant && selectedVariant.unit" x-text="' • ' + selectedVariant.unit"></span>
           </span>
         </div>
 
@@ -65,16 +80,59 @@
         </h1>
       </div>
 
-      <!-- Pricing Box -->
+      <!-- Interactive Weight Variant Selector -->
+      {% if variants|length > 1 %}
+      <div class="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200/90 shadow-sm space-y-3">
+        <div class="flex items-center justify-between">
+          <label class="text-xs font-bold text-gray-900 uppercase tracking-wider flex items-center gap-1.5 font-display">
+            <i data-lucide="scale" class="w-4 h-4 text-[#FAB82A]"></i>
+            <span>Select Packaging / Weight:</span>
+          </label>
+          <span class="text-xs font-extrabold text-[#124A2E] bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80" x-text="selectedVariant.weight"></span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <template x-for="v in variants" :key="v.id">
+            <button
+              type="button"
+              @click="selectedVariant = v"
+              :class="selectedVariant.id === v.id
+                ? 'bg-[#124A2E] text-white border-[#124A2E] shadow-md ring-2 ring-[#FAB82A]/70 scale-[1.02]'
+                : 'bg-stone-50 hover:bg-stone-100 text-stone-800 border-stone-200 hover:border-stone-300'"
+              class="flex flex-col items-start p-2.5 sm:p-3 rounded-xl border text-left transition-all duration-200 relative group cursor-pointer"
+            >
+              <div class="flex items-center justify-between w-full">
+                <span class="text-xs sm:text-sm font-bold font-display" x-text="v.weight"></span>
+                <span
+                  x-show="selectedVariant.id === v.id"
+                  class="w-2 h-2 rounded-full bg-[#FAB82A] animate-pulse"
+                ></span>
+              </div>
+              <span
+                :class="selectedVariant.id === v.id ? 'text-[#FAB82A]' : 'text-[#BA1B1D]'"
+                class="text-xs font-black mt-1 font-display"
+                x-text="'KD ' + Number(v.price).toFixed(3)"
+              ></span>
+            </button>
+          </template>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Pricing Box (Dynamic based on selected weight variant) -->
       <div class="p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200 shadow-sm flex flex-wrap items-center justify-between gap-2.5">
         <div>
           <div class="flex items-baseline gap-2">
-            <span class="text-2xl sm:text-3xl font-black text-[#BA1B1D] font-display">KD {{ product.price|floatformat:3 }}</span>
-            {% if product.originalPrice %}
-            <span class="text-xs sm:text-sm text-stone-400 line-through">KD {{ product.originalPrice|floatformat:3 }}</span>
-            {% endif %}
+            <span class="text-2xl sm:text-3xl font-black text-[#BA1B1D] font-display" x-text="'KD ' + Number(selectedVariant.price).toFixed(3)">
+              KD {{ default_variant.price|floatformat:3 }}
+            </span>
+            <template x-if="selectedVariant.original_price && selectedVariant.original_price > selectedVariant.price">
+              <span class="text-xs sm:text-sm text-stone-400 line-through" x-text="'KD ' + Number(selectedVariant.original_price).toFixed(3)"></span>
+            </template>
           </div>
-          <p class="text-[10px] sm:text-[11px] text-stone-500 mt-0.5">Wholesale &amp; Retail Certified • Packed in UAE</p>
+          <p class="text-[10px] sm:text-[11px] text-stone-500 mt-0.5">
+            Wholesale &amp; Retail Certified • <span x-text="selectedVariant.weight"></span>
+          </p>
         </div>
 
         {% if product.availability == 'in_stock' %}
@@ -156,23 +214,31 @@
           <div class="flex items-center border border-stone-300 rounded-xl bg-white p-1 flex-shrink-0">
             <button
               @click="qty = Math.max(1, qty - 1)"
-              class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-[#1D261E] hover:bg-[#FAF6EE] font-bold"
+              class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-[#1D261E] hover:bg-[#FAF6EE] font-bold cursor-pointer"
             >
               -
             </button>
             <span class="w-8 sm:w-10 text-center font-bold text-xs sm:text-sm text-[#124A2E]" x-text="qty">1</span>
             <button
               @click="qty++"
-              class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-[#1D261E] hover:bg-[#FAF6EE] font-bold"
+              class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-[#1D261E] hover:bg-[#FAF6EE] font-bold cursor-pointer"
             >
               +
             </button>
           </div>
 
-          <!-- Primary Add to Cart Button: #124A2E, hover #0B351F -->
+          <!-- Primary Add to Cart Button with Variant details -->
           <button
-            @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
-            class="flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl bg-[#124A2E] hover:bg-[#0B351F] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all active:scale-95"
+            @click="$store.cart.addItem({
+              id: '{{ product.id }}',
+              variantId: selectedVariant.id,
+              name: '{{ product.name|escapejs }}',
+              price: selectedVariant.price,
+              originalPrice: selectedVariant.original_price || selectedVariant.price,
+              weight: selectedVariant.weight,
+              image: '{{ product.images.0 }}'
+            }, qty)"
+            class="flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-xl bg-[#124A2E] hover:bg-[#0B351F] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer"
           >
             <i data-lucide="shopping-bag" class="w-4 h-4"></i>
             <span>Add to Cart</span>
@@ -180,8 +246,15 @@
 
           <!-- Wishlist Toggle -->
           <button
-            @click="$store.wishlist.toggle({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' })"
-            class="p-3 sm:p-3.5 rounded-xl border border-stone-300 hover:bg-white text-stone-600 hover:text-[#BA1B1D] transition-colors flex-shrink-0"
+            @click="$store.wishlist.toggle({
+              id: '{{ product.id }}',
+              name: '{{ product.name|escapejs }}',
+              price: selectedVariant.price,
+              originalPrice: selectedVariant.original_price || selectedVariant.price,
+              weight: selectedVariant.weight,
+              image: '{{ product.images.0 }}'
+            })"
+            class="p-3 sm:p-3.5 rounded-xl border border-stone-300 hover:bg-white text-stone-600 hover:text-[#BA1B1D] transition-colors flex-shrink-0 cursor-pointer"
             title="Wishlist"
           >
             <i data-lucide="heart" class="w-4 h-4 sm:w-5 sm:h-5"></i>
@@ -191,8 +264,16 @@
         <!-- Secondary Button: Sunset Terracotta #D34E1B, hover #B43912 -->
         <a
           href="{% url 'store:cart' %}"
-          @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
-          class="btn-shine block text-center w-full py-3.5 rounded-xl bg-[#D34E1B] hover:bg-[#B43912] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all active:scale-[0.99]"
+          @click="$store.cart.addItem({
+            id: '{{ product.id }}',
+            variantId: selectedVariant.id,
+            name: '{{ product.name|escapejs }}',
+            price: selectedVariant.price,
+            originalPrice: selectedVariant.original_price || selectedVariant.price,
+            weight: selectedVariant.weight,
+            image: '{{ product.images.0 }}'
+          }, qty)"
+          class="btn-shine block text-center w-full py-3.5 rounded-xl bg-[#D34E1B] hover:bg-[#B43912] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all active:scale-[0.99] cursor-pointer"
         >
           View in Cart &amp; Order
         </a>
@@ -221,17 +302,25 @@
   <div class="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-stone-200 p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] flex items-center justify-between gap-3">
     <div>
       <div class="flex items-baseline gap-1">
-        <span class="font-display font-black text-[#BA1B1D] text-lg">KD {{ product.price|floatformat:3 }}</span>
-        {% if product.originalPrice %}
-        <span class="text-[11px] text-stone-400 line-through">KD {{ product.originalPrice|floatformat:3 }}</span>
-        {% endif %}
+        <span class="font-display font-black text-[#BA1B1D] text-lg" x-text="'KD ' + Number(selectedVariant.price).toFixed(3)">KD {{ product.price|floatformat:3 }}</span>
+        <template x-if="selectedVariant.original_price && selectedVariant.original_price > selectedVariant.price">
+          <span class="text-[11px] text-stone-400 line-through" x-text="'KD ' + Number(selectedVariant.original_price).toFixed(3)"></span>
+        </template>
       </div>
-      <span class="text-[10px] text-stone-500 font-semibold block">{{ product.weight }}</span>
+      <span class="text-[10px] text-stone-500 font-semibold block" x-text="selectedVariant.weight">{{ product.weight }}</span>
     </div>
 
     <div class="flex items-center gap-2">
       <button
-        @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
+        @click="$store.cart.addItem({
+          id: '{{ product.id }}',
+          variantId: selectedVariant.id,
+          name: '{{ product.name|escapejs }}',
+          price: selectedVariant.price,
+          originalPrice: selectedVariant.original_price || selectedVariant.price,
+          weight: selectedVariant.weight,
+          image: '{{ product.images.0 }}'
+        }, qty)"
         class="px-5 py-2.5 rounded-xl bg-[#124A2E] text-white font-bold text-xs flex items-center gap-1.5 shadow-md active:scale-95"
       >
         <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
@@ -240,13 +329,22 @@
 
       <a
         href="{% url 'store:cart' %}"
-        @click="$store.cart.addItem({ id: '{{ product.id }}', name: '{{ product.name|escapejs }}', price: {{ product.price }}, originalPrice: {{ product.originalPrice|default:product.price }}, weight: '{{ product.weight }}', image: '{{ product.images.0 }}' }, qty)"
+        @click="$store.cart.addItem({
+          id: '{{ product.id }}',
+          variantId: selectedVariant.id,
+          name: '{{ product.name|escapejs }}',
+          price: selectedVariant.price,
+          originalPrice: selectedVariant.original_price || selectedVariant.price,
+          weight: selectedVariant.weight,
+          image: '{{ product.images.0 }}'
+        }, qty)"
         class="px-3.5 py-2.5 rounded-xl bg-[#D34E1B] text-white font-bold text-xs shadow-md"
       >
         Buy Now
       </a>
     </div>
   </div>
+
 
 </div>
 {% endblock %}

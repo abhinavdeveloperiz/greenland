@@ -12,14 +12,14 @@
   <!-- ========================================================================= -->
   <section class="relative w-full h-[60vh] min-h-[420px] max-h-[680px] overflow-hidden flex items-center bg-[#072415]">
     <!-- High-Resolution Full-Cover Banner Image -->
-    <img src="{% static 'images/greenland-banner-wide.jpg' %}?v=1" alt="GreenLand Foodstuff Authentic Grains & Spices"
+    <img src="{% static 'images/banner.jpeg' %}?v=1" alt="GreenLand Foodstuff Authentic Grains & Spices"
       class="absolute inset-0 w-full h-full object-cover object-center filter brightness-[0.85]" fetchpriority="high" />
 
     <!-- Subtle Cinematic Gradient Overlays for Maximum Readability -->
     <div
-      class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20 sm:from-[#0B351F]/90 sm:via-[#0B351F]/55 sm:to-transparent">
+      class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-black/30 sm:from-[#0B351F]/90 sm:via-[#0B351F]/55 sm:to-transparent">
     </div>
-    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20"></div>
 
     <!-- Minimal Design Content Container -->
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -48,10 +48,10 @@
 
         <!-- Minimal Clean Action Buttons -->
         <div class="pt-2 sm:pt-3 flex flex-wrap items-center gap-3">
-          <a href="{% url 'store:products' %}"
+          <a href="#categories"
             class="px-7 sm:px-8 py-3.5 rounded-xl bg-[#FAB82A] hover:bg-[#e5a41d] text-[#124A2E] font-extrabold text-xs uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 hover:scale-105 active:scale-95">
-            <span>Explore Products</span>
-            <i data-lucide="arrow-right" class="w-4 h-4 stroke-[2.5]"></i>
+            <span>Explore Categories</span>
+            <i data-lucide="arrow-down" class="w-4 h-4 stroke-[2.5]"></i>
           </a>
 
           <a href="https://wa.me/96599999999?text=Hello%20GreenLand%2C%20I%20would%20like%20to%20inquire%20about%20wholesale%20supplies."
@@ -133,120 +133,169 @@
 
 
   <!-- ========================================================================= -->
-  <!-- 5. PRODUCTS LISTING ON THE HOMEPAGE (INTERACTIVE FILTER TABS & CARDS)     -->
+  <!-- 3. CORE PRODUCT CATEGORIES SHOWCASE WITH IMAGES & PREMIUM DESIGN          -->
   <!-- ========================================================================= -->
-  <section id="products" class="py-12 sm:py-16 bg-white border-b border-gray-100" x-data="{
-      activeFilter: 'all',
-      matches(brand, category) {
-        if (this.activeFilter === 'all') return true;
-        if (this.activeFilter === 'greenland') return brand === 'greenland';
-        if (this.activeFilter === '88') return brand === '88';
-        if (this.activeFilter === '777') return brand === '777';
-        if (this.activeFilter === 'rice') return category === 'rice';
-        if (this.activeFilter === 'pulses') return category === 'cereals-and-legumes';
-        if (this.activeFilter === 'canned') return category === 'canned-products';
-        if (this.activeFilter === 'spices') return category === 'spices-and-seeds' || category === 'tea';
-        return true;
-      }
-    }">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="categories" class="py-14 sm:py-20 bg-stone-50/60 border-b border-gray-100 relative overflow-hidden">
+    <!-- Ambient Aesthetic Glows -->
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#124A2E]/5 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-[#FAB82A]/10 rounded-full blur-3xl pointer-events-none">
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
       <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 pb-4 border-b border-gray-100">
-        <div>
-          <div class="inline-flex items-center gap-1.5 text-xs font-bold text-[#124A2E] uppercase tracking-wider mb-1">
-            <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-[#FAB82A]"></i>
-            <span>Our Catalog</span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-black text-gray-900 font-display tracking-tight">
-            Explore All Foodstuff Products
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-stone-200/80">
+        <div class="max-w-2xl">
+
+
+          <!-- Headline -->
+          <h2
+            class="text-2xl sm:text-3xl md:text-2xl lg:text-3xl font-black text-gray-900 font-display tracking-tight leading-[1.15]">
+            Explore Greenland’s <br class="hidden sm:inline" />
+            <span class="text-[#124A2E] relative inline-block">
+              Product Categories
+              <span class="absolute -bottom-1 left-0 w-full h-2.5 bg-[#FAB82A]/35 -z-10 rounded"></span>
+            </span>
           </h2>
-          <p class="text-xs sm:text-sm text-gray-500 mt-1">
-            Showing all {{ total_products_count }} authentic products across our official brands
-          </p>
-        </div>
 
-        <a href="{% url 'store:products' %}"
-          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-800 transition-colors self-start md:self-auto">
-          <span>Open Full Filter Catalog</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+
+        </div>
+      </div>
+
+      <!-- Categories Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+        {% for cat in categories %}
+        <a href="{% url 'store:products' %}?category={{ cat.slug }}"
+          class="group relative flex flex-col bg-white rounded-3xl p-6 sm:p-7 border border-stone-200/80 hover:border-emerald-600/50 shadow-sm hover:shadow-2xl hover:shadow-emerald-950/10 transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+
+          <!-- Vibrant Green Ambient Decorative Bubbles -->
+          <div
+            class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-emerald-500/15 group-hover:bg-emerald-500/25 blur-2xl group-hover:scale-125 transition-all duration-700 pointer-events-none">
+          </div>
+          <div
+            class="absolute -bottom-10 -left-10 w-36 h-36 rounded-full bg-emerald-400/10 group-hover:bg-emerald-400/20 blur-xl group-hover:scale-125 transition-all duration-700 pointer-events-none">
+          </div>
+
+          <!-- Top Row: Origin Tag & Vibrant Green Bubble Badge -->
+          <div class="flex items-center justify-between gap-2 z-10 mb-2">
+
+
+            <!-- Green Bubble Badge -->
+            <span
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold tracking-wide bg-emerald-600 text-white shadow-sm shadow-emerald-700/25 group-hover:bg-emerald-700 group-hover:shadow-md group-hover:shadow-emerald-700/35 transition-all duration-300">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-200 animate-pulse"></span>
+              {{ cat.itemCount }}
+            </span>
+          </div>
+
+          <!-- Product Showcase Pedestal (Image Frame) -->
+          <div class="relative w-full h-56 sm:h-64 my-3 flex items-center justify-center p-4">
+            <!-- Pedestal background with subtle emerald warmth -->
+            <div
+              class="absolute inset-0 bg-gradient-to-b from-stone-50/80 via-emerald-50/30 to-stone-100/40 rounded-2xl border border-stone-100/80 group-hover:border-emerald-300/40 group-hover:from-emerald-50/60 transition-colors duration-300">
+            </div>
+
+            <!-- Soft emerald ambient glow centered behind image -->
+            <div
+              class="absolute w-32 h-32 rounded-full bg-emerald-500/10 blur-xl group-hover:bg-emerald-500/20 group-hover:scale-125 transition-all duration-500">
+            </div>
+
+            <!-- Category Image -->
+            <img src="{{ cat.image_url }}" alt="{{ cat.name }}"
+              class="relative z-10 max-h-48 sm:max-h-52 max-w-[88%] object-contain filter drop-shadow-xl group-hover:scale-108 group-hover:-translate-y-2 transition-transform duration-500 ease-out"
+              loading="lazy" />
+
+            <!-- Ground shadow disk -->
+            <div
+              class="absolute bottom-3 w-3/4 h-3 bg-stone-900/10 rounded-full blur-md group-hover:scale-95 group-hover:opacity-70 transition-all duration-300">
+            </div>
+          </div>
+
+          <!-- Details & Description -->
+          <div class="relative z-10 flex-1 flex flex-col justify-between pt-1">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <h3
+                  class="text-xl sm:text-2xl font-black text-gray-900 group-hover:text-emerald-800 font-display tracking-tight transition-colors">
+                  {{ cat.name }}
+                </h3>
+                <span
+                  class="w-9 h-9 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-100 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600 flex items-center justify-center transition-all duration-300 flex-shrink-0 group-hover:rotate-[-45deg] group-hover:shadow-md group-hover:shadow-emerald-700/20">
+                  <i data-lucide="arrow-right" class="w-4 h-4 stroke-[2.5]"></i>
+                </span>
+              </div>
+
+
+            </div>
+
+            <!-- Card Bottom Bar -->
+            <div class="pt-4 mt-5 border-t border-stone-100 flex items-center justify-between text-xs font-semibold">
+              <span
+                class="inline-flex items-center gap-1.5 text-emerald-700 group-hover:text-emerald-800 font-bold transition-colors">
+                <span>View Products</span>
+                <i data-lucide="arrow-up-right"
+                  class="w-3.5 h-3.5 stroke-[2.5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300"></i>
+              </span>
+
+            </div>
+          </div>
+
         </a>
-      </div>
-
-      <!-- Interactive Filter Tabs -->
-      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-3 mb-6">
-        <button type="button" @click="activeFilter = 'all'"
-          :class="activeFilter === 'all' ? 'bg-[#124A2E] text-white shadow-xs font-bold' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium'"
-          class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all">
-          All Products ({{ total_products_count }})
-        </button>
-
-        <button type="button" @click="activeFilter = 'greenland'"
-          :class="activeFilter === 'greenland' ? 'bg-[#124A2E] text-white shadow-xs font-bold' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium'"
-          class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-1.5">
-          <span>🌿 GreenLand Brand</span>
-          <span class="text-[10px] opacity-80">({{ brand_counts.greenland }})</span>
-        </button>
-
-        <button type="button" @click="activeFilter = '88'"
-          :class="activeFilter === '88' ? 'bg-[#D34E1B] text-white shadow-xs font-bold' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium'"
-          class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-1.5">
-          <span>🌾 88 Brand Wholesale</span>
-          <span class="text-[10px] opacity-80">({{ brand_counts.88 }})</span>
-        </button>
-
-        <button type="button" @click="activeFilter = '777'"
-          :class="activeFilter === '777' ? 'bg-[#BA1B1D] text-white shadow-xs font-bold' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium'"
-          class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all flex items-center gap-1.5">
-          <span>⭐ 777 Brand Spices</span>
-          <span class="text-[10px] opacity-80">({{ brand_counts.777 }})</span>
-        </button>
-
-        <button type="button" @click="activeFilter = 'rice'"
-          :class="activeFilter === 'rice' ? 'bg-[#124A2E] text-white shadow-xs font-bold' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium'"
-          class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all">
-          Rice &amp; Grains
-        </button>
-
-        <button type="button" @click="activeFilter = 'pulses'"
-          :class="activeFilter === 'pulses' ? 'bg-[#124A2E] text-white shadow-xs font-bold' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium'"
-          class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all">
-          Pulses &amp; Dal
-        </button>
-
-        <button type="button" @click="activeFilter = 'canned'"
-          :class="activeFilter === 'canned' ? 'bg-[#124A2E] text-white shadow-xs font-bold' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium'"
-          class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all">
-          Canned &amp; Dairy
-        </button>
-
-        <button type="button" @click="activeFilter = 'spices'"
-          :class="activeFilter === 'spices' ? 'bg-[#124A2E] text-white shadow-xs font-bold' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium'"
-          class="px-4 py-2 rounded-xl text-xs whitespace-nowrap transition-all">
-          Spices &amp; Tea
-        </button>
-      </div>
-
-      <!-- Products Grid -->
-      <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-        {% for product in all_products %}
-        <div x-show="matches('{{ product.brand_code }}', '{{ product.category_slug }}')" x-transition class="h-full">
-          {% include 'components/product_card.html' with product=product %}
-        </div>
         {% endfor %}
       </div>
 
-      <!-- CTA to Full Catalog -->
-      <div class="pt-10 text-center">
-        <a href="{% url 'store:products' %}"
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#124A2E] hover:bg-[#0B351F] text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 active:scale-95">
-          <span>View All Products in Advanced Filter View</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </a>
+      <!-- Wholesale Assurance Strip -->
+      <div class="mt-12 sm:mt-16 p-6 sm:p-8 rounded-3xl bg-white border border-stone-200/90 shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <div class="flex items-start gap-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-emerald-50 text-[#124A2E] flex items-center justify-center flex-shrink-0 border border-emerald-100 shadow-2xs">
+              <i data-lucide="package" class="w-6 h-6 text-[#124A2E]"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-gray-900 uppercase tracking-tight font-display">Commercial 10–20 KG
+                Sacks</h4>
+              <p class="text-xs text-stone-500 mt-1 leading-relaxed">
+                Heavy-duty polypropylene sacks designed for wholesale kitchens, catering operations &amp; re-bagging.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-emerald-50 text-[#124A2E] flex items-center justify-center flex-shrink-0 border border-emerald-100 shadow-2xs">
+              <i data-lucide="shopping-bag" class="w-6 h-6 text-[#124A2E]"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-gray-900 uppercase tracking-tight font-display">Retail-Ready Pouches
+              </h4>
+              <p class="text-xs text-stone-500 mt-1 leading-relaxed">
+                250g to 1 KG air-tight pouches with GS1 barcodes, bilingual labels &amp; tamper-evident seals.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-4">
+            <div
+              class="w-12 h-12 rounded-2xl bg-amber-50 text-[#124A2E] flex items-center justify-center flex-shrink-0 border border-amber-100 shadow-2xs">
+              <i data-lucide="truck" class="w-6 h-6 text-[#FAB82A]"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-gray-900 uppercase tracking-tight font-display">Kuwait &amp; GCC Freight
+              </h4>
+              <p class="text-xs text-stone-500 mt-1 leading-relaxed">
+                Direct container imports and swift localized distribution across Kuwait, UAE, Saudi Arabia &amp; Qatar.
+              </p>
+            </div>
+          </div>
+
+        </div>
       </div>
 
     </div>
   </section>
+
 
   <!-- ========================================================================= -->
   <!-- 6. NEW ARRIVAL SPOTLIGHT BANNER (EVAPORATED MILK)                         -->
@@ -294,18 +343,6 @@
             <p class="text-lg font-bold text-white/90">{{ advertisement_banner.arabic_title }}</p>
             {% endif %}
 
-            <div class="grid grid-cols-2 gap-3 max-w-sm pt-1">
-              <div class="p-3 rounded-xl bg-white/10 border border-white/15">
-                <span class="text-[10px] text-[#FAB82A] font-bold uppercase tracking-wider block">Net Weight</span>
-                <span class="text-lg font-black text-white mt-0.5 block font-display">{{ advertisement_banner.net_weight
-                  }}</span>
-              </div>
-              <div class="p-3 rounded-xl bg-white/10 border border-white/15">
-                <span class="text-[10px] text-[#FAB82A] font-bold uppercase tracking-wider block">Brand</span>
-                <span class="text-sm font-bold text-white mt-1 block leading-tight">{{ advertisement_banner.brand
-                  }}</span>
-              </div>
-            </div>
 
             <div class="pt-2 flex flex-wrap items-center gap-3">
               <a href="https://wa.me/96599999999?text={{ advertisement_banner.whatsapp_text|urlencode }}"

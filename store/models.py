@@ -46,9 +46,18 @@ class Category(models.Model):
     @property
     def image_url(self):
         if self.image:
-            return self.image.url
+            try:
+                return self.image.url
+            except Exception:
+                pass
         if self.static_fallback_image:
             return self.static_fallback_image
+        import os
+        from django.conf import settings
+        for ext in ['.png', '.jpg', '.webp']:
+            cand = f"categories/{self.slug}{ext}"
+            if os.path.exists(os.path.join(settings.MEDIA_ROOT, cand)):
+                return f"{settings.MEDIA_URL}{cand}"
         return f"/static/images/products/{self.slug}.png"
 
     @property
@@ -206,6 +215,50 @@ class Product(models.Model):
         if not img_list:
             img_list.append('/static/images/products/greenland-tea-pouch.png')
         return img_list
+
+    @property
+    def has_variants(self):
+        return self.variants.filter(is_active=True).exists()
+
+    @property
+    def active_variants(self):
+        return list(self.variants.filter(is_active=True).order_by('order', 'price'))
+
+    @property
+    def min_price(self):
+        vars_qs = self.variants.filter(is_active=True)
+        if vars_qs.exists():
+            return min(v.price for v in vars_qs)
+        return self.price
+
+    @property
+    def max_price(self):
+        vars_qs = self.variants.filter(is_active=True)
+        if vars_qs.exists():
+            return max(v.price for v in vars_qs)
+        return self.price
+
+
+class ProductVariant(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
+    weight = models.CharField(max_length=100, help_text="Variant weight (e.g. 200g, 500g, 1 KG, 5 KG, 20 KG)")
+    unit = models.CharField(max_length=100, blank=True, default='pack', help_text="Packaging type (e.g. pouch, jar, tin, sack)")
+    price = models.DecimalField(max_digits=10, decimal_places=3, help_text="Price in KD for this weight (e.g. 0.450)")
+    original_price = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True, help_text="Original price before discount in KD")
+    stock = models.PositiveIntegerField(default=100)
+    is_default = models.BooleanField(default=False, help_text="Default selected variant")
+    order = models.PositiveIntegerField(default=0, help_text="Display order")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Product Weight Variant"
+        verbose_name_plural = "⚖️ Product Weight Variants"
+        ordering = ['order', 'price', 'id']
+
+    def __str__(self):
+        return f"{self.product.name} - {self.weight} (KD {self.price:.3f})"
 
 
 # =========================================================================
