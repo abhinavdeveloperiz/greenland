@@ -58,13 +58,39 @@ document.addEventListener('alpine:init', () => {
     },
 
     addItem(product, qty = 1) {
-      const itemKey = product.variantId 
-        ? `${product.id}-v${product.variantId}` 
+      const itemKey = product.variantId
+        ? `${product.id}-v${product.variantId}`
         : (product.weight ? `${product.id}-${String(product.weight).replace(/\s+/g, '_')}` : product.id);
+      const existing = this.items.find(i => i.id === itemKey);
+      const requestedQty = Number.isFinite(Number(qty)) ? Math.max(1, Math.floor(Number(qty))) : 1;
+      const hasStockLimit = product.stock !== undefined && product.stock !== null;
+      const stockLimit = hasStockLimit ? Number(product.stock) : null;
 
-      const existing = this.items.find(i => i.id === itemKey || (i.productId === product.id && i.weight === product.weight));
+      if (hasStockLimit && (!Number.isFinite(stockLimit) || stockLimit <= 0)) {
+        this.showToast(`${product.name} is currently out of stock.`);
+        return;
+      }
+
+      const currentQty = existing ? Math.max(0, Number(existing.quantity) || 0) : 0;
+      const cappedCurrentQty = hasStockLimit ? Math.min(currentQty, stockLimit) : currentQty;
+      if (existing && hasStockLimit) {
+        existing.quantity = cappedCurrentQty;
+        existing.stock = stockLimit;
+      }
+
+      const addQty = hasStockLimit
+        ? Math.min(requestedQty, Math.max(0, stockLimit - cappedCurrentQty))
+        : requestedQty;
+
+      if (addQty === 0) {
+        if (existing && hasStockLimit) this.save();
+        this.showToast(`Only ${stockLimit} ${product.weight || 'items'} available.`);
+        return;
+      }
+
       if (existing) {
-        existing.quantity += qty;
+        existing.quantity = cappedCurrentQty + addQty;
+        if (hasStockLimit) existing.stock = stockLimit;
       } else {
         this.items.push({
           id: itemKey,
@@ -75,7 +101,8 @@ document.addEventListener('alpine:init', () => {
           originalPrice: Number(product.originalPrice || product.price),
           weight: product.weight || '',
           image: product.image || (product.images && product.images[0]),
-          quantity: qty
+          ...(hasStockLimit ? { stock: stockLimit } : {}),
+          quantity: addQty
         });
       }
       this.save();
@@ -88,7 +115,20 @@ document.addEventListener('alpine:init', () => {
         this.removeItem(id);
       } else {
         const item = this.items.find(i => i.id === id);
-        if (item) item.quantity = qty;
+        if (item) {
+          const requestedQty = Math.floor(Number(qty));
+          const stockLimit = Number(item.stock);
+          item.quantity = Number.isFinite(stockLimit)
+            ? Math.min(requestedQty, stockLimit)
+            : requestedQty;
+          if (item.quantity <= 0) {
+            this.removeItem(id);
+            return;
+          }
+          if (item.quantity < requestedQty) {
+            this.showToast(`Only ${stockLimit} ${item.weight || 'items'} available.`);
+          }
+        }
         this.save();
       }
     },

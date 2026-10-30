@@ -1,8 +1,7 @@
 # store/views.py - Database-driven views with full admin panel compatibility
 import random
-import json
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.db.models import Q
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -16,11 +15,16 @@ def home_view(request):
     featured_products = [p for p in all_products if p.is_featured]
     new_arrivals = [p for p in all_products if p.is_new][:4]
 
-    # Categories with count of active products
-    db_categories = Category.objects.filter(is_featured=True).order_by('order')
+    # Show only categories represented by active GreenLand products.
+    greenland_products = [p for p in all_products if p.brand_code == 'greenland']
+    db_categories = Category.objects.filter(
+        is_featured=True,
+        products__is_active=True,
+        products__brand_code='greenland',
+    ).distinct().order_by('order')
     categories_with_counts = []
     for cat in db_categories:
-        count = sum(1 for p in all_products if p.category_id == cat.id or p.category_slug == cat.slug)
+        count = sum(1 for p in greenland_products if p.category_id == cat.id)
         cat.active_count = count
         if cat.item_count_label and 'wholesale' not in cat.item_count_label.lower():
             cat.itemCount = cat.item_count_label
@@ -170,11 +174,7 @@ def products_view(request):
 
 def product_detail_view(request, product_id):
     """Product detail view querying directly from the database with weight variant support."""
-    product = Product.objects.filter(id=product_id, is_active=True).first()
-    if not product:
-        product = Product.objects.filter(is_active=True).first()
-        if not product:
-            raise Http404("Product not found")
+    product = get_object_or_404(Product, id=product_id, is_active=True)
 
     related_products = list(
         Product.objects.filter(category=product.category, is_active=True)
@@ -219,10 +219,11 @@ def product_detail_view(request, product_id):
 
     context = {
         'product': product,
+        'product_images': product.images,
         'related_products': related_products,
         'variants': variants,
-        'variants_json': json.dumps(variants_data),
-        'default_variant_json': json.dumps(default_variant_data),
+        'variants_data': variants_data,
+        'default_variant_data': default_variant_data,
         'default_variant': default_variant_data,
     }
     return render(request, 'pages/product_detail.html', context)

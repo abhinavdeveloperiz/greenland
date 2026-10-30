@@ -4,10 +4,11 @@
   class="fixed bottom-2 rounded-2xl border border-black inset-x-0 z-50 bg-white/80 backdrop-blur-md shadow-[0_-4px_25px_rgba(0,0,0,0.07)] lg:hidden transition-all duration-300 mx-4 mobile-navbar-shine"
   aria-label="Mobile Navigation">
   <!-- Glowing Golden Top Accent Beam -->
-  <div class="absolute top-0 inset-x-0 h-[2px] overflow-hidden rounded-t-2xl pointer-events-none z-10" aria-hidden="true">
+  <div class="absolute top-0 inset-x-0 h-[2px] overflow-hidden rounded-t-2xl pointer-events-none z-10"
+    aria-hidden="true">
     <div class="navbar-shining-beam"></div>
   </div>
-  <div class="grid grid-cols-5 h-16 max-w-md mx-auto px-1 items-center relative z-10">
+  <div class="grid grid-cols-4 h-16 max-w-md mx-auto px-1 items-center relative z-10">
 
     <!-- 1. Home -->
     <a href="{% url 'store:home' %}"
@@ -35,14 +36,7 @@
       {% endif %}
     </a>
 
-    <!-- 3. Brands -->
-    <a href="{% url 'store:home' %}#brands"
-      class="group flex flex-col items-center justify-center py-1.5 px-1 rounded-xl transition-all duration-200 active:scale-95 text-gray-500 hover:text-[#124A2E]">
-      <div class="relative p-1 rounded-full transition-transform group-hover:-translate-y-0.5">
-        <i data-lucide="award" class="w-5 h-5 stroke-[2.2]"></i>
-      </div>
-      <span class="text-[10px] tracking-tight mt-0.5">Brands</span>
-    </a>
+
 
     <!-- 4. Wishlist with Live Counter -->
     <a href="{% url 'store:wishlist' %}"

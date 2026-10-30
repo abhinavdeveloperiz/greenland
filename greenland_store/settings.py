@@ -28,6 +28,10 @@ INSTALLED_APPS = [
     'store',
 ]
 
+JAZZMIN_UI_TWEAKS = {
+    'sidebar': 'sidebar-light-primary',
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
