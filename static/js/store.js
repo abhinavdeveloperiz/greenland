@@ -1,5 +1,24 @@
 // static/js/store.js
-// Client-side cart, wishlist, and session state manager for Greenland Foodstuff
+// Client-side cart, wishlist, and session state manager with real-time Django backend synchronization
+
+function getCSRFToken() {
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  if (meta && meta.content && meta.content !== 'NOTPROVIDED') {
+    return meta.content;
+  }
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, 10) === 'csrftoken=') {
+        cookieValue = decodeURIComponent(cookie.substring(10));
+        break;
+      }
+    }
+  }
+  return cookieValue || '';
+}
 
 document.addEventListener('alpine:init', () => {
   // Clean up any legacy sample cart items from previous versions
@@ -14,10 +33,8 @@ document.addEventListener('alpine:init', () => {
     deliveryFee: 40,
 
     init() {
-      // Ensure cart starts completely empty unless user explicitly adds products
-      try {
-        localStorage.removeItem('greenland_cart_items');
-      } catch (e) {}
+      // Synchronize with Django backend database cart
+      this.fetchBackendCart();
     },
 
     save() {
@@ -27,12 +44,33 @@ document.addEventListener('alpine:init', () => {
       } catch (e) {}
     },
 
+    fetchBackendCart() {
+      fetch('/cart/data/', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.success && Array.isArray(data.items)) {
+          this.items = data.items;
+          this.save();
+        }
+      })
+      .catch(err => {
+        // Fallback gracefully to localStorage if offline
+        console.warn('Backend cart sync unavailable, using local storage cache.');
+      });
+    },
+
     get totalCount() {
-      return this.items.reduce((acc, item) => acc + item.quantity, 0);
+      return this.items.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0);
     },
 
     get subtotal() {
-      return this.items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+      return this.items.reduce((acc, item) => acc + ((Number(item.price) || 0) * (Number(item.quantity) || 0)), 0);
     },
 
     get discount() {
@@ -49,7 +87,7 @@ document.addEventListener('alpine:init', () => {
     },
 
     get tax() {
-      return Math.round(this.subtotal * 0.05); // 5% GST
+      return Math.round(this.subtotal * 0.05); // 5% GST / commercial fee
     },
 
     get total() {
@@ -60,8 +98,8 @@ document.addEventListener('alpine:init', () => {
     addItem(product, qty = 1) {
       const itemKey = product.variantId
         ? `${product.id}-v${product.variantId}`
-        : (product.weight ? `${product.id}-${String(product.weight).replace(/\s+/g, '_')}` : product.id);
-      const existing = this.items.find(i => i.id === itemKey);
+        : (product.weight ? `${product.id}-${String(product.weight).replace(/\s+/g, '_')}` : String(product.id));
+      const existing = this.items.find(i => String(i.id) === String(itemKey));
       const requestedQty = Number.isFinite(Number(qty)) ? Math.max(1, Math.floor(Number(qty))) : 1;
       const hasStockLimit = product.stock !== undefined && product.stock !== null;
       const stockLimit = hasStockLimit ? Number(product.stock) : null;
@@ -88,13 +126,14 @@ document.addEventListener('alpine:init', () => {
         return;
       }
 
+      // Optimistic instant UI update
       if (existing) {
         existing.quantity = cappedCurrentQty + addQty;
         if (hasStockLimit) existing.stock = stockLimit;
       } else {
         this.items.push({
           id: itemKey,
-          productId: product.id,
+          productId: String(product.id),
           variantId: product.variantId || null,
           name: product.name,
           price: Number(product.price),
@@ -108,41 +147,116 @@ document.addEventListener('alpine:init', () => {
       this.save();
       const wtLabel = product.weight ? ` (${product.weight})` : '';
       this.showToast(`Added ${product.name}${wtLabel} to your cart!`);
+
+      // Backend API sync
+      fetch('/cart/add/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken(),
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          product_id: product.id,
+          variant_id: product.variantId || null,
+          quantity: addQty
+        })
+      })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.success && Array.isArray(data.items)) {
+          this.items = data.items;
+          this.save();
+        }
+      })
+      .catch(err => {
+        console.warn('Backend cart add failed, retained local copy:', err);
+      });
     },
 
     updateQty(id, qty) {
-      if (qty <= 0) {
+      const targetQty = Math.floor(Number(qty));
+      if (targetQty <= 0) {
         this.removeItem(id);
-      } else {
-        const item = this.items.find(i => i.id === id);
-        if (item) {
-          const requestedQty = Math.floor(Number(qty));
-          const stockLimit = Number(item.stock);
-          item.quantity = Number.isFinite(stockLimit)
-            ? Math.min(requestedQty, stockLimit)
-            : requestedQty;
-          if (item.quantity <= 0) {
-            this.removeItem(id);
-            return;
-          }
-          if (item.quantity < requestedQty) {
-            this.showToast(`Only ${stockLimit} ${item.weight || 'items'} available.`);
-          }
-        }
-        this.save();
+        return;
       }
+
+      const item = this.items.find(i => String(i.id) === String(id));
+      if (item) {
+        const stockLimit = Number(item.stock);
+        item.quantity = Number.isFinite(stockLimit)
+          ? Math.min(targetQty, stockLimit)
+          : targetQty;
+
+        if (item.quantity < targetQty) {
+          this.showToast(`Only ${stockLimit} ${item.weight || 'items'} available.`);
+        }
+      }
+      this.save();
+
+      // Backend API sync
+      fetch('/cart/update/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken(),
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({
+          item_key: id,
+          quantity: targetQty
+        })
+      })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.success && Array.isArray(data.items)) {
+          this.items = data.items;
+          this.save();
+        }
+      })
+      .catch(err => console.warn('Backend cart update failed:', err));
     },
 
     removeItem(id) {
-      this.items = this.items.filter(i => i.id !== id);
+      this.items = this.items.filter(i => String(i.id) !== String(id));
       this.save();
       this.showToast('Item removed from cart.');
+
+      // Backend API sync
+      fetch('/cart/remove/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken(),
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ item_key: id })
+      })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.success && Array.isArray(data.items)) {
+          this.items = data.items;
+          this.save();
+        }
+      })
+      .catch(err => console.warn('Backend cart remove failed:', err));
     },
 
     clear() {
       this.items = [];
       this.appliedCoupon = null;
       this.save();
+
+      // Backend API sync
+      fetch('/cart/clear/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken(),
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .catch(err => console.warn('Backend cart clear failed:', err));
     },
 
     applyPromo(code) {
@@ -186,23 +300,80 @@ document.addEventListener('alpine:init', () => {
   Alpine.store('wishlist', {
     items: JSON.parse(localStorage.getItem('greenland_wishlist_items') || '[]'),
 
+    init() {
+      // Synchronize with Django backend database wishlist
+      this.fetchBackendWishlist();
+    },
+
+    fetchBackendWishlist() {
+      fetch('/wishlist/data/', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.success && Array.isArray(data.items)) {
+          this.items = data.items;
+          localStorage.setItem('greenland_wishlist_items', JSON.stringify(this.items));
+        }
+      })
+      .catch(err => {
+        console.warn('Backend wishlist sync unavailable, using local storage cache.');
+      });
+    },
+
     get count() {
       return this.items.length;
     },
 
     has(id) {
-      return this.items.some(i => i.id === id);
+      return this.items.some(i => String(i.id) === String(id));
     },
 
     toggle(product) {
-      if (this.has(product.id)) {
-        this.items = this.items.filter(i => i.id !== product.id);
-        Alpine.store('cart').showToast(`Removed from wishlist.`);
+      const inWishlist = this.has(product.id);
+      if (inWishlist) {
+        this.items = this.items.filter(i => String(i.id) !== String(product.id));
+        Alpine.store('cart').showToast(`Removed ${product.name} from wishlist.`);
       } else {
-        this.items.push(product);
+        this.items.push({
+          id: String(product.id),
+          name: product.name,
+          price: Number(product.price),
+          originalPrice: Number(product.originalPrice || product.price),
+          weight: product.weight || '',
+          image: product.image || (product.images && product.images[0])
+        });
         Alpine.store('cart').showToast(`Saved ${product.name} to wishlist!`);
       }
       localStorage.setItem('greenland_wishlist_items', JSON.stringify(this.items));
+
+      // Backend API sync
+      fetch('/wishlist/toggle/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken(),
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ product_id: product.id })
+      })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data && data.success) {
+          // If server confirmed, ensure count is up to date
+          if (data.in_wishlist && !this.has(product.id)) {
+            this.items.push(data.item);
+          } else if (!data.in_wishlist && this.has(product.id)) {
+            this.items = this.items.filter(i => String(i.id) !== String(product.id));
+          }
+          localStorage.setItem('greenland_wishlist_items', JSON.stringify(this.items));
+        }
+      })
+      .catch(err => console.warn('Backend wishlist toggle failed:', err));
     }
   });
 
@@ -216,6 +387,9 @@ document.addEventListener('alpine:init', () => {
       if (name) this.user.name = name;
       localStorage.setItem('greenland_logged_in', 'true');
       localStorage.setItem('greenland_user', JSON.stringify(this.user));
+      // Re-sync cart and wishlist upon login
+      if (Alpine.store('cart')) Alpine.store('cart').fetchBackendCart();
+      if (Alpine.store('wishlist')) Alpine.store('wishlist').fetchBackendWishlist();
     },
 
     logout() {

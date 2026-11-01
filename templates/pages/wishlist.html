@@ -6,7 +6,7 @@
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
   
-  <div class="pb-4 border-b border-slate-200">
+  <div data-aos="fade-down" class="pb-4 border-b border-slate-200">
     <h1 class="text-2xl sm:text-3xl font-black text-[#124A2E] tracking-tight font-display">
       Saved Wishlist Items (<span x-text="$store.wishlist.count"></span>)
     </h1>
@@ -14,7 +14,7 @@
   </div>
 
   <template x-if="$store.wishlist.items.length === 0">
-    <div class="max-w-4xl mx-auto px-4 py-16 text-center space-y-4">
+    <div data-aos="zoom-in" class="max-w-4xl mx-auto px-4 py-16 text-center space-y-4">
       <div class="w-20 h-20 rounded-full bg-[#BA1B1D]/10 text-[#BA1B1D] flex items-center justify-center mx-auto shadow-inner">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-[#BA1B1D] fill-[#BA1B1D]/20 stroke-current stroke-2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
       </div>
@@ -27,7 +27,7 @@
   </template>
 
   <template x-if="$store.wishlist.items.length > 0">
-    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+    <div data-aos="fade-up" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
       <template x-for="item in $store.wishlist.items" :key="item.id">
         <div class="foodstuff-card-glow group bg-white rounded-2xl border border-stone-200/90 shadow-sm p-3 xs:p-3.5 sm:p-4 flex flex-col justify-between space-y-2.5 sm:space-y-3 hover:border-[#FAB82A] transition-all">
           <div class="aspect-square rounded-xl overflow-hidden bg-white border border-stone-100 p-2 flex items-center justify-center group-hover:bg-amber-50/20 transition-colors">

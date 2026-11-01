@@ -22,7 +22,7 @@
      }">
   
   <!-- Breadcrumb -->
-  <div class="flex items-center gap-1.5 xs:gap-2 text-xs text-stone-500 overflow-x-auto no-scrollbar">
+  <div data-aos="fade-down" class="flex items-center gap-1.5 xs:gap-2 text-xs text-stone-500 overflow-x-auto no-scrollbar">
     <a href="{% url 'store:home' %}" class="hover:text-[#124A2E] whitespace-nowrap">Home</a>
     <span>/</span>
     <a href="{% url 'store:products' %}" class="hover:text-[#124A2E] whitespace-nowrap">Products</a>
@@ -36,7 +36,7 @@
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
     
     <!-- Image Gallery (Same high-resolution image across all variants) -->
-    <div class="lg:col-span-6 min-w-0 space-y-4">
+    <div data-aos="fade-right" data-aos-duration="700" class="lg:col-span-6 min-w-0 space-y-4">
       <div class="aspect-square w-full rounded-3xl overflow-hidden bg-white border border-stone-200 shadow-md flex items-center justify-center p-6">
         <img
           :src="activeImage"
@@ -63,7 +63,7 @@
     </div>
 
     <!-- Product Details -->
-    <div class="lg:col-span-6 min-w-0 space-y-6">
+    <div data-aos="fade-left" data-aos-duration="700" class="lg:col-span-6 min-w-0 space-y-6">
       
       <div class="space-y-2">
         <div class="flex flex-wrap items-center gap-2">
@@ -295,7 +295,7 @@
 
   <!-- Related Products: 2-col on mobile, 4-col on desktop -->
   {% if related_products %}
-  <div class="pt-8 sm:pt-12 border-t border-stone-200 space-y-6">
+  <div data-aos="fade-up" class="pt-8 sm:pt-12 border-t border-stone-200 space-y-6">
     <h3 class="text-xl sm:text-2xl font-black text-[#124A2E] font-display">
       Related Foodstuffs from {{ product.category.name }}
     </h3>

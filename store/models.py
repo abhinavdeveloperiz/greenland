@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -151,6 +152,10 @@ class Product(models.Model):
     @property
     def category_slug(self):
         return self.category.slug if self.category else ''
+
+    @property
+    def categoryName(self):
+        return self.category.name if self.category else ''
 
     @property
     def specs_list(self):
@@ -366,3 +371,169 @@ class AdvertisementBanner(models.Model):
         if self.static_image_path:
             return self.static_image_path
         return '/static/images/greenland-evaporated-milk-ad.jpg'
+
+# =========================================================================
+# CART & CART ITEM MODELS (OPTIMIZED BACKEND PERSISTENCE)
+# =========================================================================
+class Cart(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='carts',
+        help_text="Registered customer account"
+    )
+    session_key = models.CharField(
+        max_length=40,
+        null=True,
+        blank=True,
+        db_index=True,
+        help_text="Anonymous visitor session key"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Shopping Cart"
+        verbose_name_plural = "🛒 Shopping Carts"
+        ordering = ['-updated_at']
+
+    def __str__(self):
+        owner = self.user.username if self.user else f"Guest ({self.session_key[:8] if self.session_key else 'anonymous'})"
+        return f"Cart #{self.id} ({owner})"
+
+    @property
+    def total_count(self):
+        return sum(item.quantity for item in self.items.all())
+
+    @property
+    def subtotal(self):
+        return sum(item.total_price for item in self.items.all())
+
+    def clear(self):
+        self.items.all().delete()
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='cart_items'
+    )
+    variant = models.ForeignKey(
+        ProductVariant,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='cart_items'
+    )
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Cart Item"
+        verbose_name_plural = "Cart Items"
+        ordering = ['-created_at']
+        unique_together = ('cart', 'product', 'variant')
+
+    def __str__(self):
+        v_title = f" ({self.variant.weight})" if self.variant else ""
+        return f"{self.quantity}x {self.product.name}{v_title}"
+
+    @property
+    def unit_price(self):
+        if self.variant and self.variant.price is not None:
+            return self.variant.price
+        return self.product.price
+
+    @property
+    def original_price(self):
+        if self.variant and self.variant.original_price is not None:
+            return self.variant.original_price
+        return self.product.original_price or self.product.price
+
+    @property
+    def total_price(self):
+        return self.unit_price * self.quantity
+
+    @property
+    def weight_display(self):
+        if self.variant and self.variant.weight:
+            return self.variant.weight
+        return self.product.weight
+
+    @property
+    def item_key(self):
+        if self.variant_id:
+            return f"{self.product_id}-v{self.variant_id}"
+        return str(self.product_id)
+
+    @property
+    def image_url(self):
+        return self.product.primary_image_url
+
+
+# =========================================================================
+# WISHLIST & WISHLIST ITEM MODELS (OPTIMIZED BACKEND PERSISTENCE)
+# =========================================================================
+class Wishlist(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='wishlists',
+        help_text="Registered customer account"
+    )
+    session_key = models.CharField(
+        max_length=40,
+        null=True,
+        blank=True,
+        db_index=True,
+        help_text="Anonymous visitor session key"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Wishlist"
+        verbose_name_plural = "❤️ Wishlists"
+        ordering = ['-updated_at']
+
+    def __str__(self):
+        owner = self.user.username if self.user else f"Guest ({self.session_key[:8] if self.session_key else 'anonymous'})"
+        return f"Wishlist #{self.id} ({owner})"
+
+    @property
+    def total_count(self):
+        return self.items.count()
+
+
+class WishlistItem(models.Model):
+    wishlist = models.ForeignKey(
+        Wishlist,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='wishlist_items'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Wishlist Item"
+        verbose_name_plural = "Wishlist Items"
+        ordering = ['-created_at']
+        unique_together = ('wishlist', 'product')
+
+    def __str__(self):
+        return f"{self.product.name} in Wishlist #{self.wishlist_id}"

@@ -32,6 +32,15 @@ JAZZMIN_UI_TWEAKS = {
     'sidebar': 'sidebar-light-primary',
 }
 
+JAZZMIN_SETTINGS = {
+    'changeform_format_overrides': {
+        'store.product': 'single',
+        'store.greenlandproduct': 'single',
+        'store.brand88product': 'single',
+        'store.brand777product': 'single',
+    },
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',

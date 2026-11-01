@@ -5,11 +5,15 @@ from .models import (
     Brand,
     Brand88Product,
     Brand777Product,
+    Cart,
+    CartItem,
     Category,
     GreenLandProduct,
     Product,
     ProductImage,
     ProductVariant,
+    Wishlist,
+    WishlistItem,
 )
 
 
@@ -170,3 +174,105 @@ class ProductVariantAdmin(admin.ModelAdmin):
     list_filter = ['is_active', 'unit', 'product__brand_code', 'product__category']
     search_fields = ['product__name', 'weight']
     list_editable = ['weight', 'price', 'original_price', 'stock', 'is_default', 'is_active']
+
+# =========================================================================
+# CART & WISHLIST ADMIN (OPTIMIZED WITH SELECT_RELATED & INLINES)
+# =========================================================================
+
+class CartItemInline(admin.TabularInline):
+    model = CartItem
+    extra = 0
+    fields = ['product', 'variant', 'quantity', 'unit_price_display', 'total_price_display', 'updated_at']
+    readonly_fields = ['unit_price_display', 'total_price_display', 'updated_at']
+
+    def unit_price_display(self, obj):
+        if obj.id:
+            return f"KD {obj.unit_price:.3f}"
+        return "—"
+    unit_price_display.short_description = "Unit Price"
+
+    def total_price_display(self, obj):
+        if obj.id:
+            return f"KD {obj.total_price:.3f}"
+        return "—"
+    total_price_display.short_description = "Subtotal"
+
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user_or_guest', 'items_count', 'formatted_subtotal', 'updated_at', 'created_at']
+    list_filter = ['created_at', 'updated_at']
+    search_fields = ['user__username', 'user__email', 'session_key']
+    readonly_fields = ['created_at', 'updated_at', 'formatted_subtotal']
+    inlines = [CartItemInline]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user').prefetch_related('items__product', 'items__variant')
+
+    def user_or_guest(self, obj):
+        if obj.user:
+            return format_html('<strong>{}</strong> <span style="color:#64748b;">({})</span>', obj.user.username, obj.user.email or 'no email')
+        key = obj.session_key or 'None'
+        return format_html('<span style="color:#f59e0b; font-family:monospace;">Guest ({})</span>', key[:12])
+    user_or_guest.short_description = "Customer / Session"
+
+    def items_count(self, obj):
+        return obj.total_count
+    items_count.short_description = "Total Items"
+
+    def formatted_subtotal(self, obj):
+        return f"KD {obj.subtotal:.3f}"
+    formatted_subtotal.short_description = "Cart Total"
+
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ['id', 'cart_link', 'product', 'variant', 'quantity', 'unit_price_display', 'total_price_display', 'updated_at']
+    list_filter = ['created_at', 'variant']
+    search_fields = ['cart__user__username', 'cart__session_key', 'product__name']
+    readonly_fields = ['unit_price_display', 'total_price_display', 'created_at', 'updated_at']
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('cart', 'cart__user', 'product', 'variant')
+
+    def cart_link(self, obj):
+        return f"Cart #{obj.cart_id}"
+    cart_link.short_description = "Cart"
+
+    def unit_price_display(self, obj):
+        return f"KD {obj.unit_price:.3f}"
+    unit_price_display.short_description = "Price"
+
+    def total_price_display(self, obj):
+        return f"KD {obj.total_price:.3f}"
+    total_price_display.short_description = "Total"
+
+
+class WishlistItemInline(admin.TabularInline):
+    model = WishlistItem
+    extra = 0
+    fields = ['product', 'created_at']
+    readonly_fields = ['created_at']
+
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user_or_guest', 'items_count', 'updated_at', 'created_at']
+    list_filter = ['created_at', 'updated_at']
+    search_fields = ['user__username', 'user__email', 'session_key']
+    readonly_fields = ['created_at', 'updated_at']
+    inlines = [WishlistItemInline]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user').prefetch_related('items__product')
+
+    def user_or_guest(self, obj):
+        if obj.user:
+            return format_html('<strong>{}</strong> <span style="color:#64748b;">({})</span>', obj.user.username, obj.user.email or 'no email')
+        key = obj.session_key or 'None'
+        return format_html('<span style="color:#ec4899; font-family:monospace;">Guest ({})</span>', key[:12])
+    user_or_guest.short_description = "Customer / Session"
+
+    def items_count(self, obj):
+        return obj.total_count
+    items_count.short_description = "Saved Items"
